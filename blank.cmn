@@ -1,0 +1,36 @@
+!+
+! PURPOSE - Definition of common block /BLANK/
+!
+! Reordered 28 Dec 99  RLC to put the reals(DP) first and
+!  the integers second (DPs should be on 8-byte boundaries)
+
+      INTEGER:: i,itype,ireg,iray,ifam,in,j,jp,k,kp
+      INTEGER,DIMENSION(2,9):: icon
+      INTEGER,DIMENSION(2,4)::nop
+      INTEGER:: noa,nob
+      INTEGER:: last
+      REAL(DP),DIMENSION(2,4,50):: x,r,del,w,s,u
+      REAL(DP):: gamma,test,crmax,scb,san,p4
+      REAL(DP):: sing,xt,theta,emin,win
+      REAL(DP),DIMENSION(3,50):: atab,ctab
+      REAL(DP):: coalt
+      REAL(DP):: xin,thetb,space
+
+      INTEGER,DIMENSION(9):: irr
+      EQUIVALENCE (irr(1),itype)
+      EQUIVALENCE (irr(2),ireg)
+      EQUIVALENCE (irr(3),iray)
+      EQUIVALENCE (irr(4),ifam)
+      EQUIVALENCE (irr(5),in)
+      EQUIVALENCE (irr(6),j)
+      EQUIVALENCE (irr(7),jp)
+      EQUIVALENCE (irr(8),k)
+      EQUIVALENCE (irr(9),kp)
+
+
+      COMMON /BLANK/x,r,del,w,s,u,   gamma,test,crmax,scb,san,p4,  &
+        sing,xt,theta,emin,win, atab,ctab, coalt, xin,thetb,space, &
+       itype,ireg,iray,ifam,in,j,jp,k,kp,          &
+        icon,i,nop,noa,nob,last
+
+!----------------------------------------------------------------------------
