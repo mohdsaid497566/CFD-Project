@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O2 CMakeFiles/test_operations.dir/test_operations.cpp.o -o ../bin/test_operations  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so 

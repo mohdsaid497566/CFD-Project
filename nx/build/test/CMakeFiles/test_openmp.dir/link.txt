@@ -1,0 +1,1 @@
+/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/test_openmp.dir/test_openmp.cpp.o -o test_openmp  -Wl,-rpath,/usr/local/lib:/mnt/c/users/mohammed/Desktop/nx/build /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

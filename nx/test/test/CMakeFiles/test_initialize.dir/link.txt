@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O2 CMakeFiles/test_initialize.dir/test_initialize.cpp.o -o ../bin/test_initialize  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so 

@@ -1,0 +1,10 @@
+gmsh::version//+
+SetFactory("OpenCASCADE");
+//+
+SetFactory("OpenCASCADE");
+//+
+SetFactory("Built-in");
+//+
+SetFactory("Built-in");
+//+
+SetFactory("Built-in");

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O2 CMakeFiles/test_model.dir/test_model.cpp.o -o ../bin/test_model  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so 

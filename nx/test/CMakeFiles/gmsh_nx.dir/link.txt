@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,libgmsh_nx.so -o libgmsh_nx.so CMakeFiles/gmsh_nx.dir/src/gmsh_nx.cpp.o  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so 

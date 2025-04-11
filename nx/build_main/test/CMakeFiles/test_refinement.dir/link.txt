@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/test_refinement.dir/test_refinement.cpp.o -o ../bin/test_refinement  -Wl,-rpath,/usr/local/lib:/mnt/c/users/mohammed/Desktop/nx/build_main /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O2 CMakeFiles/test_mesh.dir/test_mesh.cpp.o -o ../bin/test_mesh  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so 
