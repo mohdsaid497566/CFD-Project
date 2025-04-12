@@ -31,6 +31,12 @@ This repository contains tools for meshing STEP geometry files and preparing the
    ./mesh_generator INTAKE3D_repaired.stp INTAKE3D_mesh.msh --bl_first_layer 0.02 --bl_progression 1.3
    ```
 
+4. **Use Fortran interface with SU2 export**:
+   ```bash
+   ./compile_fortran.sh gmsh_process.f90
+   ./gmsh_process --input INTAKE3D.stp --output mesh.msh --su2
+   ```
+
 ## Script Descriptions
 
 ### Meshing Scripts
@@ -55,6 +61,15 @@ This repository contains tools for meshing STEP geometry files and preparing the
   - CUDA acceleration for large boolean operations
   - Intelligent resource allocation based on model size
   - Advanced healing algorithms for problematic geometry
+
+- **compile_fortran.sh**: Builds a Fortran interface to the Gmsh library. Creates a standalone executable with these capabilities:
+  - Import STEP, BREP, STL geometry formats
+  - Generate structured and unstructured meshes  
+  - Export to multiple formats including MSH and SU2
+  - Command-line parameters for mesh configuration
+  - Interactive mode for guided mesh creation
+  - Built-in mesh quality analysis
+  - Usage: `./gmsh_process [options]`
 
 - **absolute_last_resort.sh**: Emergency fallback for problematic files. Creates a simple box mesh when all other methods fail, ensuring you always get a working mesh file for simulation setup testing.
 
@@ -90,6 +105,12 @@ This repository contains tools for meshing STEP geometry files and preparing the
     - Creates detailed import instructions
     - Provides step-by-step physics model setup guide
     - Includes boundary condition configuration details
+    
+  - **SU2 preparation**:
+    - Automatic export to SU2 format from Fortran interface
+    - Direct export with `--su2` flag
+    - Configures proper naming for boundary conditions
+    - Sets up mesh format for SU2's CFD solver
 
 - **extract_surfaces.py**: Advanced tool for identifying and extracting important features from the mesh:
   - Auto-detects inlets and outlets based on geometry
@@ -202,6 +223,17 @@ If you encounter persistent issues, use this simplified pipeline that avoids mos
 ## Build & Installation
 - **install_gpu_deps.sh**: Installs GPU acceleration dependencies
 - **build_main.sh**: Builds the C++ tools from source
+- **compile_fortran.sh**: Builds the Fortran interface and wrapper:
+  ```bash
+  # Basic usage
+  ./compile_fortran.sh gmsh_process.f90
+  
+  # Run the compiled program
+  ./run_gmsh_process.sh
+  
+  # Command line options for the Fortran interface
+  ./gmsh_process --help
+  ```
 
 ## Common Issues and Solutions
 
@@ -232,8 +264,23 @@ If you encounter persistent issues, use this simplified pipeline that avoids mos
 - Adjust boundary layers with `--bl_progression` and `--bl_first_layer`
 - Try alternative meshing algorithms: `--alg_2d 3 --alg_3d 4` for better quality
 
+## Export Formats
+- **MSH format**: Default Gmsh format for all tools
+- **SU2 format**: For SU2 CFD solver
+  ```bash
+  # Using Fortran interface
+  ./gmsh_process --input INTAKE3D.stp --output mesh.msh --su2
+  
+  # Using Python interface
+  ./python_mesher.py INTAKE3D.stp mesh.msh --export-su2
+  ```
+- **OpenFOAM format**: Through prepare_for_cfd.sh
+- **Fluent format**: Through prepare_for_cfd.sh with fluent option
+- **CGNS format**: For Star-CCM+ and other solvers
+
 ## Requirements
 - Gmsh with OpenCASCADE support
 - Python 3.6+
 - OpenMPI (optional, for parallel meshing)
 - CUDA toolkit (optional, for GPU acceleration)
+- gfortran (optional, for Fortran interface)

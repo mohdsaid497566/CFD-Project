@@ -10,9 +10,9 @@ module gmsh_process
 
     ! Define boundary layer parameters type
     type :: boundary_layer_type
-        real(dp) :: first_layer_thickness
-        real(dp) :: progression
         real(dp) :: thickness
+        real(dp) :: progression
+        real(dp) :: min_thickness
         integer :: num_layers
     end type boundary_layer_type
 
@@ -58,7 +58,7 @@ contains
 
         ! Force headless mode
         write(*,*) "DEBUG: Setting NoGui option before any Gmsh initialization..."
-        call gmsh_option_set_number("General.NoGui", 1.0_dp)
+        call gmsh_option_set_number("General.NoGui", 1.0_dp, ierr)
 
         ! Check environment variables
         call get_environment_variable("LD_LIBRARY_PATH", env_value, status=env_status)
@@ -124,7 +124,7 @@ contains
         end if
         
         write(*,*) "DEBUG: Initializing Gmsh..."
-        call gmsh_initialize(0_c_int, argv_null)
+        call gmsh_initialize(0_c_int, argv_null, ierr)
         if (gmsh_is_initialized() /= 1) then
             write(*,*) "ERROR: Gmsh initialization failed. Unable to retrieve error message."
             ierr = -1
@@ -133,8 +133,8 @@ contains
         write(*,*) "DEBUG: Gmsh initialized successfully."
 
         write(*,*) "Setting initial Gmsh options..."
-        call gmsh_option_set_number("General.Terminal", 1.0_dp)
-        call gmsh_option_set_number("General.NumThreads", real(actual_threads, dp))
+        call gmsh_option_set_number("General.Terminal", 1.0_dp, ierr)
+        call gmsh_option_set_number("General.NumThreads", real(actual_threads, dp), ierr)
 
         write(*,*) "Adding model..."
         model_status = gmsh_model_add(f_c_string("engine_intake_cfd_surface_v5"))
@@ -153,14 +153,14 @@ contains
         end if
 
         write(*,*) "Setting geometry fixing options..."
-        call gmsh_option_set_number("Geometry.OCCFixDegenerated", 1.0_dp)
-        call gmsh_option_set_number("Geometry.OCCFixSmallEdges", 1.0_dp)
-        call gmsh_option_set_number("Geometry.OCCFixSmallFaces", 1.0_dp)
-        call gmsh_option_set_number("Geometry.OCCSewFaces", 1.0_dp)
-        call gmsh_model_occ_synchronize()
+        call gmsh_option_set_number("Geometry.OCCFixDegenerated", 1.0_dp, ierr)
+        call gmsh_option_set_number("Geometry.OCCFixSmallEdges", 1.0_dp, ierr)
+        call gmsh_option_set_number("Geometry.OCCFixSmallFaces", 1.0_dp, ierr)
+        call gmsh_option_set_number("Geometry.OCCSewFaces", 1.0_dp, ierr)
+        call gmsh_model_occ_synchronize(ierr)
 
         write(*,*) "Getting bounding box..."
-        call gmsh_model_get_bounding_box(-1, -1, xmin, ymin, zmin, xmax, ymax, zmax)
+        call gmsh_model_get_bounding_box(-1, -1, xmin, ymin, zmin, xmax, ymax, zmax, ierr)
         write(*,*) "Bounding box: xmin=", xmin, ", ymin=", ymin, ", zmin=", zmin, &
                    ", xmax=", xmax, ", ymax=", ymax, ", zmax=", zmax
 
@@ -183,14 +183,14 @@ contains
                             base_mesh_size)
 
         write(*,*) "Applying boundary layer parameters..."
-        call gmsh_option_set_number("Mesh.BoundaryLayerThickness", bl_params%thickness)
-        call gmsh_option_set_number("Mesh.BoundaryLayerProgression", bl_params%progression)
+        call gmsh_option_set_number("Mesh.BoundaryLayerThickness", bl_params%thickness, ierr)
+        call gmsh_option_set_number("Mesh.BoundaryLayerProgression", bl_params%progression, ierr)
 
         write(*,*) "Generating mesh..."
-        call gmsh_model_mesh_generate(3)
+        call gmsh_model_mesh_generate(3, ierr)
 
         write(*,*) "Writing mesh to file: ", trim(output_msh)
-        call gmsh_write(c_output_msh)
+        call gmsh_write(c_output_msh, ierr)
 
         write(*,*) "Cleaning up allocated memory..."
 999     continue
@@ -212,8 +212,8 @@ contains
         subroutine create_domain_box(cx, cy, cz, dx, dy, dz, vol_tag)
             real(dp), intent(in) :: cx, cy, cz, dx, dy, dz
             integer, intent(out) :: vol_tag
-            call gmsh_model_occ_add_box(cx-dx/2.0_dp, cy-dy/2.0_dp, cz-dz/2.0_dp, dx, dy, dz, vol_tag)
-            call gmsh_model_occ_synchronize()
+            call gmsh_model_occ_add_box(cx-dx/2.0_dp, cy-dy/2.0_dp, cz-dz/2.0_dp, dx, dy, dz, vol_tag, ierr)
+            call gmsh_model_occ_synchronize(ierr)
         end subroutine create_domain_box
         
         subroutine set_mesh_options(alg2d, alg3d, opt_netgen, base_size)
@@ -225,11 +225,11 @@ contains
             opt_val = 0.0_dp
             if (opt_netgen) opt_val = 1.0_dp
             
-            call gmsh_option_set_number("Mesh.Algorithm", real(alg2d, dp))
-            call gmsh_option_set_number("Mesh.Algorithm3D", real(alg3d, dp))
-            call gmsh_option_set_number("Mesh.OptimizeNetgen", opt_val)
-            call gmsh_option_set_number("Mesh.CharacteristicLengthMin", base_size/5.0_dp)
-            call gmsh_option_set_number("Mesh.CharacteristicLengthMax", base_size)
+            call gmsh_option_set_number("Mesh.Algorithm", real(alg2d, dp), ierr)
+            call gmsh_option_set_number("Mesh.Algorithm3D", real(alg3d, dp), ierr)
+            call gmsh_option_set_number("Mesh.OptimizeNetgen", opt_val, ierr)
+            call gmsh_option_set_number("Mesh.CharacteristicLengthMin", base_size/5.0_dp, ierr)
+            call gmsh_option_set_number("Mesh.CharacteristicLengthMax", base_size, ierr)
         end subroutine set_mesh_options
     end subroutine create_engine_intake_cfd_mesh_surfaces_v5
 end module gmsh_process
