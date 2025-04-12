@@ -1,0 +1,50 @@
+; Fluent Journal File for Intake Manifold Setup
+; Run with: fluent 3d -g -i setup.jou
+
+; Read the mesh
+/file/read-case intake.msh
+
+; Scale the mesh (convert mm to m)
+/mesh/scale 0.001 0.001 0.001
+
+; Set up the model - standard k-epsilon
+/define/models/viscous/ke-standard yes
+
+; Set material properties
+/define/materials/change-create air air yes constant 1.225 yes constant 1.7894e-05 yes constant 0.0242 yes constant 1006.43 yes
+
+; Set boundary conditions
+; Wall boundaries
+/define/boundary-conditions/wall walls () no 0 no 0 no 0 no 0 no no no
+/define/boundary-conditions/wall defaultFaces () no 0 no 0 no 0 no 0 no no no
+
+; Inlet boundary
+/define/boundary-conditions/velocity-inlet inlet () no 0 yes yes no 10 no 0 no 0 yes 5 10 no no yes
+
+; Outlet boundary
+/define/boundary-conditions/pressure-outlet outlet () no 0 no 0 no no yes no
+
+; Set solver parameters
+/solve/set/p-v-coupling 24
+/solve/set/gradient-scheme no yes
+/solve/set/discretization-scheme/pressure 12
+/solve/set/discretization-scheme/mom 1
+/solve/set/discretization-scheme/k 1
+/solve/set/discretization-scheme/epsilon 1
+/solve/set/under-relaxation pressure 0.3
+/solve/set/under-relaxation mom 0.7
+/solve/set/under-relaxation k 0.8
+/solve/set/under-relaxation epsilon 0.8
+/solve/set/under-relaxation turb-viscosity 1.0
+
+; Initialize the solution
+/solve/initialize/compute-defaults/all-zones
+/solve/initialize/initialize-flow
+
+; Save the case
+/file/write-case-data intake-setup.cas
+/file/confirm-overwrite yes
+
+; Exit
+/exit
+yes

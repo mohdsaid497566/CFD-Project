@@ -1,0 +1,23 @@
+#!/bin/bash
+cd ${0%/*} || exit 1
+
+# Source OpenFOAM run functions
+. ${WM_PROJECT_DIR:?}/bin/tools/RunFunctions
+
+# Convert mesh if needed
+if [ ! -d constant/polyMesh ]
+then
+    runApplication gmshToFoam "box_mesh.msh"
+    runApplication createPatch -overwrite
+fi
+
+# Check mesh quality
+runApplication checkMesh
+
+# Run solver
+runApplication 
+
+# Post-processing
+#runApplication postProcess -func vorticity
+
+echo "Case complete!"
