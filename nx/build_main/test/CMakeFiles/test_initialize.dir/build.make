@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/users/mohammed/Desktop/nx
+CMAKE_SOURCE_DIR = /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/users/mohammed/Desktop/nx/build_main
+CMAKE_BINARY_DIR = /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main
 
 # Include any dependencies generated for this target.
 include test/CMakeFiles/test_initialize.dir/depend.make
@@ -70,18 +70,18 @@ include test/CMakeFiles/test_initialize.dir/progress.make
 include test/CMakeFiles/test_initialize.dir/flags.make
 
 test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o: test/CMakeFiles/test_initialize.dir/flags.make
-test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o: /mnt/c/users/mohammed/Desktop/nx/test/test_initialize.cpp
+test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_initialize.cpp
 test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o: test/CMakeFiles/test_initialize.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build_main/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o"
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o -MF CMakeFiles/test_initialize.dir/test_initialize.cpp.o.d -o CMakeFiles/test_initialize.dir/test_initialize.cpp.o -c /mnt/c/users/mohammed/Desktop/nx/test/test_initialize.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/test_initialize.dir/test_initialize.cpp.o -MF CMakeFiles/test_initialize.dir/test_initialize.cpp.o.d -o CMakeFiles/test_initialize.dir/test_initialize.cpp.o -c /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_initialize.cpp
 
 test/CMakeFiles/test_initialize.dir/test_initialize.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_initialize.dir/test_initialize.cpp.i"
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/users/mohammed/Desktop/nx/test/test_initialize.cpp > CMakeFiles/test_initialize.dir/test_initialize.cpp.i
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_initialize.cpp > CMakeFiles/test_initialize.dir/test_initialize.cpp.i
 
 test/CMakeFiles/test_initialize.dir/test_initialize.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_initialize.dir/test_initialize.cpp.s"
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/users/mohammed/Desktop/nx/test/test_initialize.cpp -o CMakeFiles/test_initialize.dir/test_initialize.cpp.s
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_initialize.cpp -o CMakeFiles/test_initialize.dir/test_initialize.cpp.s
 
 # Object files for target test_initialize
 test_initialize_OBJECTS = \
@@ -97,18 +97,18 @@ bin/test_initialize: libgmsh_nx.so
 bin/test_initialize: /home/mohammed/miniconda3/lib/libgomp.so
 bin/test_initialize: /usr/lib/x86_64-linux-gnu/libpthread.a
 bin/test_initialize: test/CMakeFiles/test_initialize.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build_main/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_initialize"
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_initialize.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/test_initialize"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_initialize.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/CMakeFiles/test_initialize.dir/build: bin/test_initialize
 .PHONY : test/CMakeFiles/test_initialize.dir/build
 
 test/CMakeFiles/test_initialize.dir/clean:
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main/test && $(CMAKE_COMMAND) -P CMakeFiles/test_initialize.dir/cmake_clean.cmake
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test && $(CMAKE_COMMAND) -P CMakeFiles/test_initialize.dir/cmake_clean.cmake
 .PHONY : test/CMakeFiles/test_initialize.dir/clean
 
 test/CMakeFiles/test_initialize.dir/depend:
-	cd /mnt/c/users/mohammed/Desktop/nx/build_main && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/users/mohammed/Desktop/nx /mnt/c/users/mohammed/Desktop/nx/test /mnt/c/users/mohammed/Desktop/nx/build_main /mnt/c/users/mohammed/Desktop/nx/build_main/test /mnt/c/users/mohammed/Desktop/nx/build_main/test/CMakeFiles/test_initialize.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main/test/CMakeFiles/test_initialize.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : test/CMakeFiles/test_initialize.dir/depend
 

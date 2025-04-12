@@ -7,11 +7,11 @@ CUDA_DEFINES =
 
 CUDA_INCLUDES = --options-file CMakeFiles/test_parallel.dir/includes_CUDA.rsp
 
-CUDA_FLAGS =  -ccbin=/usr/bin/g++ -allow-unsupported-compiler -std=c++17 -g -std=c++17 "--generate-code=arch=compute_75,code=[compute_75,sm_75]" -Xcompiler=-fPIE --generate-code=arch=compute_75,code=sm_75 -Xcompiler=-fPIC -Xcompiler=-fopenmp --extended-lambda --default-stream=per-thread --expt-relaxed-constexpr
+CUDA_FLAGS =  -ccbin=/usr/bin/g++ -allow-unsupported-compiler -std=c++17 -std=c++17 "--generate-code=arch=compute_75,code=[compute_75,sm_75]" -Xcompiler=-fPIE --generate-code=arch=compute_75,code=sm_75 -Xcompiler=-fPIC -Xcompiler=-fopenmp --extended-lambda --default-stream=per-thread --expt-relaxed-constexpr
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/c/users/mohammed/Desktop/nx/include -I/mnt/c/users/mohammed/Desktop/nx/test/../include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include
+CXX_INCLUDES = -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/include -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/../include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include
 
-CXX_FLAGS = -g -fPIE -fopenmp
+CXX_FLAGS = -std=gnu++17 -fPIE -fopenmp
 

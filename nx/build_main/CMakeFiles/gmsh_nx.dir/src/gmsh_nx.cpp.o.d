@@ -1,7 +1,7 @@
 CMakeFiles/gmsh_nx.dir/src/gmsh_nx.cpp.o: \
- /mnt/c/users/mohammed/Desktop/nx/src/gmsh_nx.cpp \
+ /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/src/gmsh_nx.cpp \
  /usr/include/stdc-predef.h \
- /mnt/c/users/mohammed/Desktop/nx/include/gmsh_nx/gmsh_nx.hpp \
+ /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/include/gmsh_nx/gmsh_nx.hpp \
  /usr/local/include/gmsh.h /usr/include/c++/13/cmath \
  /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \

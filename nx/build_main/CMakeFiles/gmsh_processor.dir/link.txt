@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/gmsh_processor.dir/src/main.cpp.o -o gmsh_processor  -Wl,-rpath,/mnt/c/users/mohammed/Desktop/nx/build_main:/usr/local/lib libgmsh_nx.so /usr/local/lib/libgmsh.so -lstdc++fs /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

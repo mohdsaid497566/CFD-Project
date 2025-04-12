@@ -1,1 +1,0 @@
-/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/test_refinement.dir/test_refinement.cpp.o -o ../bin/test_refinement  -Wl,-rpath,/usr/local/lib:/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

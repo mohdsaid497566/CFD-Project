@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = -Dgmsh_nx_EXPORTS
 
-CXX_INCLUDES = -I/mnt/c/users/mohammed/Desktop/nx/include
+CXX_INCLUDES = -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/include
 
-CXX_FLAGS = -g -fPIC -fopenmp
+CXX_FLAGS = -std=gnu++17 -fPIC -fopenmp
 

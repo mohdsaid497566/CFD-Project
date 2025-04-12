@@ -1,1 +1,1 @@
-/usr/bin/g++ -fPIC -g -shared -Wl,-soname,libgmsh_nx.so -o libgmsh_nx.so CMakeFiles/gmsh_nx.dir/src/gmsh_nx.cpp.o  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
+/usr/bin/g++ -fPIC -shared -Wl,-soname,libgmsh_nx.so -o libgmsh_nx.so CMakeFiles/gmsh_nx.dir/src/gmsh_nx.cpp.o  -Wl,-rpath,/usr/local/lib /usr/local/lib/libgmsh.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
