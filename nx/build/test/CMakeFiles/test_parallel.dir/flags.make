@@ -11,7 +11,7 @@ CUDA_FLAGS =  -ccbin=/usr/bin/g++ -allow-unsupported-compiler -std=c++17 -O3 -DN
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/c/users/mohammed/Desktop/nx/include -I/mnt/c/users/mohammed/Desktop/nx/test/../include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include
+CXX_INCLUDES = -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/include -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/../include -I/opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include
 
 CXX_FLAGS = -O3 -DNDEBUG -fPIE -fopenmp
 

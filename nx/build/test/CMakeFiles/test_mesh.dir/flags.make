@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/mnt/c/users/mohammed/Desktop/nx/include -I/mnt/c/users/mohammed/Desktop/nx/test/../include
+CXX_INCLUDES = -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/include -I/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/../include
 
 CXX_FLAGS = -O3 -DNDEBUG -fopenmp
 

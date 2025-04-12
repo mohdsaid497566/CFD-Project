@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/users/mohammed/Desktop/nx/test
+# Install script for directory: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

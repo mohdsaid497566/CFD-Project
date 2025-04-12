@@ -1,0 +1,11 @@
+test_initialize 1 0.12654
+test_logger 1 0.0381598
+test_model 1 0.0418762
+test_geometry 1 0.0581941
+test_mesh 1 0.0531206
+test_complex_mesh 1 4.39141
+test_operations 1 0.199375
+test_refinement 1 0.392525
+test_openmp 1 0.0137321
+test_parallel 1 0.123585
+---

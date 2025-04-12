@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cu" "test/CMakeFiles/test_parallel.dir/test_parallel.cu.o" "gcc" "test/CMakeFiles/test_parallel.dir/test_parallel.cu.o.d"
-  "/mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cpp" "test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o" "gcc" "test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o.d"
+  "/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cu" "test/CMakeFiles/test_parallel.dir/test_parallel.cu.o" "gcc" "test/CMakeFiles/test_parallel.dir/test_parallel.cu.o.d"
+  "/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cpp" "test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o" "gcc" "test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

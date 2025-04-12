@@ -3,13 +3,12 @@
 ## Third, function that passes the mesh to a CFD solver.
 ## Fourth , function that takes the CFD solver results and processes them for visualization.
 ## Fifth, function that visualizes the results in a suitable format.
-
 import sys
 import os
 import time
 import subprocess
 from Expressions import format_exp, write_exp_file
-
+import openmdao.api as om
 # This module handles the creation and writing of expressions for NX.
 # It formats expressions and writes them to an .exp file.
 
@@ -26,31 +25,56 @@ def exp(L4, L5, alpha1, alpha2, alpha3):
     expressions_list.append(alpha2_expression)
     expressions_list.append(alpha3_expression)
     # Write the expressions to an .exp file
-    write_exp_file(expressions_list, "expression")  # Save the expressions to exp.exp
+    write_exp_file(expressions_list, "expressions")  # Save the expressions to exp.exp
     # Return the list of expressions for further use if needed
-    
     
 ## the following should be implemented in the terminal using python somehow
 ## first run go to the following directory C:\Program Files\Siemens\NX2406\UGII and run cmd.exe /c nxcommand.bat
 ## after that it should import the expressions files and export the CAD with a new name
 ## run_journal C:\Users\Mohammed\Desktop\nx\nx_express2.py -args C:\Users\Mohammed\Desktop\nx\INSTAKE3D.prt
 ## run_journal C:\Users\Mohammed\Desktop\nx\nx_export.py -args C:\Users\Mohammed\Desktop\nx\INSTAKE3D.prt
-    
-import subprocess
-import os
 
-def run_nx_from_bash():
-    """
-    Calls the Bash script to run Siemens NX commands.
-    """        
-    # Run the Bash script with the required arguments
-    print("Running NX commands via Bash script...")
-    subprocess.run(["bash", "run_nx_commmands.sh"],
-        check=True,
-        capture_output=True,
-        text=True
-    )
-    print("NX operations completed successfully via Bash script.")
+# Change to the current working directory
+os.chdir("/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx")
+
+def run_nx_commands():
+    try:
+        # Run the first journal script
+        result1 = subprocess.run(
+            [
+                "/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe",
+                "C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_command.py",
+                "-args",
+                "C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt"
+            ],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        print("First journal script executed successfully.")
+        print(result1.stdout)
+
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {e}")
+        print(e.stderr)
+        raise
+
+
+## This part is intended to mesh and run the CFD cases
+
+
+
+
+
 # Example usage
+'''
+alpha3 = 30.0  # Angle in degrees    
+alpha2 = 30.0  # Angle in degrees    
+alpha1 = 10.0  # Angle in degrees    
+L5 = 2.5  # Length in meters    
+L4 = 1.5  # Length in meters    
+exp(L4, L5, alpha1, alpha2, alpha3)    # Call the exp function to generate expressions    
+run_nx_commands()
+'''
 
-run_nx_from_bash

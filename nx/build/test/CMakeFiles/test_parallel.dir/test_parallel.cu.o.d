@@ -1,4 +1,4 @@
-test/CMakeFiles/test_parallel.dir/test_parallel.cu.o : /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cu \
+test/CMakeFiles/test_parallel.dir/test_parallel.cu.o : /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cu \
     /usr/include/stdc-predef.h \
     /opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include/cuda_runtime.h \
     /opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/targets/x86_64-linux/include/crt/host_config.h \

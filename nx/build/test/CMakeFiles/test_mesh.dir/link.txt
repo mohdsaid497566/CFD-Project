@@ -1,1 +1,1 @@
-/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/test_mesh.dir/test_mesh.cpp.o -o ../bin/test_mesh  -Wl,-rpath,/usr/local/lib:/mnt/c/users/mohammed/Desktop/nx/build /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 
+/usr/bin/g++ -O3 -DNDEBUG CMakeFiles/test_mesh.dir/test_mesh.cpp.o -o ../bin/test_mesh  -Wl,-rpath,/usr/local/lib:/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

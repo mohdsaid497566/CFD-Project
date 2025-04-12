@@ -1,5 +1,5 @@
 test/CMakeFiles/test_openmp.dir/test_openmp.cpp.o: \
- /mnt/c/users/mohammed/Desktop/nx/test/test_openmp.cpp \
+ /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_openmp.cpp \
  /usr/include/stdc-predef.h /usr/include/c++/13/iostream \
  /usr/include/c++/13/bits/requires_hosted.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \

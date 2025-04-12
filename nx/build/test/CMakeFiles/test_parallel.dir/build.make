@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/users/mohammed/Desktop/nx
+CMAKE_SOURCE_DIR = /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/users/mohammed/Desktop/nx/build
+CMAKE_BINARY_DIR = /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build
 
 # Include any dependencies generated for this target.
 include test/CMakeFiles/test_parallel.dir/depend.make
@@ -70,25 +70,25 @@ include test/CMakeFiles/test_parallel.dir/progress.make
 include test/CMakeFiles/test_parallel.dir/flags.make
 
 test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o: test/CMakeFiles/test_parallel.dir/flags.make
-test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o: /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cpp
+test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cpp
 test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o: test/CMakeFiles/test_parallel.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o -MF CMakeFiles/test_parallel.dir/test_parallel.cpp.o.d -o CMakeFiles/test_parallel.dir/test_parallel.cpp.o -c /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT test/CMakeFiles/test_parallel.dir/test_parallel.cpp.o -MF CMakeFiles/test_parallel.dir/test_parallel.cpp.o.d -o CMakeFiles/test_parallel.dir/test_parallel.cpp.o -c /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cpp
 
 test/CMakeFiles/test_parallel.dir/test_parallel.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/test_parallel.dir/test_parallel.cpp.i"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cpp > CMakeFiles/test_parallel.dir/test_parallel.cpp.i
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cpp > CMakeFiles/test_parallel.dir/test_parallel.cpp.i
 
 test/CMakeFiles/test_parallel.dir/test_parallel.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/test_parallel.dir/test_parallel.cpp.s"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cpp -o CMakeFiles/test_parallel.dir/test_parallel.cpp.s
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && /usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cpp -o CMakeFiles/test_parallel.dir/test_parallel.cpp.s
 
 test/CMakeFiles/test_parallel.dir/test_parallel.cu.o: test/CMakeFiles/test_parallel.dir/flags.make
 test/CMakeFiles/test_parallel.dir/test_parallel.cu.o: test/CMakeFiles/test_parallel.dir/includes_CUDA.rsp
-test/CMakeFiles/test_parallel.dir/test_parallel.cu.o: /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cu
+test/CMakeFiles/test_parallel.dir/test_parallel.cu.o: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cu
 test/CMakeFiles/test_parallel.dir/test_parallel.cu.o: test/CMakeFiles/test_parallel.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CUDA object test/CMakeFiles/test_parallel.dir/test_parallel.cu.o"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && /opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/bin/nvcc -forward-unknown-to-host-compiler -ccbin=/usr/bin/g++ $(CUDA_DEFINES) $(CUDA_INCLUDES) $(CUDA_FLAGS) -MD -MT test/CMakeFiles/test_parallel.dir/test_parallel.cu.o -MF CMakeFiles/test_parallel.dir/test_parallel.cu.o.d -x cu -rdc=true -c /mnt/c/users/mohammed/Desktop/nx/test/test_parallel.cu -o CMakeFiles/test_parallel.dir/test_parallel.cu.o
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CUDA object test/CMakeFiles/test_parallel.dir/test_parallel.cu.o"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && /opt/nvidia/hpc_sdk/Linux_x86_64/25.3/cuda/12.8/bin/nvcc -forward-unknown-to-host-compiler -ccbin=/usr/bin/g++ $(CUDA_DEFINES) $(CUDA_INCLUDES) $(CUDA_FLAGS) -MD -MT test/CMakeFiles/test_parallel.dir/test_parallel.cu.o -MF CMakeFiles/test_parallel.dir/test_parallel.cu.o.d -x cu -rdc=true -c /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test/test_parallel.cu -o CMakeFiles/test_parallel.dir/test_parallel.cu.o
 
 test/CMakeFiles/test_parallel.dir/test_parallel.cu.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CUDA source to CMakeFiles/test_parallel.dir/test_parallel.cu.i"
@@ -115,8 +115,8 @@ test/CMakeFiles/test_parallel.dir/cmake_device_link.o: /usr/lib/x86_64-linux-gnu
 test/CMakeFiles/test_parallel.dir/cmake_device_link.o: test/CMakeFiles/test_parallel.dir/deviceLinkLibs.rsp
 test/CMakeFiles/test_parallel.dir/cmake_device_link.o: test/CMakeFiles/test_parallel.dir/deviceObjects1.rsp
 test/CMakeFiles/test_parallel.dir/cmake_device_link.o: test/CMakeFiles/test_parallel.dir/dlink.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CUDA device code CMakeFiles/test_parallel.dir/cmake_device_link.o"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_parallel.dir/dlink.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CUDA device code CMakeFiles/test_parallel.dir/cmake_device_link.o"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_parallel.dir/dlink.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/CMakeFiles/test_parallel.dir/build: test/CMakeFiles/test_parallel.dir/cmake_device_link.o
@@ -138,18 +138,18 @@ bin/test_parallel: /home/mohammed/miniconda3/lib/libgomp.so
 bin/test_parallel: /usr/lib/x86_64-linux-gnu/libpthread.a
 bin/test_parallel: test/CMakeFiles/test_parallel.dir/cmake_device_link.o
 bin/test_parallel: test/CMakeFiles/test_parallel.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/users/mohammed/Desktop/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/test_parallel"
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_parallel.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ../bin/test_parallel"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_parallel.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/CMakeFiles/test_parallel.dir/build: bin/test_parallel
 .PHONY : test/CMakeFiles/test_parallel.dir/build
 
 test/CMakeFiles/test_parallel.dir/clean:
-	cd /mnt/c/users/mohammed/Desktop/nx/build/test && $(CMAKE_COMMAND) -P CMakeFiles/test_parallel.dir/cmake_clean.cmake
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test && $(CMAKE_COMMAND) -P CMakeFiles/test_parallel.dir/cmake_clean.cmake
 .PHONY : test/CMakeFiles/test_parallel.dir/clean
 
 test/CMakeFiles/test_parallel.dir/depend:
-	cd /mnt/c/users/mohammed/Desktop/nx/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/users/mohammed/Desktop/nx /mnt/c/users/mohammed/Desktop/nx/test /mnt/c/users/mohammed/Desktop/nx/build /mnt/c/users/mohammed/Desktop/nx/build/test /mnt/c/users/mohammed/Desktop/nx/build/test/CMakeFiles/test_parallel.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/test /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build/test/CMakeFiles/test_parallel.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : test/CMakeFiles/test_parallel.dir/depend
 
