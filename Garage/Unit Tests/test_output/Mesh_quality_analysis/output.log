@@ -1,0 +1,15 @@
+Info    : Reading './test_output/test_3d.msh'...
+Info    : 74 entities
+Info    : 123 nodes
+Info    : 593 elements
+Info    : Done reading './test_output/test_3d.msh'
+Error   : Unknown element 0
+Initializing Gmsh to process ./test_output/test_3d.msh
+Successfully loaded mesh: ./test_output/test_3d.msh
+Element counts: {'triangles': 236, 'quads': 0, 'tetrahedra': 266, 'hexahedra': 0, 'prisms': 0, 'pyramids': 0}
+Volume mesh detected
+Surface mesh detected
+Checking mesh skewness (max threshold = 0.95)...
+Skewness check completed.
+Analyzing mesh quality (minimum threshold = 0.1)...
+Error: Unknown element 0

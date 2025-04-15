@@ -1,0 +1,4 @@
+System: Linux 5.15.167.4-microsoft-standard-WSL2
+Python: 3.12.3
+WSL Detection: Yes
+Working directory: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx

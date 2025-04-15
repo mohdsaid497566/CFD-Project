@@ -1,0 +1,44 @@
+Input file size: 44908 bytes
+Output mesh file: ./test_output/test_bl.msh
+Auto-detecting number of threads...
+  Detected threads using OpenMP: 16
+Gmsh will use up to 16 CPU threads for internal parallel operations.
+Merging geometry from ./test_data/test_intake.stp...
+Info    : Reading './test_data/test_intake.stp'...
+Info    :  - Label 'Shapes/Open CASCADE STEP translator 7.7 1/1/Open CASCADE STEP translator 7.7 1.1' (3D)
+Info    :  - Label 'Shapes/Open CASCADE STEP translator 7.7 1/2/Open CASCADE STEP translator 7.7 1.2' (3D)
+Info    : Done reading './test_data/test_intake.stp'
+Applying OpenCASCADE geometry fixing options...
+Creating computational domain...
+Fragmenting domain with intake geometry...
+Entities after fragmentation:
+  Found 101 total entities
+  Points: 29, Curves: 46, Surfaces: 23, Volumes: 3
+Healing model after fragmentation...
+Info    : Healing shapes (tolerance: 0.0001)
+Info    :  - Fixing degenerated edges and faces
+Info    :  - Fixing small edges
+Info    :  - Fixing spot and strip faces
+Info    :  - Sewing faces
+Info    :  - Making solids
+Info    :  . Could not make solid
+Info    : Done healing shapes (Wall 0.0968308s, CPU 0.094234s):
+Info    :  - Compounds          : 1 (1)
+Info    :  - Composite solids   : 0 (0)
+Info    :  - Solids             : 0 (3)
+Info    :  - Shells             : 3 (5)
+Info    :  - Wires              : 23 (23)
+Info    :  - Faces              : 23 (23)
+Info    :  - Edges              : 46 (46)
+Info    :  - Vertices           : 29 (29)
+Info    :  - Total surface area : 1399.43 (4297.12)
+Healed 0 entities
+Volumes after healing: 0
+Error: No volumes available after healing.
+Attempting to continue with surface meshing only...
+Using 23 surfaces for meshing without volume.
+Error   : Unknown model region with tag 1
+Warning during boundary extraction: Unknown model region with tag 1
+Warning: Could not identify intake surfaces through fragmentation map. Trying alternative approach...
+Error   : Unknown model region with tag 3
+Error in Gmsh operation: Unknown model region with tag 3

@@ -1,0 +1,201 @@
+Command failed: ./run_tests.sh --category all
+
+Command failed: ./run_tests.sh --category all
+
+Command failed: ./gmsh_process --input INTAKE3D.step --output INTAKE3D.msh --auto-refine --curvature-adapt
+
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x7f7bf966832f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#1  0x7f7bf9c4b154 in ???
+#2  0x7f7bf9c5b1bf in ???
+#3  0x7f7bf9c4f6c3 in ???
+#4  0x7f7bf9c44e79 in ???
+#5  0x7f7bf9cef454 in ???
+#6  0x7f7bfac75b17 in ???
+#7  0x558b0dbec262 in ???
+#8  0x558b0dbec33b in ???
+#9  0x7f7bf964d1c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#10  0x7f7bf964d28a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#11  0x558b0dbe92e4 in ???
+#12  0xffffffffffffffff in ???
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: ./run_tests.sh --category all
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: ./run_tests.sh --category all
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: ./run_tests.sh --category all
+Exit code: 1
+Error: 
+NX workflow error: Unsupported platform: Linux. NX automation is only supported on Windows or WSL.
+Command failed: ./gmsh_process --input INTAKE3D.step --output INTAKE3D.msh --auto-refine --curvature-adapt
+Exit code: -11
+Error: 
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x7fc1b4b7e32f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#1  0x7fc1b5161154 in ???
+#2  0x7fc1b51711bf in ???
+#3  0x7fc1b51656c3 in ???
+#4  0x7fc1b515ae79 in ???
+#5  0x7fc1b5205454 in ???
+#6  0x7fc1b618bb17 in ???
+#7  0x55fedb80e262 in ???
+#8  0x55fedb80e33b in ???
+#9  0x7fc1b4b631c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#10  0x7fc1b4b6328a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#11  0x55fedb80b2e4 in ???
+#12  0xffffffffffffffff in ???
+
+Executable not found: ./cfd_solver
+Error: File not found: None
+Executable not found: ./process_results
+Error: File not found: None
+NX workflow error: Unsupported platform: Linux. NX automation is only supported on Windows or WSL.
+Command failed: ./run_tests.sh --category all
+Exit code: 1
+Error: 
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: ./gmsh_process --input INTAKE3D.step --output INTAKE3D.msh --auto-refine --curvature-adapt
+Exit code: -11
+Error: 
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x7fe00faef32f in ???
+	at ./signal/../sysdeps/unix/sysv/linux/x86_64/libc_sigaction.c:0
+#1  0x7fe0100d2154 in ???
+#2  0x7fe0100e21bf in ???
+#3  0x7fe0100d66c3 in ???
+#4  0x7fe0100cbe79 in ???
+#5  0x7fe010176454 in ???
+#6  0x7fe0110fcb17 in ???
+#7  0x55582dc2c262 in ???
+#8  0x55582dc2c33b in ???
+#9  0x7fe00fad41c9 in __libc_start_call_main
+	at ../sysdeps/nptl/libc_start_call_main.h:58
+#10  0x7fe00fad428a in __libc_start_main_impl
+	at ../csu/libc-start.c:360
+#11  0x55582dc292e4 in ???
+#12  0xffffffffffffffff in ???
+
+Executable not found: ./cfd_solver
+Error: File not found: None
+Executable not found: ./process_results
+Error: File not found: None
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+NX workflow error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+Mesh processing error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+Mesh processing error: name 'pd' is not defined
+NX workflow error: name 'pd' is not defined
+Mesh processing error: name 'pd' is not defined
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+Command failed: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Exit code: 1
+Error: fatal error
+run_journal: failed to initialize UFUN 949804
+
+NX workflow error: Command '['/mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py', '-args', 'C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt']' returned non-zero exit status 1.
+NX workflow error: name 'pd' is not defined
+Mesh processing error: name 'pd' is not defined

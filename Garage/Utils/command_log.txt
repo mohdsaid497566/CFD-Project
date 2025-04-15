@@ -1,0 +1,24 @@
+Executing: ./run_tests.sh --category all
+Executing: ./gmsh_process --input INTAKE3D.step --output INTAKE3D.msh --auto-refine --curvature-adapt
+Executing: ./run_tests.sh --category all
+Executing: ./run_tests.sh --category all
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: ./gmsh_process --input INTAKE3D.step --output INTAKE3D.msh --auto-refine --curvature-adapt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+Executing: /mnt/c/Program Files/Siemens/NX2406/NXBIN/run_journal.exe C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py -args C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/INTAKE3D.prt
+DEMO MODE: Simulating: ./gmsh_process --test
+DEMO MODE: Simulating: ./gmsh_process --test
+Executing: echo actual mode test > test_actual_mode.txt
+Success: echo actual mode test > test_actual_mode.txt
+Output: actual mode test > test_actual_mode.txt
+
+DEMO MODE: Simulating: ./gmsh_process --test

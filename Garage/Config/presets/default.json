@@ -1,0 +1,22 @@
+{
+  "parameters": {
+    "mesh_size": 1.0,
+    "iterations": 1000,
+    "convergence_criteria": 1e-6,
+    "solver_type": "steady",
+    "turbulence_model": "k-epsilon"
+  },
+  "boundary_conditions": {
+    "inlet": {
+      "velocity": 10.0,
+      "pressure": 101325.0
+    },
+    "outlet": {
+      "pressure": 101325.0
+    }
+  },
+  "solver_settings": {
+    "time_step": 0.001,
+    "max_courant": 0.9
+  }
+}

@@ -1,0 +1,5 @@
+Test Load STEP file PASSED
+Test Create bounding box PASSED
+Test Get entities PASSED
+Test Generate 2D mesh PASSED
+Test Generate 3D mesh PASSED

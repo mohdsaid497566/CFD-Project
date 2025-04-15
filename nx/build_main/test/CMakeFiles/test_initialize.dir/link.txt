@@ -1,1 +1,0 @@
-/usr/bin/g++ CMakeFiles/test_initialize.dir/test_initialize.cpp.o -o ../bin/test_initialize  -Wl,-rpath,/usr/local/lib:/mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/nx/build_main /usr/local/lib/libgmsh.so ../libgmsh_nx.so /home/mohammed/miniconda3/lib/libgomp.so /usr/lib/x86_64-linux-gnu/libpthread.a 

@@ -1,0 +1,48 @@
+{
+  "demo_mode": false,
+  "nx_path": "C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py",
+  "gmsh_path": "./gmsh_process",
+  "cfd_path": "./cfd_solver",
+  "results_dir": "cfd_results",
+  "parallel_processes": "4",
+  "theme": "Default (Blue)",
+  "font_size": "10",
+  "memory_limit": 5.0,
+  "presets": {
+    "Default": {
+      "l4": "2.0",
+      "l5": "3.0",
+      "alpha1": "10.0",
+      "alpha2": "10.0",
+      "alpha3": "10.0"
+    },
+    "High Flow": {
+      "l4": "2.5",
+      "l5": "3.5",
+      "alpha1": "15.0",
+      "alpha2": "12.0",
+      "alpha3": "8.0"
+    },
+    "Low Pressure Drop": {
+      "l4": "1.8",
+      "l5": "3.2",
+      "alpha1": "8.0",
+      "alpha2": "8.0",
+      "alpha3": "12.0"
+    },
+    "Compact": {
+      "l4": "1.5",
+      "l5": "2.5",
+      "alpha1": "12.0",
+      "alpha2": "15.0",
+      "alpha3": "15.0"
+    },
+    "Custom": {
+      "l4": "2.5",
+      "l5": "3.5",
+      "alpha1": "15.0",
+      "alpha2": "12.0",
+      "alpha3": "8.0"
+    }
+  }
+}
