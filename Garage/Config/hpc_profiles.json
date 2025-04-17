@@ -1,0 +1,22 @@
+{
+    "Default": {
+        "hpc_enabled": true,
+        "hpc_host": "localhost",
+        "hpc_username": "myself",
+        "hpc_port": 22,
+        "hpc_remote_dir": "/home/user/cfd_projects",
+        "use_key_auth": false,
+        "key_path": "",
+        "visible_in_gui": true
+    },
+    "Defaultdashkdk": {
+        "hpc_enabled": true,
+        "hpc_host": "localhost",
+        "hpc_username": "myself",
+        "hpc_port": 22,
+        "hpc_remote_dir": "/home/user/cfd_projects",
+        "use_key_auth": false,
+        "key_path": "",
+        "visible_in_gui": true
+    }
+}

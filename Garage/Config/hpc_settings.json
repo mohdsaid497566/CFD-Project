@@ -1,7 +1,7 @@
 {
     "hpc_enabled": true,
     "hpc_host": "localhost",
-    "hpc_username": "",
+    "hpc_username": "fsdfsd",
     "hpc_port": 22,
     "hpc_remote_dir": "/home/user/cfd_projects",
     "use_key_auth": false,
