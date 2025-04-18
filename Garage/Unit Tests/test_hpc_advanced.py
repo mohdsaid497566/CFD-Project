@@ -19,7 +19,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Import the modules to test
 import MDO
-from workflow_utils import patch_workflow_gui
+from Utils.workflow_utils import patch_workflow_gui
 
 # Import mock classes from the basic HPC workflow test
 from test_hpc_workflow import (

@@ -1,0 +1,6 @@
+#!/bin/bash
+echo 'Mock CFD solver running...'
+echo 'Processing $2'
+echo 'Created mock result files'
+mkdir -p cfd_results
+echo '0.123' > cfd_results/pressure.dat

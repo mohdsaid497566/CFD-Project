@@ -747,7 +747,7 @@ def update_hpc_info(self):
          print("Skipping info update: Not connected.")
 
 
-def get_hpc_settings(self):
+def get_hpc_profiles(self):
     """Retrieves HPC settings (connection + job defaults) from the GUI widgets."""
     settings = self.get_hpc_config() # Get connection settings
     if settings is None:
@@ -764,10 +764,10 @@ def get_hpc_settings(self):
     return settings
 
 
-def set_hpc_settings(self, settings):
+def set_hpc_profiles(self, settings):
     """Applies loaded/saved HPC settings to the GUI widgets."""
     if not isinstance(settings, dict):
-        print("Error: Invalid settings format for set_hpc_settings.")
+        print("Error: Invalid settings format for set_hpc_profiles.")
         return
 
     print("Applying loaded HPC settings to GUI...")
@@ -835,9 +835,9 @@ def refresh_queue_list(self):
         self.job_queue.set('')
 
 
-def save_hpc_settings(self):
+def save_hpc_profiles(self):
     """Saves the current HPC settings to a file."""
-    settings = self.get_hpc_settings()
+    settings = self.get_hpc_profiles()
     if not settings: # Could be None if get_hpc_config failed
         print("Skipping save: Invalid HPC settings.")
         return
@@ -846,7 +846,7 @@ def save_hpc_settings(self):
     if "password" in settings:
         settings["password"] = "" # Clear password before saving
 
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     try:
         with open(settings_file, 'w') as f:
             json.dump(settings, f, indent=4)
@@ -858,9 +858,9 @@ def save_hpc_settings(self):
         # messagebox.showerror("Save Error", f"Failed to save HPC settings:\n{e}")
 
 
-def load_hpc_settings(self):
+def load_hpc_profiles(self):
     """Loads HPC settings from a file and applies them."""
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     if os.path.exists(settings_file):
         print(f"Loading HPC settings from {settings_file}...")
         try:
@@ -869,7 +869,7 @@ def load_hpc_settings(self):
                 # Ensure password field is cleared if loading settings without one saved
                 if "password" not in settings and hasattr(self, 'hpc_password'):
                      settings["password"] = ""
-                self.set_hpc_settings(settings)
+                self.set_hpc_profiles(settings)
         except json.JSONDecodeError as e:
             print(f"Error decoding HPC settings file: {e}")
             messagebox.showerror("Load Error", f"Failed to read HPC settings file (invalid JSON):\n{e}")
@@ -1385,10 +1385,10 @@ def patch_workflow_gui(gui_class):
     gui_class.browse_key_file = browse_key_file
     # Settings/Config
     gui_class.get_hpc_config = get_hpc_config
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
-    gui_class.save_hpc_settings = save_hpc_settings
-    gui_class.load_hpc_settings = load_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
+    gui_class.save_hpc_profiles = save_hpc_profiles
+    gui_class.load_hpc_profiles = load_hpc_profiles
     # Connection & Info
     gui_class.test_hpc_connection = test_hpc_connection
     gui_class._test_connection_thread = _test_connection_thread
@@ -1426,7 +1426,7 @@ def patch_workflow_gui(gui_class):
             # Setup widgets (which now includes finding/creating the tab)
             self.setup_hpc_widgets()
             # Load saved settings after widgets are created
-            self.load_hpc_settings()
+            self.load_hpc_profiles()
             print("HPC widgets setup and settings loaded in patched __init__.")
         except Exception as e:
             print(f"Error during HPC setup/load in patched __init__: {e}")
@@ -1449,8 +1449,8 @@ def patch_workflow_gui(gui_class):
         print("Running patched closeEvent for HPC cleanup...")
         try:
             # Save settings before closing
-            if hasattr(self, 'save_hpc_settings'):
-                self.save_hpc_settings()
+            if hasattr(self, 'save_hpc_profiles'):
+                self.save_hpc_profiles()
             # Disconnect from HPC if connected
             if hasattr(self, 'hpc_connector') and self.hpc_connector and self.hpc_connector.connected:
                 print("Disconnecting from HPC...")
@@ -1950,7 +1950,7 @@ def update_hpc_info(self):
     pass
 
 
-def get_hpc_settings(self):
+def get_hpc_profiles(self):
     """Retrieves HPC settings (connection + job defaults) from the GUI widgets."""
     settings = self.get_hpc_config() # Get connection settings
     if settings is None:
@@ -1963,10 +1963,10 @@ def get_hpc_settings(self):
     return settings
 
 
-def set_hpc_settings(self, settings):
+def set_hpc_profiles(self, settings):
     """Applies loaded/saved HPC settings to the GUI widgets."""
     if not isinstance(settings, dict):
-        print("Error: Invalid settings format for set_hpc_settings.")
+        print("Error: Invalid settings format for set_hpc_profiles.")
         return
 
     # Connection settings
@@ -2010,9 +2010,9 @@ def refresh_queue_list(self):
         self.job_queue.set('')
 
 
-def save_hpc_settings(self):
+def save_hpc_profiles(self):
     """Saves the current HPC settings to a file."""
-    settings = self.get_hpc_settings()
+    settings = self.get_hpc_profiles()
     if not settings: # Could be None if get_hpc_config failed
         print("Skipping save: Invalid HPC settings.")
         return
@@ -2021,7 +2021,7 @@ def save_hpc_settings(self):
     if "password" in settings:
         settings["password"] = "" # Clear password before saving
 
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     try:
         with open(settings_file, 'w') as f:
             json.dump(settings, f, indent=4)
@@ -2031,9 +2031,9 @@ def save_hpc_settings(self):
         messagebox.showerror("Save Error", f"Failed to save HPC settings:\n{e}")
 
 
-def load_hpc_settings(self):
+def load_hpc_profiles(self):
     """Loads HPC settings from a file and applies them."""
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     if os.path.exists(settings_file):
         try:
             with open(settings_file, 'r') as f:
@@ -2041,7 +2041,7 @@ def load_hpc_settings(self):
                 # Ensure password field is cleared if loading settings without one saved
                 if "password" not in settings and hasattr(self, 'hpc_password'):
                      settings["password"] = ""
-                self.set_hpc_settings(settings)
+                self.set_hpc_profiles(settings)
             print(f"HPC settings loaded from {settings_file}")
         except json.JSONDecodeError as e:
             print(f"Error decoding HPC settings file: {e}")
@@ -2344,10 +2344,10 @@ def patch_workflow_gui(gui_class):
     gui_class.browse_key_file = browse_key_file
     # Settings/Config
     gui_class.get_hpc_config = get_hpc_config
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
-    gui_class.save_hpc_settings = save_hpc_settings
-    gui_class.load_hpc_settings = load_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
+    gui_class.save_hpc_profiles = save_hpc_profiles
+    gui_class.load_hpc_profiles = load_hpc_profiles
     # Connection & Info
     gui_class.test_hpc_connection = test_hpc_connection
     gui_class._test_connection_thread = _test_connection_thread
@@ -2404,7 +2404,7 @@ def patch_workflow_gui(gui_class):
                 # Now setup the widgets within the remote_tab
                 self.setup_hpc_widgets()
                 # Load saved settings after widgets are created
-                self.load_hpc_settings()
+                self.load_hpc_profiles()
                 print("HPC widgets setup and settings loaded in patched __init__.")
             else:
                 print("Error: self.notebook not found in patched_init. Cannot setup HPC tab.")
@@ -2423,7 +2423,7 @@ def patch_workflow_gui(gui_class):
         print("Running patched closeEvent for HPC cleanup...")
         try:
             # Save settings before closing
-            self.save_hpc_settings()
+            self.save_hpc_profiles()
             # Disconnect from HPC if connected
             if hasattr(self, 'hpc_connector') and self.hpc_connector:
                 print("Disconnecting from HPC...")
@@ -2462,19 +2462,19 @@ from tkinter import messagebox # Import messagebox if needed
 
 # ... existing setup_hpc_widgets definition ...
 # ... existing update_hpc_info definition ...
-# ... existing get_hpc_settings definition ...
-# ... existing set_hpc_settings definition ...
+# ... existing get_hpc_profiles definition ...
+# ... existing set_hpc_profiles definition ...
 # ... existing refresh_queue_list definition ...
-# ... existing save_hpc_settings definition ...
+# ... existing save_hpc_profiles definition ...
 
-def load_hpc_settings(self):
+def load_hpc_profiles(self):
     """Loads HPC settings from a file and applies them."""
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     if os.path.exists(settings_file):
         try:
             with open(settings_file, 'r') as f:
                 settings = json.load(f)
-                self.set_hpc_settings(settings) # Use the existing set_hpc_settings method
+                self.set_hpc_profiles(settings) # Use the existing set_hpc_profiles method
             print(f"HPC settings loaded from {settings_file}")
         except Exception as e:
             print(f"Error loading HPC settings: {e}")
@@ -2494,11 +2494,11 @@ def patch_workflow_gui(gui_class):
     # Ensure the functions assigned here are defined above
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
     gui_class.refresh_queue_list = refresh_queue_list
-    gui_class.save_hpc_settings = save_hpc_settings
-    gui_class.load_hpc_settings = load_hpc_settings # Add this line
+    gui_class.save_hpc_profiles = save_hpc_profiles
+    gui_class.load_hpc_profiles = load_hpc_profiles # Add this line
 
     # Patch the __init__ method to include HPC setup and loading
     original_init = gui_class.__init__
@@ -2509,7 +2509,7 @@ def patch_workflow_gui(gui_class):
         try:
             self.setup_hpc_widgets()
             # Load saved settings using the new method
-            self.load_hpc_settings()
+            self.load_hpc_profiles()
             print("HPC widgets setup and settings loaded in patched __init__.") # Add print statement
         except Exception as e:
             print(f"Error during HPC setup/load in patched __init__: {e}") # Add error logging
@@ -2534,14 +2534,14 @@ import json # Make sure json is imported
 
 # ... existing setup_hpc_widgets definition ...
 # ... existing update_hpc_info definition ...
-# ... existing get_hpc_settings definition ...
-# ... existing set_hpc_settings definition ...
+# ... existing get_hpc_profiles definition ...
+# ... existing set_hpc_profiles definition ...
 # ... existing refresh_queue_list definition ...
 
-def save_hpc_settings(self):
+def save_hpc_profiles(self):
     """Saves the current HPC settings to a file."""
-    settings = self.get_hpc_settings()
-    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+    settings = self.get_hpc_profiles()
+    settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
     try:
         with open(settings_file, 'w') as f:
             json.dump(settings, f, indent=4)
@@ -2559,10 +2559,10 @@ def patch_workflow_gui(gui_class):
     # Add methods for handling HPC settings
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
     gui_class.refresh_queue_list = refresh_queue_list
-    gui_class.save_hpc_settings = save_hpc_settings # Add this line
+    gui_class.save_hpc_profiles = save_hpc_profiles # Add this line
 
     # Patch the __init__ method to include HPC setup
     # ... existing patched_init definition ...
@@ -2575,7 +2575,7 @@ def patch_workflow_gui(gui_class):
     def patched_closeEvent(self, event):
         print("Running patched closeEvent...") # Add print statement
         try:
-            self.save_hpc_settings()
+            self.save_hpc_profiles()
         except Exception as e:
             print(f"Error saving HPC settings on close: {e}")
 
@@ -2608,15 +2608,15 @@ def update_hpc_info(self):
     # ... actual implementation of update_hpc_info ...
     pass
 
-def get_hpc_settings(self):
+def get_hpc_profiles(self):
     """Retrieves HPC settings from the GUI widgets."""
-    # ... actual implementation of get_hpc_settings ...
+    # ... actual implementation of get_hpc_profiles ...
     settings = {} # Placeholder
     return settings
 
-def set_hpc_settings(self, settings):
+def set_hpc_profiles(self, settings):
     """Applies HPC settings to the GUI widgets."""
-    # ... actual implementation of set_hpc_settings ...
+    # ... actual implementation of set_hpc_profiles ...
     pass
 
 def refresh_queue_list(self):
@@ -2634,8 +2634,8 @@ def patch_workflow_gui(gui_class):
     # Ensure the functions assigned here are defined above
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
     gui_class.refresh_queue_list = refresh_queue_list # This should now work
 
     # Patch the __init__ method to include HPC setup
@@ -2647,11 +2647,11 @@ def patch_workflow_gui(gui_class):
         try:
             self.setup_hpc_widgets()
             # Load saved settings if they exist
-            settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_settings.json")
+            settings_file = os.path.join(os.path.expanduser("~"), ".nx_hpc_profiles.json")
             if os.path.exists(settings_file):
                 with open(settings_file, 'r') as f:
                     settings = json.load(f)
-                    self.set_hpc_settings(settings)
+                    self.set_hpc_profiles(settings)
             print("HPC widgets setup complete in patched __init__.") # Add print statement
         except Exception as e:
             print(f"Error during HPC setup in patched __init__: {e}") # Add error logging
@@ -2682,8 +2682,8 @@ def patch_workflow_gui(gui_class):
     # Add methods for handling HPC settings
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
     gui_class.refresh_queue_list = refresh_queue_list # This line should now work
 
     # ... existing code ...
@@ -2706,7 +2706,7 @@ def update_hpc_info(self):
     # ... actual implementation of update_hpc_info ...
     pass
 
-# ... potentially other helper functions like setup_hpc_widgets, get_hpc_settings, set_hpc_settings ...
+# ... potentially other helper functions like setup_hpc_widgets, get_hpc_profiles, set_hpc_profiles ...
 
 def patch_workflow_gui(gui_class):
     """Applies patches to the WorkflowGUI class."""
@@ -2715,8 +2715,8 @@ def patch_workflow_gui(gui_class):
     # Add methods for handling HPC settings
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info # This line should now work as update_hpc_info is defined above
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
 
     # ... existing code ...
 
@@ -2731,8 +2731,8 @@ def patch_workflow_gui(gui_class):
     # Add methods for handling HPC settings
     gui_class.setup_hpc_widgets = setup_hpc_widgets
     gui_class.update_hpc_info = update_hpc_info # Now update_hpc_info should be defined
-    gui_class.get_hpc_settings = get_hpc_settings
-    gui_class.set_hpc_settings = set_hpc_settings
+    gui_class.get_hpc_profiles = get_hpc_profiles
+    gui_class.set_hpc_profiles = set_hpc_profiles
 
     # ... existing code ...
 
@@ -5546,8 +5546,8 @@ def patch_workflow_gui(gui_class):
     gui_class.get_hpc_config = get_hpc_config
     gui_class.update_hpc_info = update_hpc_info
     gui_class.refresh_queue_list = refresh_queue_list
-    gui_class.save_hpc_settings = save_hpc_settings
-    gui_class.load_hpc_settings = load_hpc_settings
+    gui_class.save_hpc_profiles = save_hpc_profiles
+    gui_class.load_hpc_profiles = load_hpc_profiles
     gui_class.submit_remote_job = submit_remote_job
     gui_class.show_job_script_confirmation = show_job_script_confirmation
     gui_class.refresh_jobs_list = refresh_jobs_list

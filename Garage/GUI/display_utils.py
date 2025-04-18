@@ -11,6 +11,18 @@ import time
 import threading
 import colorsys
 from typing import Dict, Any, Tuple, List, Union, Optional
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+import matplotlib.colors as colors
+import matplotlib.cm as cm
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, 
+                   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("display_utils")
 
 
 class ThemeTransition:
@@ -513,3 +525,372 @@ def make_accessible(widget, role=None, label=None, description=None):
     widget.winfo_toplevel().update_idletasks()  # Ensure widget is created
     if label:
         widget.winfo_toplevel().winfo_screen
+
+
+def visualize_geometry(ax, vertices, triangles, color='lightblue', alpha=0.7, wireframe=True):
+    """
+    Visualize a 3D geometry using triangular faces.
+    
+    Args:
+        ax: Matplotlib 3D axis
+        vertices: Array of vertex coordinates (Nx3)
+        triangles: Array of triangle indices (Mx3)
+        color: Color for the geometry faces
+        alpha: Transparency value
+        wireframe: Whether to show wireframe
+        
+    Returns:
+        None - updates the provided axis
+    """
+    if len(vertices) == 0 or len(triangles) == 0:
+        logger.warning("No geometry data to visualize")
+        ax.text(0.5, 0.5, 0.5, "No geometry data", 
+                horizontalalignment='center', verticalalignment='center')
+        return
+    
+    # Clear existing content
+    ax.clear()
+    
+    try:
+        # Create triangles for visualization
+        triangle_vertices = []
+        for tri in triangles:
+            triangle_vertices.append([vertices[i] for i in tri])
+            
+        # Create a collection of triangles
+        tri_collection = Poly3DCollection(triangle_vertices)
+        
+        # Set face color and transparency
+        tri_collection.set_facecolor(color)
+        tri_collection.set_alpha(alpha)
+        
+        # Set edge color if wireframe is enabled
+        if wireframe:
+            tri_collection.set_edgecolor('black')
+            tri_collection.set_linewidth(0.5)
+        else:
+            tri_collection.set_edgecolor('none')
+            
+        # Add the collection to the axis
+        ax.add_collection3d(tri_collection)
+        
+        # Set axis limits based on geometry bounds
+        min_coords = np.min(vertices, axis=0)
+        max_coords = np.max(vertices, axis=0)
+        
+        # Add some padding
+        padding = 0.1 * max(max_coords - min_coords)
+        
+        ax.set_xlim(min_coords[0] - padding, max_coords[0] + padding)
+        ax.set_ylim(min_coords[1] - padding, max_coords[1] + padding)
+        ax.set_zlim(min_coords[2] - padding, max_coords[2] + padding)
+        
+        # Set axis labels
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        
+        # Set title
+        ax.set_title('Geometry Visualization')
+        
+    except Exception as e:
+        logger.error(f"Error in geometry visualization: {str(e)}")
+        ax.clear()
+        ax.text(0.5, 0.5, 0.5, f"Error: {str(e)}", 
+                horizontalalignment='center', verticalalignment='center')
+
+
+def visualize_mesh(ax, nodes, elements, color_by='solid', quality_data=None, show_edges=True, alpha=0.7):
+    """
+    Visualize a 3D mesh.
+    
+    Args:
+        ax: Matplotlib 3D axis
+        nodes: Array of node coordinates (Nx3)
+        elements: Array of element node indices (Mx4 for tets, Mx8 for hexes)
+        color_by: How to color the mesh ('solid', 'element_type', 'quality')
+        quality_data: Array of quality metrics for coloring (required if color_by='quality')
+        show_edges: Whether to show mesh edges
+        alpha: Transparency value
+        
+    Returns:
+        None - updates the provided axis
+    """
+    if len(nodes) == 0 or len(elements) == 0:
+        logger.warning("No mesh data to visualize")
+        ax.text(0.5, 0.5, 0.5, "No mesh data", 
+                horizontalalignment='center', verticalalignment='center')
+        return
+    
+    # Clear existing content
+    ax.clear()
+    
+    try:
+        # Extract faces from elements (assuming tetrahedral elements)
+        # For each tetrahedron, extract the four triangular faces
+        faces = []
+        for element in elements:
+            # Tetrahedron faces
+            if len(element) == 4:  # Tetrahedral element
+                faces.append([element[0], element[1], element[2]])
+                faces.append([element[0], element[1], element[3]])
+                faces.append([element[0], element[2], element[3]])
+                faces.append([element[1], element[2], element[3]])
+            elif len(element) == 8:  # Hexahedral element
+                # Extract the six quadrilateral faces of a hexahedron
+                # We'll triangulate each quad face into two triangles
+                faces.append([element[0], element[1], element[2]])
+                faces.append([element[0], element[2], element[3]])
+                faces.append([element[4], element[5], element[6]])
+                faces.append([element[4], element[6], element[7]])
+                faces.append([element[0], element[1], element[5]])
+                faces.append([element[0], element[5], element[4]])
+                faces.append([element[2], element[3], element[7]])
+                faces.append([element[2], element[7], element[6]])
+                faces.append([element[0], element[3], element[7]])
+                faces.append([element[0], element[7], element[4]])
+                faces.append([element[1], element[2], element[6]])
+                faces.append([element[1], element[6], element[5]])
+                
+        # Create faces for visualization
+        face_vertices = []
+        face_colors = []
+        
+        for i, face in enumerate(faces):
+            face_vertices.append([nodes[i] for i in face])
+            
+            # Determine face color
+            if color_by == 'solid':
+                face_colors.append('lightblue')
+            elif color_by == 'element_type':
+                # Color by element type (e.g., different colors for tets vs. hexes)
+                elem_idx = i // 4 if len(elements[0]) == 4 else i // 12
+                if len(elements[elem_idx]) == 4:
+                    face_colors.append('lightblue')
+                else:
+                    face_colors.append('lightgreen')
+            elif color_by == 'quality' and quality_data is not None:
+                # Use quality data to determine color
+                elem_idx = i // 4 if len(elements[0]) == 4 else i // 12
+                if elem_idx < len(quality_data):
+                    # Map quality to color using a colormap
+                    quality = quality_data[elem_idx]
+                    face_colors.append(plt.cm.viridis(quality))
+                else:
+                    face_colors.append('gray')
+            else:
+                face_colors.append('lightblue')
+                
+        # Create a collection of triangles
+        face_collection = Poly3DCollection(face_vertices)
+        
+        # Set face colors and transparency
+        face_collection.set_facecolor(face_colors)
+        face_collection.set_alpha(alpha)
+        
+        # Set edge color if edges are enabled
+        if show_edges:
+            face_collection.set_edgecolor('black')
+            face_collection.set_linewidth(0.2)
+        else:
+            face_collection.set_edgecolor('none')
+            
+        # Add the collection to the axis
+        ax.add_collection3d(face_collection)
+        
+        # Set axis limits based on node bounds
+        min_coords = np.min(nodes, axis=0)
+        max_coords = np.max(nodes, axis=0)
+        
+        # Add some padding
+        padding = 0.1 * max(max_coords - min_coords)
+        
+        ax.set_xlim(min_coords[0] - padding, max_coords[0] + padding)
+        ax.set_ylim(min_coords[1] - padding, max_coords[1] + padding)
+        ax.set_zlim(min_coords[2] - padding, max_coords[2] + padding)
+        
+        # Set axis labels
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        
+        # Set title
+        ax.set_title('Mesh Visualization')
+        
+        # Add colorbar if coloring by quality
+        if color_by == 'quality' and quality_data is not None:
+            sm = plt.cm.ScalarMappable(cmap=plt.cm.viridis, 
+                                      norm=plt.Normalize(vmin=min(quality_data), 
+                                                        vmax=max(quality_data)))
+            sm.set_array([])
+            plt.colorbar(sm, ax=ax, label='Quality')
+        
+    except Exception as e:
+        logger.error(f"Error in mesh visualization: {str(e)}")
+        ax.clear()
+        ax.text(0.5, 0.5, 0.5, f"Error: {str(e)}", 
+                horizontalalignment='center', verticalalignment='center')
+
+
+def visualize_results(ax, x, y, z, values, plot_type='contour', colormap='viridis', title=None):
+    """
+    Visualize CFD results (e.g., pressure, velocity) on a surface.
+    
+    Args:
+        ax: Matplotlib axis (2D or 3D)
+        x, y, z: Coordinates for the results
+        values: Result values to visualize
+        plot_type: Type of plot ('contour', 'surface', 'wireframe')
+        colormap: Colormap to use
+        title: Plot title
+        
+    Returns:
+        None - updates the provided axis
+    """
+    if len(x) == 0 or len(values) == 0:
+        logger.warning("No results data to visualize")
+        ax.text(0.5, 0.5, "No results data", 
+                horizontalalignment='center', verticalalignment='center')
+        return
+    
+    # Clear existing content
+    ax.clear()
+    
+    try:
+        # Determine if we need a 3D or 2D plot
+        is_3d = hasattr(ax, 'zaxis')
+        
+        if is_3d:
+            # 3D visualization
+            if plot_type == 'surface':
+                # Create a surface plot
+                surf = ax.plot_surface(x, y, z, facecolors=plt.cm.get_cmap(colormap)(values),
+                                      rstride=1, cstride=1, alpha=0.8)
+                
+            elif plot_type == 'wireframe':
+                # Create a wireframe plot
+                wire = ax.plot_wireframe(x, y, z, color='black', linewidth=0.5)
+                # Color points by values
+                scatter = ax.scatter(x.flatten(), y.flatten(), z.flatten(), 
+                                   c=values.flatten(), cmap=colormap)
+                
+            else:  # Default to contour
+                # Create a 3D contour plot
+                contour = ax.contourf(x, y, z, values, cmap=colormap)
+                
+            # Set axis labels
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_zlabel('Z')
+            
+        else:
+            # 2D visualization
+            if plot_type == 'contour':
+                # Create a filled contour plot
+                contour = ax.contourf(x, y, values, cmap=colormap)
+                # Add contour lines
+                lines = ax.contour(x, y, values, colors='k', linewidths=0.5)
+                ax.clabel(lines, inline=True, fontsize=8)
+                
+            else:  # Default to pcolormesh for 2D
+                # Create a pseudocolor plot
+                mesh = ax.pcolormesh(x, y, values, cmap=colormap, shading='gouraud')
+                
+            # Set axis labels
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            
+        # Set title
+        if title:
+            ax.set_title(title)
+        else:
+            ax.set_title('Results Visualization')
+            
+        # Add colorbar
+        plt.colorbar(plt.cm.ScalarMappable(norm=colors.Normalize(vmin=np.min(values), 
+                                                              vmax=np.max(values)), 
+                                         cmap=colormap), 
+                    ax=ax, label='Value')
+        
+    except Exception as e:
+        logger.error(f"Error in results visualization: {str(e)}")
+        ax.clear()
+        ax.text(0.5, 0.5, f"Error: {str(e)}", 
+                horizontalalignment='center', verticalalignment='center')
+
+
+def plot_convergence_history(ax, iterations, objective_values, best_value=None):
+    """
+    Plot convergence history for optimization runs.
+    
+    Args:
+        ax: Matplotlib axis
+        iterations: Array of iteration numbers
+        objective_values: Array of objective function values
+        best_value: Best objective function value found (optional)
+        
+    Returns:
+        None - updates the provided axis
+    """
+    if len(iterations) == 0 or len(objective_values) == 0:
+        logger.warning("No convergence history to plot")
+        ax.text(0.5, 0.5, "No convergence history", 
+                horizontalalignment='center', verticalalignment='center')
+        return
+    
+    # Clear existing content
+    ax.clear()
+    
+    try:
+        # Plot convergence history
+        ax.plot(iterations, objective_values, 'b-', marker='o', label='Objective')
+        
+        # Plot best value if provided
+        if best_value is not None:
+            ax.axhline(y=best_value, color='r', linestyle='--', label=f'Best: {best_value:.6f}')
+            
+        # Set axis labels and title
+        ax.set_xlabel('Iteration')
+        ax.set_ylabel('Objective Value')
+        ax.set_title('Optimization Convergence History')
+        
+        # Add grid and legend
+        ax.grid(True, linestyle='--', alpha=0.7)
+        ax.legend()
+        
+        # Set y-axis scale based on data
+        if min(objective_values) > 0 and max(objective_values) / min(objective_values) > 100:
+            ax.set_yscale('log')
+        
+    except Exception as e:
+        logger.error(f"Error in convergence history plotting: {str(e)}")
+        ax.clear()
+        ax.text(0.5, 0.5, f"Error: {str(e)}", 
+                horizontalalignment='center', verticalalignment='center')
+
+
+def export_figure(fig, filename, dpi=300):
+    """
+    Export a matplotlib figure to a file.
+    
+    Args:
+        fig: Matplotlib figure
+        filename: Output filename
+        dpi: Resolution in dots per inch
+        
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(os.path.abspath(filename)), exist_ok=True)
+        
+        # Save the figure
+        fig.savefig(filename, dpi=dpi, bbox_inches='tight')
+        
+        logger.info(f"Figure exported to {filename}")
+        return True
+        
+    except Exception as e:
+        logger.error(f"Error exporting figure: {str(e)}")
+        return False

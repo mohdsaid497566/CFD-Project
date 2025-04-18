@@ -1,0 +1,45 @@
+# Core dependencies
+numpy>=1.20.0
+pandas>=1.3.0
+matplotlib>=3.4.0
+pillow>=8.0.0  # For PIL imports
+scipy>=1.7.0
+
+# GUI dependencies
+# tkinter is part of the Python standard library and doesn't need to be installed via pip
+# To install tkinter on Ubuntu/Debian: sudo apt-get install python3-tk
+
+# Networking and remote execution
+paramiko>=2.7.2  # For SSH functionality
+
+# CFD specific packages
+gmsh>=4.8.0     # Mesh generation
+meshio>=5.0.0   # Mesh conversion utilities
+
+# Utility packages
+pyyaml>=6.0     # For configuration files
+h5py>=3.3.0     # For HDF5 file operations
+
+# Optional dependencies - uncomment if needed
+# Modern Pyro implementation (not the old Pyro which has Python 2 syntax)
+pyro4>=4.80     # Modern version of Pyro
+
+# FEniCS - uncomment if you actually need it
+# fenics-dolfinx
+
+# PyFR - uncomment if you need it
+# pyfr>=1.12.0
+
+# OpenFOAM interfaces - uncomment if needed
+# PyFoam>=2021.6
+
+# Optimization tools
+scikit-learn>=1.0.0
+
+# Visualization
+vtk>=9.0.0
+pyvista>=0.32.0  # For 3D visualization
+
+# Documentation
+sphinx>=4.0.0
+sphinx_rtd_theme>=0.5.2

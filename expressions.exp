@@ -1,0 +1,8 @@
+# NX Expressions File
+# Format: name, type, value, unit, comment
+
+L4,number,2.0,Meter,
+L5,number,3.0,Meter,
+alpha1,number,10.0,Degrees,
+alpha2,number,10.0,Degrees,
+alpha3,number,10.0,Degrees,

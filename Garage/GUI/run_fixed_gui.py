@@ -28,7 +28,7 @@ def setup_environment():
             f.write('"""GUI package for CFD Workflow Assistant"""\n')  # Fixed missing \n
             
     # Create HPC settings file if it doesn't exist
-    settings_file = os.path.join(config_dir, "hpc_settings.json")
+    settings_file = os.path.join(config_dir, "hpc_profiles.json")
     if not os.path.exists(settings_file):
         import json
         default_settings = {

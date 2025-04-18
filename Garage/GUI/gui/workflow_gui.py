@@ -1101,7 +1101,7 @@ def setup_hpc_tab(self):
     ttk.Button(job_control_frame, text="Download Results", command=self.download_results).pack(side="left", padx=5)
     
     # Load saved HPC settings
-    self.load_hpc_settings()
+    self.load_hpc_profiles()
     self.load_hpc_profiles()
 
 def test_connection(self):
@@ -1627,17 +1627,17 @@ class WorkflowGUI:
         button_frame.pack(fill="x", padx=10, pady=10)
         
         ttk.Button(button_frame, text="Test Connection", command=self.test_connection).pack(side="left", padx=5)
-        ttk.Button(button_frame, text="Save Settings", command=self.save_hpc_settings).pack(side="left", padx=5)
+        ttk.Button(button_frame, text="Save Settings", command=self.save_hpc_profiles).pack(side="left", padx=5)
         
         # Load settings
-        self.load_hpc_settings()
+        self.load_hpc_profiles()
     
-    def load_hpc_settings(self):
+    def load_hpc_profiles(self):
         """Load HPC settings from config file"""
         try:
             import workflow_utils
-            if hasattr(workflow_utils, 'load_hpc_settings'):
-                settings = workflow_utils.load_hpc_settings()
+            if hasattr(workflow_utils, 'load_hpc_profiles'):
+                settings = workflow_utils.load_hpc_profiles()
                 
                 if hasattr(self, 'hpc_host'):
                     self.hpc_host.delete(0, tk.END)
@@ -1662,11 +1662,11 @@ class WorkflowGUI:
                     self.key_path.delete(0, tk.END)
                     self.key_path.insert(0, settings.get("key_path", ""))
             else:
-                print("Warning: load_hpc_settings function not found in workflow_utils")
+                print("Warning: load_hpc_profiles function not found in workflow_utils")
         except Exception as e:
             print(f"Error loading HPC settings: {e}")
     
-    def save_hpc_settings(self):
+    def save_hpc_profiles(self):
         """Save HPC settings to config file"""
         try:
             settings = {
@@ -1683,7 +1683,7 @@ class WorkflowGUI:
             config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config")
             os.makedirs(config_dir, exist_ok=True)
             
-            settings_file = os.path.join(config_dir, "hpc_settings.json")
+            settings_file = os.path.join(config_dir, "hpc_profiles.json")
             with open(settings_file, 'w') as f:
                 json.dump(settings, f, indent=4)
             

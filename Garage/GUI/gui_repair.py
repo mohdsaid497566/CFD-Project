@@ -96,7 +96,7 @@ class GUIRepairer:
             self.update_progress(50)
             
             # Fix HPC settings
-            fixed = self.fix_hpc_settings() or fixed
+            fixed = self.fix_hpc_profiles() or fixed
             self.update_progress(70)
             
             # Fix initialization issues
@@ -162,13 +162,13 @@ class GUIRepairer:
         try:
             import workflow_utils
             # Check if critical functions exist
-            if not hasattr(workflow_utils, 'load_hpc_settings'):
-                self.log("Adding missing load_hpc_settings function")
+            if not hasattr(workflow_utils, 'load_hpc_profiles'):
+                self.log("Adding missing load_hpc_profiles function")
                 
-                def load_hpc_settings():
+                def load_hpc_profiles():
                     """Load HPC settings from config file"""
                     config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
-                    settings_file = os.path.join(config_dir, "hpc_settings.json")
+                    settings_file = os.path.join(config_dir, "hpc_profiles.json")
                     
                     if not os.path.exists(settings_file):
                         print("No HPC settings file found. Creating default settings...")
@@ -198,7 +198,7 @@ class GUIRepairer:
                         return {"hpc_enabled": False}
                 
                 # Add the function to workflow_utils
-                setattr(workflow_utils, 'load_hpc_settings', load_hpc_settings)
+                setattr(workflow_utils, 'load_hpc_profiles', load_hpc_profiles)
                 self.issues_found += 1
                 self.issues_fixed += 1
                 fixed = True
@@ -446,17 +446,17 @@ class WorkflowGUI:
         button_frame.pack(fill="x", padx=10, pady=10)
         
         ttk.Button(button_frame, text="Test Connection", command=self.test_connection).pack(side="left", padx=5)
-        ttk.Button(button_frame, text="Save Settings", command=self.save_hpc_settings).pack(side="left", padx=5)
+        ttk.Button(button_frame, text="Save Settings", command=self.save_hpc_profiles).pack(side="left", padx=5)
         
         # Load settings
-        self.load_hpc_settings()
+        self.load_hpc_profiles()
     
-    def load_hpc_settings(self):
+    def load_hpc_profiles(self):
         """Load HPC settings from config file"""
         try:
             import workflow_utils
-            if hasattr(workflow_utils, 'load_hpc_settings'):
-                settings = workflow_utils.load_hpc_settings()
+            if hasattr(workflow_utils, 'load_hpc_profiles'):
+                settings = workflow_utils.load_hpc_profiles()
                 
                 if hasattr(self, 'hpc_host'):
                     self.hpc_host.delete(0, tk.END)
@@ -481,11 +481,11 @@ class WorkflowGUI:
                     self.key_path.delete(0, tk.END)
                     self.key_path.insert(0, settings.get("key_path", ""))
             else:
-                print("Warning: load_hpc_settings function not found in workflow_utils")
+                print("Warning: load_hpc_profiles function not found in workflow_utils")
         except Exception as e:
             print(f"Error loading HPC settings: {e}")
     
-    def save_hpc_settings(self):
+    def save_hpc_profiles(self):
         """Save HPC settings to config file"""
         try:
             settings = {
@@ -502,7 +502,7 @@ class WorkflowGUI:
             config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "config")
             os.makedirs(config_dir, exist_ok=True)
             
-            settings_file = os.path.join(config_dir, "hpc_settings.json")
+            settings_file = os.path.join(config_dir, "hpc_profiles.json")
             with open(settings_file, 'w') as f:
                 json.dump(settings, f, indent=4)
             
@@ -600,7 +600,7 @@ class WorkflowGUI:
             
         return fixed
         
-    def fix_hpc_settings(self):
+    def fix_hpc_profiles(self):
         """Fix issues with HPC settings"""
         self.log("Checking HPC settings...")
         fixed = False
@@ -610,7 +610,7 @@ class WorkflowGUI:
             config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config")
             os.makedirs(config_dir, exist_ok=True)
             
-            settings_file = os.path.join(config_dir, "hpc_settings.json")
+            settings_file = os.path.join(config_dir, "hpc_profiles.json")
             if not os.path.exists(settings_file):
                 self.log("Creating missing HPC settings file")
                 default_settings = {
@@ -703,7 +703,7 @@ def setup_environment():
             f.write('"""GUI package for CFD Workflow Assistant"""\n')
             
     # Create HPC settings file if it doesn't exist
-    settings_file = os.path.join(config_dir, "hpc_settings.json")
+    settings_file = os.path.join(config_dir, "hpc_profiles.json")
     if not os.path.exists(settings_file):
         import json
         default_settings = {

@@ -267,12 +267,12 @@ def read_hpc_config(config_file_path):
         print(f"Error parsing HPC config file. Using defaults.")
         return create_hpc_config(config_file_path + ".backup")
 
-def ensure_hpc_settings():
+def ensure_hpc_profiles():
     """Create default HPC settings if they don't exist"""
     import os
     import json
     
-    settings_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "hpc_settings.json")
+    settings_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config", "hpc_profiles.json")
     
     # Create config directory if it doesn't exist
     os.makedirs(os.path.dirname(settings_path), exist_ok=True)
@@ -368,9 +368,9 @@ def patch_workflow_gui(WorkflowGUI):
                 self.setup_hpc_widgets()
                 
             # Load HPC settings if that method exists
-            if hasattr(self, 'load_hpc_settings'):
+            if hasattr(self, 'load_hpc_profiles'):
                 try:
-                    self.load_hpc_settings()
+                    self.load_hpc_profiles()
                 except Exception as e:
                     print(f"Warning: Could not load HPC settings: {e}")
                     
@@ -489,7 +489,7 @@ def add_menu_item():
 # The following code will run when the script is loaded
 if __name__ == '__main__':
     print("Ensuring HPC settings exist...")
-    ensure_hpc_settings()
+    ensure_hpc_profiles()
     add_menu_item()
     print("CFD Workflow Assistant has been loaded. Access it from the CFD Tools menu.")
 

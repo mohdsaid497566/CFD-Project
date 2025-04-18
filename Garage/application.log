@@ -1,0 +1,1934 @@
+[2025-04-16 17:08:02] Workflow tab initialized
+[2025-04-16 17:08:02] Visualization tab initialized
+[2025-04-16 17:08:02] Convergence plot initialized
+[2025-04-16 17:08:02] Pareto front plot initialized
+[2025-04-16 17:08:02] Optimization tab initialized
+[2025-04-16 17:08:02] Settings tab initialized
+[2025-04-16 17:08:02] UI setup complete
+[2025-04-16 17:08:02] Settings loaded from settings.json
+[2025-04-16 17:08:02] Settings loaded
+[2025-04-16 17:08:05] Running in demonstration mode
+[2025-04-16 17:08:05] Intake CFD Optimization Suite initialized
+[2025-04-16 17:08:17] Running simulation workflow...
+[2025-04-16 17:08:17] Updating NX model...
+[2025-04-16 17:08:17] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:17] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:08:17] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:08:17] Generating mesh...
+[2025-04-16 17:08:17] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:17] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:08:17] Running CFD simulation...
+[2025-04-16 17:08:17] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:17] CFD simulation completed
+[2025-04-16 17:08:17] Processing results...
+[2025-04-16 17:08:17] Results processing completed: processed_results.csv
+[2025-04-16 17:08:17] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:17] Simulation completed successfully!
+[2025-04-16 17:08:17] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:08:17] 
+Results Summary:
+[2025-04-16 17:08:18] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:08:18] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:08:18] Flow Uniformity: 85.00%
+[2025-04-16 17:08:18] Workflow completed
+[2025-04-16 17:08:20] Running simulation workflow...
+[2025-04-16 17:08:20] Updating NX model...
+[2025-04-16 17:08:20] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:20] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:08:20] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:08:20] Generating mesh...
+[2025-04-16 17:08:20] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:20] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:08:20] Running CFD simulation...
+[2025-04-16 17:08:20] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:20] CFD simulation completed
+[2025-04-16 17:08:20] Processing results...
+[2025-04-16 17:08:20] Results processing completed: processed_results.csv
+[2025-04-16 17:08:20] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:08:20] Simulation completed successfully!
+[2025-04-16 17:08:20] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:08:20] 
+Results Summary:
+[2025-04-16 17:08:20] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:08:20] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:08:20] Flow Uniformity: 85.00%
+[2025-04-16 17:08:20] Workflow completed
+[2025-04-16 17:09:00] Running simulation workflow...
+[2025-04-16 17:09:00] Updating NX model...
+[2025-04-16 17:09:00] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:09:00] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:09:00] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:09:00] Generating mesh...
+[2025-04-16 17:09:00] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:09:00] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:09:00] Running CFD simulation...
+[2025-04-16 17:09:00] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:09:00] CFD simulation completed
+[2025-04-16 17:09:00] Processing results...
+[2025-04-16 17:09:00] Results processing completed: processed_results.csv
+[2025-04-16 17:09:01] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:09:01] Simulation completed successfully!
+[2025-04-16 17:09:01] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:09:01] 
+Results Summary:
+[2025-04-16 17:09:01] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:09:01] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:09:01] Flow Uniformity: 85.00%
+[2025-04-16 17:09:01] Workflow completed
+[2025-04-16 17:09:04] Input validation error: Please select an HPC profile
+[2025-04-16 17:14:19] Workflow tab initialized
+[2025-04-16 17:14:19] Visualization tab initialized
+[2025-04-16 17:14:20] Convergence plot initialized
+[2025-04-16 17:14:20] Pareto front plot initialized
+[2025-04-16 17:14:20] Optimization tab initialized
+[2025-04-16 17:14:20] Settings tab initialized
+[2025-04-16 17:14:20] UI setup complete
+[2025-04-16 17:14:20] Settings loaded from settings.json
+[2025-04-16 17:14:20] Settings loaded
+[2025-04-16 17:14:22] Running in demonstration mode
+[2025-04-16 17:14:22] Intake CFD Optimization Suite initialized
+[2025-04-16 17:14:46] Running simulation workflow...
+[2025-04-16 17:14:46] Updating NX model...
+[2025-04-16 17:14:46] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:14:46] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:14:46] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:14:46] Generating mesh...
+[2025-04-16 17:14:46] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:14:46] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:14:46] Running CFD simulation...
+[2025-04-16 17:14:46] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:14:46] CFD simulation completed
+[2025-04-16 17:14:46] Processing results...
+[2025-04-16 17:14:46] Results processing completed: processed_results.csv
+[2025-04-16 17:14:46] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:14:46] Simulation completed successfully!
+[2025-04-16 17:14:46] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:14:46] 
+Results Summary:
+[2025-04-16 17:14:46] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:14:46] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:14:46] Flow Uniformity: 85.00%
+[2025-04-16 17:14:46] Workflow completed
+[2025-04-16 17:22:46] Workflow tab initialized
+[2025-04-16 17:22:47] Visualization tab initialized
+[2025-04-16 17:22:47] Convergence plot initialized
+[2025-04-16 17:22:47] Pareto front plot initialized
+[2025-04-16 17:22:47] Optimization tab initialized
+[2025-04-16 17:22:47] Settings tab initialized
+[2025-04-16 17:22:47] UI setup complete
+[2025-04-16 17:22:47] Settings loaded from settings.json
+[2025-04-16 17:22:47] Settings loaded
+[2025-04-16 17:22:49] Running in demonstration mode
+[2025-04-16 17:22:49] Intake CFD Optimization Suite initialized
+[2025-04-16 17:23:05] Running simulation workflow...
+[2025-04-16 17:23:05] Updating NX model...
+[2025-04-16 17:23:05] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:23:05] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:23:05] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:23:05] Generating mesh...
+[2025-04-16 17:23:05] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:23:05] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:23:05] Running CFD simulation...
+[2025-04-16 17:23:05] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:23:05] CFD simulation completed
+[2025-04-16 17:23:05] Processing results...
+[2025-04-16 17:23:05] Results processing completed: processed_results.csv
+[2025-04-16 17:23:05] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:23:05] Simulation completed successfully!
+[2025-04-16 17:23:05] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:23:05] 
+Results Summary:
+[2025-04-16 17:23:05] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:23:05] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:23:05] Flow Uniformity: 85.00%
+[2025-04-16 17:23:05] Workflow completed
+[2025-04-16 17:23:21] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-16 17:23:21] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 17:23:25] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 17:23:25] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:23:25] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 17:23:32] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-16 17:23:32] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 17:23:35] Applying appearance settings: Theme=System, Font Size=Large
+[2025-04-16 17:23:35] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 17:29:14] Workflow tab initialized
+[2025-04-16 17:29:15] Visualization tab initialized
+[2025-04-16 17:29:15] Convergence plot initialized
+[2025-04-16 17:29:15] Pareto front plot initialized
+[2025-04-16 17:29:15] Optimization tab initialized
+[2025-04-16 17:29:15] Settings tab initialized
+[2025-04-16 17:29:15] UI setup complete
+[2025-04-16 17:29:15] Settings loaded from settings.json
+[2025-04-16 17:29:15] Settings loaded
+[2025-04-16 17:29:16] Running in demonstration mode
+[2025-04-16 17:29:16] Intake CFD Optimization Suite initialized
+[2025-04-16 17:29:48] Running simulation workflow...
+[2025-04-16 17:29:48] Updating NX model...
+[2025-04-16 17:29:48] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:29:48] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:29:48] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 17:29:48] Generating mesh...
+[2025-04-16 17:29:48] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:29:48] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 17:29:48] Running CFD simulation...
+[2025-04-16 17:29:48] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:29:48] CFD simulation completed
+[2025-04-16 17:29:48] Processing results...
+[2025-04-16 17:29:48] Results processing completed: processed_results.csv
+[2025-04-16 17:29:48] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 17:29:48] Simulation completed successfully!
+[2025-04-16 17:29:48] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 17:29:48] 
+Results Summary:
+[2025-04-16 17:29:48] Pressure Drop: 107.0000 Pa
+[2025-04-16 17:29:48] Flow Rate: 57.5000 m³/s
+[2025-04-16 17:29:48] Flow Uniformity: 85.00%
+[2025-04-16 17:29:48] Workflow completed
+[2025-04-16 17:31:48] Workflow tab initialized
+[2025-04-16 17:31:48] Visualization tab initialized
+[2025-04-16 17:31:48] Convergence plot initialized
+[2025-04-16 17:31:48] Pareto front plot initialized
+[2025-04-16 17:31:48] Optimization tab initialized
+[2025-04-16 17:31:48] Settings tab initialized
+[2025-04-16 17:31:48] UI setup complete
+[2025-04-16 17:31:48] Settings loaded from settings.json
+[2025-04-16 17:31:48] Settings loaded
+[2025-04-16 17:31:49] Running in demonstration mode
+[2025-04-16 17:31:49] Intake CFD Optimization Suite initialized
+[2025-04-16 17:32:35] Workflow tab initialized
+[2025-04-16 17:32:36] Visualization tab initialized
+[2025-04-16 17:32:36] Convergence plot initialized
+[2025-04-16 17:32:36] Pareto front plot initialized
+[2025-04-16 17:32:36] Optimization tab initialized
+[2025-04-16 17:32:36] Settings tab initialized
+[2025-04-16 17:32:36] UI setup complete
+[2025-04-16 17:32:36] Settings loaded from settings.json
+[2025-04-16 17:32:36] Settings loaded
+[2025-04-16 17:32:37] Running in demonstration mode
+[2025-04-16 17:32:37] Intake CFD Optimization Suite initialized
+[2025-04-16 17:47:58] Workflow tab initialized
+[2025-04-16 17:47:58] Visualization tab initialized
+[2025-04-16 17:47:58] Convergence plot initialized
+[2025-04-16 17:47:58] Pareto front plot initialized
+[2025-04-16 17:47:58] Optimization tab initialized
+[2025-04-16 17:47:58] Settings tab initialized
+[2025-04-16 17:47:58] UI setup complete
+[2025-04-16 17:47:58] Settings loaded from settings.json
+[2025-04-16 17:47:58] Settings loaded
+[2025-04-16 17:48:02] Running in demonstration mode
+[2025-04-16 17:48:02] Intake CFD Optimization Suite initialized
+[2025-04-16 17:51:58] Workflow tab initialized
+[2025-04-16 17:51:58] Visualization tab initialized
+[2025-04-16 17:51:58] Convergence plot initialized
+[2025-04-16 17:51:58] Pareto front plot initialized
+[2025-04-16 17:51:58] Optimization tab initialized
+[2025-04-16 17:51:58] Settings tab initialized
+[2025-04-16 17:51:58] UI setup complete
+[2025-04-16 17:51:58] Settings loaded from settings.json
+[2025-04-16 17:51:58] Settings loaded
+[2025-04-16 17:52:00] Running in demonstration mode
+[2025-04-16 17:52:00] Intake CFD Optimization Suite initialized
+[2025-04-16 17:56:00] Workflow tab initialized
+[2025-04-16 17:56:00] Visualization tab initialized
+[2025-04-16 17:56:00] Convergence plot initialized
+[2025-04-16 17:56:00] Pareto front plot initialized
+[2025-04-16 17:56:00] Optimization tab initialized
+[2025-04-16 17:56:00] Settings tab initialized
+[2025-04-16 17:56:00] UI setup complete
+[2025-04-16 17:56:00] Settings loaded from settings.json
+[2025-04-16 17:56:00] Settings loaded
+[2025-04-16 17:56:02] Running in demonstration mode
+[2025-04-16 17:56:02] Intake CFD Optimization Suite initialized
+[2025-04-16 18:01:21] Workflow tab initialized
+[2025-04-16 18:01:21] Visualization tab initialized
+[2025-04-16 18:01:21] Convergence plot initialized
+[2025-04-16 18:01:21] Pareto front plot initialized
+[2025-04-16 18:01:21] Optimization tab initialized
+[2025-04-16 18:01:21] Settings tab initialized
+[2025-04-16 18:01:21] UI setup complete
+[2025-04-16 18:01:21] Settings loaded from settings.json
+[2025-04-16 18:01:21] Settings loaded
+[2025-04-16 18:01:22] Running in demonstration mode
+[2025-04-16 18:01:23] Intake CFD Optimization Suite initialized
+[2025-04-16 18:02:36] Workflow tab initialized
+[2025-04-16 18:02:36] Visualization tab initialized
+[2025-04-16 18:02:37] Convergence plot initialized
+[2025-04-16 18:02:37] Pareto front plot initialized
+[2025-04-16 18:02:37] Optimization tab initialized
+[2025-04-16 18:02:37] Settings tab initialized
+[2025-04-16 18:02:37] UI setup complete
+[2025-04-16 18:02:37] Settings loaded from settings.json
+[2025-04-16 18:02:37] Settings loaded
+[2025-04-16 18:02:38] Running in demonstration mode
+[2025-04-16 18:02:38] Intake CFD Optimization Suite initialized
+[2025-04-16 18:03:01] Running simulation workflow...
+[2025-04-16 18:03:01] Updating NX model...
+[2025-04-16 18:03:01] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:03:01] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 18:03:01] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 18:03:01] Generating mesh...
+[2025-04-16 18:03:01] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:03:01] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 18:03:01] Running CFD simulation...
+[2025-04-16 18:03:01] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:03:01] CFD simulation completed
+[2025-04-16 18:03:01] Processing results...
+[2025-04-16 18:03:01] Results processing completed: processed_results.csv
+[2025-04-16 18:03:01] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:03:01] Simulation completed successfully!
+[2025-04-16 18:03:01] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 18:03:01] 
+Results Summary:
+[2025-04-16 18:03:01] Pressure Drop: 107.0000 Pa
+[2025-04-16 18:03:01] Flow Rate: 57.5000 m³/s
+[2025-04-16 18:03:01] Flow Uniformity: 85.00%
+[2025-04-16 18:03:01] Workflow completed
+[2025-04-16 18:03:17] Workflow tab initialized
+[2025-04-16 18:03:17] Visualization tab initialized
+[2025-04-16 18:03:17] Convergence plot initialized
+[2025-04-16 18:03:17] Pareto front plot initialized
+[2025-04-16 18:03:17] Optimization tab initialized
+[2025-04-16 18:03:17] Settings tab initialized
+[2025-04-16 18:03:17] UI setup complete
+[2025-04-16 18:03:17] Settings loaded from settings.json
+[2025-04-16 18:03:17] Settings loaded
+[2025-04-16 18:03:18] Running in demonstration mode
+[2025-04-16 18:03:18] Intake CFD Optimization Suite initialized
+[2025-04-16 18:07:49] Workflow tab initialized
+[2025-04-16 18:07:49] Visualization tab initialized
+[2025-04-16 18:07:49] Convergence plot initialized
+[2025-04-16 18:07:49] Pareto front plot initialized
+[2025-04-16 18:07:49] Optimization tab initialized
+[2025-04-16 18:07:49] Settings tab initialized
+[2025-04-16 18:07:49] UI setup complete
+[2025-04-16 18:07:49] Settings loaded from settings.json
+[2025-04-16 18:07:49] Settings loaded
+[2025-04-16 18:07:50] Running in demonstration mode
+[2025-04-16 18:07:50] Intake CFD Optimization Suite initialized
+[2025-04-16 18:15:22] Workflow tab initialized
+[2025-04-16 18:15:23] Visualization tab initialized
+[2025-04-16 18:15:23] Convergence plot initialized
+[2025-04-16 18:15:23] Pareto front plot initialized
+[2025-04-16 18:15:23] Optimization tab initialized
+[2025-04-16 18:15:23] Settings tab initialized
+[2025-04-16 18:15:23] UI setup complete
+[2025-04-16 18:15:23] Settings loaded from settings.json
+[2025-04-16 18:15:23] Settings loaded
+[2025-04-16 18:15:24] Running in demonstration mode
+[2025-04-16 18:15:24] Intake CFD Optimization Suite initialized
+[2025-04-16 18:15:43] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:15:43] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:15:43] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:15:49] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-16 18:15:49] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:15:52] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-16 18:15:52] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:15:54] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:15:54] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:15:54] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:21:59] Workflow tab initialized
+[2025-04-16 18:22:00] Visualization tab initialized
+[2025-04-16 18:22:00] Convergence plot initialized
+[2025-04-16 18:22:00] Pareto front plot initialized
+[2025-04-16 18:22:00] Optimization tab initialized
+[2025-04-16 18:22:00] Settings tab initialized
+[2025-04-16 18:22:00] UI setup complete
+[2025-04-16 18:22:00] Settings loaded from settings.json
+[2025-04-16 18:22:00] Settings loaded
+[2025-04-16 18:22:01] Running in demonstration mode
+[2025-04-16 18:22:01] Intake CFD Optimization Suite initialized
+[2025-04-16 18:22:12] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:22:12] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:22:12] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:22:24] Running simulation workflow...
+[2025-04-16 18:22:24] Updating NX model...
+[2025-04-16 18:22:24] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:22:24] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 18:22:24] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 18:22:25] Generating mesh...
+[2025-04-16 18:22:25] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:22:25] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 18:22:25] Running CFD simulation...
+[2025-04-16 18:22:25] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:22:25] CFD simulation completed
+[2025-04-16 18:22:25] Processing results...
+[2025-04-16 18:22:25] Results processing completed: processed_results.csv
+[2025-04-16 18:22:25] Error drawing workflow: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:22:25] Simulation completed successfully!
+[2025-04-16 18:22:25] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 18:22:25] 
+Results Summary:
+[2025-04-16 18:22:25] Pressure Drop: 107.0000 Pa
+[2025-04-16 18:22:25] Flow Rate: 57.5000 m³/s
+[2025-04-16 18:22:25] Flow Uniformity: 85.00%
+[2025-04-16 18:22:25] Workflow completed
+[2025-04-16 18:22:42] Input validation error: Please select an HPC profile
+[2025-04-16 18:23:18] Input validation error: Please select an HPC profile
+[2025-04-16 18:23:37] Updated project directory: /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage
+[2025-04-16 18:23:53] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-16 18:23:53] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:23:57] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:23:57] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:23:57] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:28:43] Workflow tab initialized
+[2025-04-16 18:28:43] Visualization tab initialized
+[2025-04-16 18:28:43] Convergence plot initialized
+[2025-04-16 18:28:43] Pareto front plot initialized
+[2025-04-16 18:28:43] Optimization tab initialized
+[2025-04-16 18:28:43] Settings tab initialized
+[2025-04-16 18:28:43] UI setup complete
+[2025-04-16 18:28:43] Settings loaded from settings.json
+[2025-04-16 18:28:43] Settings loaded
+[2025-04-16 18:28:44] Running in demonstration mode
+[2025-04-16 18:28:44] Intake CFD Optimization Suite initialized
+[2025-04-16 18:28:48] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:28:48] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:28:48] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:28:51] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-16 18:28:51] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:28:55] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-16 18:28:55] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:32:15] Workflow tab initialized
+[2025-04-16 18:32:15] Visualization tab initialized
+[2025-04-16 18:32:15] Convergence plot initialized
+[2025-04-16 18:32:15] Pareto front plot initialized
+[2025-04-16 18:32:15] Optimization tab initialized
+[2025-04-16 18:32:15] Settings tab initialized
+[2025-04-16 18:32:16] UI setup complete
+[2025-04-16 18:32:16] Settings loaded from settings.json
+[2025-04-16 18:32:16] Settings loaded
+[2025-04-16 18:32:17] Running in demonstration mode
+[2025-04-16 18:32:17] Intake CFD Optimization Suite initialized
+[2025-04-16 18:32:22] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:32:22] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:32:22] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:39:03] Workflow tab initialized
+[2025-04-16 18:39:03] Visualization tab initialized
+[2025-04-16 18:39:03] Convergence plot initialized
+[2025-04-16 18:39:03] Pareto front plot initialized
+[2025-04-16 18:39:03] Optimization tab initialized
+[2025-04-16 18:39:03] Settings tab initialized
+[2025-04-16 18:39:03] UI setup complete
+[2025-04-16 18:39:03] Settings loaded from settings.json
+[2025-04-16 18:39:03] Settings loaded
+[2025-04-16 18:39:05] Running in demonstration mode
+[2025-04-16 18:39:05] Intake CFD Optimization Suite initialized
+[2025-04-16 18:39:10] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:39:10] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:39:10] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:40:47] Workflow tab initialized
+[2025-04-16 18:40:48] Visualization tab initialized
+[2025-04-16 18:40:48] Convergence plot initialized
+[2025-04-16 18:40:48] Pareto front plot initialized
+[2025-04-16 18:40:48] Optimization tab initialized
+[2025-04-16 18:40:48] Settings tab initialized
+[2025-04-16 18:40:48] UI setup complete
+[2025-04-16 18:40:48] Settings loaded from settings.json
+[2025-04-16 18:40:48] Settings loaded
+[2025-04-16 18:40:49] Running in demonstration mode
+[2025-04-16 18:40:49] Intake CFD Optimization Suite initialized
+[2025-04-16 18:40:54] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:40:54] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:40:54] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:41:00] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:41:00] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:41:00] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:41:40] Workflow tab initialized
+[2025-04-16 18:41:40] Visualization tab initialized
+[2025-04-16 18:41:40] Convergence plot initialized
+[2025-04-16 18:41:40] Pareto front plot initialized
+[2025-04-16 18:41:40] Optimization tab initialized
+[2025-04-16 18:41:40] Settings tab initialized
+[2025-04-16 18:41:40] UI setup complete
+[2025-04-16 18:41:40] Settings loaded from settings.json
+[2025-04-16 18:41:40] Settings loaded
+[2025-04-16 18:41:42] Running in demonstration mode
+[2025-04-16 18:41:42] Intake CFD Optimization Suite initialized
+[2025-04-16 18:41:48] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:41:48] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:41:48] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:45:15] Workflow tab initialized
+[2025-04-16 18:45:15] Visualization tab initialized
+[2025-04-16 18:45:15] Convergence plot initialized
+[2025-04-16 18:45:15] Pareto front plot initialized
+[2025-04-16 18:45:15] Optimization tab initialized
+[2025-04-16 18:45:15] Settings tab initialized
+[2025-04-16 18:45:15] UI setup complete
+[2025-04-16 18:45:15] Settings loaded from settings.json
+[2025-04-16 18:45:15] Settings loaded
+[2025-04-16 18:45:17] Running in demonstration mode
+[2025-04-16 18:45:17] Intake CFD Optimization Suite initialized
+[2025-04-16 18:45:25] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 18:45:25] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:45:33] Applying appearance settings: Theme=Light, Font Size=Small
+[2025-04-16 18:45:33] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:45:39] Applying appearance settings: Theme=Dark, Font Size=Small
+[2025-04-16 18:45:39] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_color'
+[2025-04-16 18:45:39] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:49:28] Workflow tab initialized
+[2025-04-16 18:49:29] Visualization tab initialized
+[2025-04-16 18:49:29] Convergence plot initialized
+[2025-04-16 18:49:29] Pareto front plot initialized
+[2025-04-16 18:49:29] Optimization tab initialized
+[2025-04-16 18:49:29] Settings tab initialized
+[2025-04-16 18:49:29] UI setup complete
+[2025-04-16 18:49:29] Settings loaded from settings.json
+[2025-04-16 18:49:29] Settings loaded
+[2025-04-16 18:49:31] Running in demonstration mode
+[2025-04-16 18:49:31] Intake CFD Optimization Suite initialized
+[2025-04-16 18:49:37] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:49:37] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_hover'
+[2025-04-16 18:49:37] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:50:06] Workflow tab initialized
+[2025-04-16 18:50:06] Visualization tab initialized
+[2025-04-16 18:50:07] Convergence plot initialized
+[2025-04-16 18:50:07] Pareto front plot initialized
+[2025-04-16 18:50:07] Optimization tab initialized
+[2025-04-16 18:50:07] Settings tab initialized
+[2025-04-16 18:50:07] UI setup complete
+[2025-04-16 18:50:07] Settings loaded from settings.json
+[2025-04-16 18:50:07] Settings loaded
+[2025-04-16 18:50:09] Running in demonstration mode
+[2025-04-16 18:50:09] Intake CFD Optimization Suite initialized
+[2025-04-16 18:50:14] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:50:14] Error applying dark theme: 'ModernTheme' object has no attribute 'accent_hover'
+[2025-04-16 18:50:14] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:50:19] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-16 18:50:19] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:52:03] Workflow tab initialized
+[2025-04-16 18:52:03] Visualization tab initialized
+[2025-04-16 18:52:04] Convergence plot initialized
+[2025-04-16 18:52:04] Pareto front plot initialized
+[2025-04-16 18:52:04] Optimization tab initialized
+[2025-04-16 18:52:04] Settings tab initialized
+[2025-04-16 18:52:04] UI setup complete
+[2025-04-16 18:52:04] Settings loaded from settings.json
+[2025-04-16 18:52:04] Settings loaded
+[2025-04-16 18:52:06] Running in demonstration mode
+[2025-04-16 18:52:06] Intake CFD Optimization Suite initialized
+[2025-04-16 18:52:12] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:52:12] Error applying dark theme: 'ModernTheme' object has no attribute 'light_text'
+[2025-04-16 18:52:12] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:53:20] Workflow tab initialized
+[2025-04-16 18:53:20] Visualization tab initialized
+[2025-04-16 18:53:20] Convergence plot initialized
+[2025-04-16 18:53:21] Pareto front plot initialized
+[2025-04-16 18:53:21] Optimization tab initialized
+[2025-04-16 18:53:21] Settings tab initialized
+[2025-04-16 18:53:21] UI setup complete
+[2025-04-16 18:53:21] Settings loaded from settings.json
+[2025-04-16 18:53:21] Settings loaded
+[2025-04-16 18:53:22] Running in demonstration mode
+[2025-04-16 18:53:22] Intake CFD Optimization Suite initialized
+[2025-04-16 18:53:31] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:53:31] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:56:38] Workflow tab initialized
+[2025-04-16 18:56:39] Visualization tab initialized
+[2025-04-16 18:56:39] Convergence plot initialized
+[2025-04-16 18:56:39] Pareto front plot initialized
+[2025-04-16 18:56:39] Optimization tab initialized
+[2025-04-16 18:56:40] Settings tab initialized
+[2025-04-16 18:56:40] UI setup complete
+[2025-04-16 18:56:40] Settings loaded from settings.json
+[2025-04-16 18:56:40] Settings loaded
+[2025-04-16 18:56:41] Running in demonstration mode
+[2025-04-16 18:56:41] Intake CFD Optimization Suite initialized
+[2025-04-16 18:56:49] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:56:49] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:58:32] Workflow tab initialized
+[2025-04-16 18:58:33] Visualization tab initialized
+[2025-04-16 18:58:34] Convergence plot initialized
+[2025-04-16 18:58:34] Pareto front plot initialized
+[2025-04-16 18:58:34] Optimization tab initialized
+[2025-04-16 18:58:34] Settings tab initialized
+[2025-04-16 18:58:34] UI setup complete
+[2025-04-16 18:58:34] Settings loaded from settings.json
+[2025-04-16 18:58:34] Settings loaded
+[2025-04-16 18:58:35] Running in demonstration mode
+[2025-04-16 18:58:35] Intake CFD Optimization Suite initialized
+[2025-04-16 18:58:39] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:58:39] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 18:59:41] Workflow tab initialized
+[2025-04-16 18:59:42] Visualization tab initialized
+[2025-04-16 18:59:43] Convergence plot initialized
+[2025-04-16 18:59:43] Pareto front plot initialized
+[2025-04-16 18:59:43] Optimization tab initialized
+[2025-04-16 18:59:43] Settings tab initialized
+[2025-04-16 18:59:43] UI setup complete
+[2025-04-16 18:59:43] Settings loaded from settings.json
+[2025-04-16 18:59:43] Settings loaded
+[2025-04-16 18:59:44] Running in demonstration mode
+[2025-04-16 18:59:45] Intake CFD Optimization Suite initialized
+[2025-04-16 18:59:50] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 18:59:50] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:05:01] Workflow tab initialized
+[2025-04-16 19:05:01] Visualization tab initialized
+[2025-04-16 19:05:01] Convergence plot initialized
+[2025-04-16 19:05:01] Pareto front plot initialized
+[2025-04-16 19:05:01] Optimization tab initialized
+[2025-04-16 19:05:01] Settings tab initialized
+[2025-04-16 19:05:01] UI setup complete
+[2025-04-16 19:05:01] Settings loaded from settings.json
+[2025-04-16 19:05:01] Settings loaded
+[2025-04-16 19:05:02] Running in demonstration mode
+[2025-04-16 19:05:02] Intake CFD Optimization Suite initialized
+[2025-04-16 19:05:06] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 19:05:06] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:05:49] Workflow tab initialized
+[2025-04-16 19:05:49] Visualization tab initialized
+[2025-04-16 19:05:49] Convergence plot initialized
+[2025-04-16 19:05:49] Pareto front plot initialized
+[2025-04-16 19:05:49] Optimization tab initialized
+[2025-04-16 19:05:49] Settings tab initialized
+[2025-04-16 19:05:49] UI setup complete
+[2025-04-16 19:05:49] Settings loaded from settings.json
+[2025-04-16 19:05:49] Settings loaded
+[2025-04-16 19:05:50] Running in demonstration mode
+[2025-04-16 19:05:50] Intake CFD Optimization Suite initialized
+[2025-04-16 19:05:54] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 19:05:54] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:06:12] Workflow tab initialized
+[2025-04-16 19:06:12] Visualization tab initialized
+[2025-04-16 19:06:12] Convergence plot initialized
+[2025-04-16 19:06:12] Pareto front plot initialized
+[2025-04-16 19:06:12] Optimization tab initialized
+[2025-04-16 19:06:12] Settings tab initialized
+[2025-04-16 19:06:12] UI setup complete
+[2025-04-16 19:06:12] Settings loaded from settings.json
+[2025-04-16 19:06:12] Settings loaded
+[2025-04-16 19:06:14] Running in demonstration mode
+[2025-04-16 19:06:14] Intake CFD Optimization Suite initialized
+[2025-04-16 19:06:18] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 19:06:18] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:06:23] Applying appearance settings: Theme=Dark, Font Size=Large
+[2025-04-16 19:06:23] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:06:27] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 19:06:27] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 19:07:13] Running simulation workflow...
+[2025-04-16 19:07:13] Updating NX model...
+[2025-04-16 19:07:13] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 19:07:13] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 19:07:13] Generating mesh...
+[2025-04-16 19:07:13] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 19:07:13] Running CFD simulation...
+[2025-04-16 19:07:13] CFD simulation completed
+[2025-04-16 19:07:13] Processing results...
+[2025-04-16 19:07:13] Results processing completed: processed_results.csv
+[2025-04-16 19:07:13] Simulation completed successfully!
+[2025-04-16 19:07:13] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 19:07:13] 
+Results Summary:
+[2025-04-16 19:07:13] Pressure Drop: 107.0000 Pa
+[2025-04-16 19:07:13] Flow Rate: 57.5000 m³/s
+[2025-04-16 19:07:13] Flow Uniformity: 85.00%
+[2025-04-16 19:07:13] Workflow completed
+[2025-04-16 19:10:27] Loaded 1 HPC profiles for workflow tab
+[2025-04-16 19:10:27] Workflow tab initialized
+[2025-04-16 19:10:27] Visualization tab initialized
+[2025-04-16 19:10:28] Convergence plot initialized
+[2025-04-16 19:10:28] Pareto front plot initialized
+[2025-04-16 19:10:28] Optimization tab initialized
+[2025-04-16 19:10:28] Settings tab initialized
+[2025-04-16 19:10:28] UI setup complete
+[2025-04-16 19:10:28] Settings loaded from settings.json
+[2025-04-16 19:10:28] Settings loaded
+[2025-04-16 19:10:29] Running in demonstration mode
+[2025-04-16 19:10:29] Intake CFD Optimization Suite initialized
+[2025-04-16 19:10:31] Running simulation workflow...
+[2025-04-16 19:10:31] Updating NX model...
+[2025-04-16 19:10:31] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 19:10:31] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 19:10:31] Generating mesh...
+[2025-04-16 19:10:31] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 19:10:31] Running CFD simulation...
+[2025-04-16 19:10:31] CFD simulation completed
+[2025-04-16 19:10:31] Processing results...
+[2025-04-16 19:10:31] Results processing completed: processed_results.csv
+[2025-04-16 19:10:31] Simulation completed successfully!
+[2025-04-16 19:10:31] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 19:10:31] 
+Results Summary:
+[2025-04-16 19:10:31] Pressure Drop: 107.0000 Pa
+[2025-04-16 19:10:31] Flow Rate: 57.5000 m³/s
+[2025-04-16 19:10:31] Flow Uniformity: 85.00%
+[2025-04-16 19:10:31] Workflow completed
+[2025-04-16 19:10:42] Running simulation workflow...
+[2025-04-16 19:10:42] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 19:10:47] Workflow failed
+[2025-04-16 19:55:03] Loaded 1 HPC profiles for workflow tab
+[2025-04-16 19:55:03] Workflow tab initialized
+[2025-04-16 19:55:03] Visualization tab initialized
+[2025-04-16 19:55:03] Convergence plot initialized
+[2025-04-16 19:55:03] Pareto front plot initialized
+[2025-04-16 19:55:03] Optimization tab initialized
+[2025-04-16 19:55:03] Settings tab initialized
+[2025-04-16 19:55:03] UI setup complete
+[2025-04-16 19:55:03] Settings loaded from settings.json
+[2025-04-16 19:55:03] Settings loaded
+[2025-04-16 19:55:07] Running in demonstration mode
+[2025-04-16 19:55:07] Intake CFD Optimization Suite initialized
+[2025-04-16 19:55:11] Running simulation workflow...
+[2025-04-16 19:55:11] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 19:55:17] Workflow failed
+[2025-04-16 20:03:02] Loaded 1 HPC profiles for workflow tab
+[2025-04-16 20:03:02] Workflow tab initialized
+[2025-04-16 20:03:02] Visualization tab initialized
+[2025-04-16 20:03:02] Convergence plot initialized
+[2025-04-16 20:03:02] Pareto front plot initialized
+[2025-04-16 20:03:02] Optimization tab initialized
+[2025-04-16 20:03:02] Settings tab initialized
+[2025-04-16 20:03:02] UI setup complete
+[2025-04-16 20:03:02] Settings loaded from settings.json
+[2025-04-16 20:03:02] Settings loaded
+[2025-04-16 20:03:03] Running in demonstration mode
+[2025-04-16 20:03:03] Intake CFD Optimization Suite initialized
+[2025-04-16 20:03:38] Running simulation workflow...
+[2025-04-16 20:03:38] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:03:43] Workflow failed
+[2025-04-16 20:06:20] Loaded 1 HPC profiles for workflow tab
+[2025-04-16 20:06:20] Workflow tab initialized
+[2025-04-16 20:06:21] Visualization tab initialized
+[2025-04-16 20:06:21] Convergence plot initialized
+[2025-04-16 20:06:21] Pareto front plot initialized
+[2025-04-16 20:06:21] Optimization tab initialized
+[2025-04-16 20:06:21] Settings tab initialized
+[2025-04-16 20:06:21] UI setup complete
+[2025-04-16 20:06:21] Settings loaded from settings.json
+[2025-04-16 20:06:21] Settings loaded
+[2025-04-16 20:06:22] Running in demonstration mode
+[2025-04-16 20:06:22] Intake CFD Optimization Suite initialized
+[2025-04-16 20:09:14] Loaded 1 HPC profiles for workflow tab
+[2025-04-16 20:09:14] Workflow tab initialized
+[2025-04-16 20:09:15] Visualization tab initialized
+[2025-04-16 20:09:15] Convergence plot initialized
+[2025-04-16 20:09:15] Pareto front plot initialized
+[2025-04-16 20:09:15] Optimization tab initialized
+[2025-04-16 20:09:15] Settings tab initialized
+[2025-04-16 20:09:15] UI setup complete
+[2025-04-16 20:09:15] Settings loaded from settings.json
+[2025-04-16 20:09:15] Settings loaded
+[2025-04-16 20:09:16] Running in demonstration mode
+[2025-04-16 20:09:16] Intake CFD Optimization Suite initialized
+[2025-04-16 20:09:22] Running simulation workflow...
+[2025-04-16 20:09:22] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:09:25] Workflow failed
+[2025-04-16 20:19:50] Loaded 1 HPC profiles for workflow
+[2025-04-16 20:22:47] Loaded 1 HPC profiles for workflow
+[2025-04-16 20:22:47] Workflow tab initialized
+[2025-04-16 20:22:47] Visualization tab initialized
+[2025-04-16 20:22:48] Convergence plot initialized
+[2025-04-16 20:22:48] Pareto front plot initialized
+[2025-04-16 20:22:48] Optimization tab initialized
+[2025-04-16 20:22:48] Settings tab initialized
+[2025-04-16 20:22:48] UI setup complete
+[2025-04-16 20:22:48] Settings loaded from settings.json
+[2025-04-16 20:22:48] Settings loaded
+[2025-04-16 20:22:49] Running in demonstration mode
+[2025-04-16 20:22:49] Intake CFD Optimization Suite initialized
+[2025-04-16 20:22:51] Running simulation workflow...
+[2025-04-16 20:22:51] Updating NX model...
+[2025-04-16 20:22:51] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:22:51] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 20:22:51] Generating mesh...
+[2025-04-16 20:22:51] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 20:22:51] Running CFD simulation...
+[2025-04-16 20:22:51] CFD simulation completed
+[2025-04-16 20:22:51] Processing results...
+[2025-04-16 20:22:51] Results processing completed: processed_results.csv
+[2025-04-16 20:22:51] Simulation completed successfully!
+[2025-04-16 20:22:51] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:22:51] 
+Results Summary:
+[2025-04-16 20:22:51] Pressure Drop: 107.0000 Pa
+[2025-04-16 20:22:51] Flow Rate: 57.5000 m³/s
+[2025-04-16 20:22:51] Flow Uniformity: 85.00%
+[2025-04-16 20:22:51] Workflow completed
+[2025-04-16 20:23:03] Running simulation workflow...
+[2025-04-16 20:23:03] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:23:04] Workflow failed
+[2025-04-16 20:23:48] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 20:23:48] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:24:18] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 20:24:18] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:27:24] Loaded 1 HPC profiles for workflow
+[2025-04-16 20:27:24] Workflow tab initialized
+[2025-04-16 20:27:26] Visualization tab initialized
+[2025-04-16 20:27:27] Convergence plot initialized
+[2025-04-16 20:27:27] Pareto front plot initialized
+[2025-04-16 20:27:27] Optimization tab initialized
+[2025-04-16 20:27:28] Settings tab initialized
+[2025-04-16 20:27:28] UI setup complete
+[2025-04-16 20:27:28] Settings loaded from settings.json
+[2025-04-16 20:27:28] Settings loaded
+[2025-04-16 20:27:29] Running in demonstration mode
+[2025-04-16 20:27:30] Intake CFD Optimization Suite initialized
+[2025-04-16 20:27:38] Running simulation workflow...
+[2025-04-16 20:27:38] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:27:39] Workflow failed
+[2025-04-16 20:29:40] Loaded 8 HPC profiles for workflow
+[2025-04-16 20:29:40] Workflow tab initialized
+[2025-04-16 20:29:40] Visualization tab initialized
+[2025-04-16 20:29:41] Convergence plot initialized
+[2025-04-16 20:29:41] Pareto front plot initialized
+[2025-04-16 20:29:41] Optimization tab initialized
+[2025-04-16 20:29:41] Settings tab initialized
+[2025-04-16 20:29:41] UI setup complete
+[2025-04-16 20:29:41] Settings loaded from settings.json
+[2025-04-16 20:29:41] Settings loaded
+[2025-04-16 20:29:49] Running in demonstration mode
+[2025-04-16 20:29:49] Intake CFD Optimization Suite initialized
+[2025-04-16 20:30:00] Running simulation workflow...
+[2025-04-16 20:30:00] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:30:05] Workflow failed
+[2025-04-16 20:30:37] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-16 20:30:37] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:31:04] Loaded 8 HPC profiles for workflow
+[2025-04-16 20:31:04] Workflow tab initialized
+[2025-04-16 20:31:05] Visualization tab initialized
+[2025-04-16 20:31:05] Convergence plot initialized
+[2025-04-16 20:31:05] Pareto front plot initialized
+[2025-04-16 20:31:05] Optimization tab initialized
+[2025-04-16 20:31:05] Settings tab initialized
+[2025-04-16 20:31:05] UI setup complete
+[2025-04-16 20:31:06] Settings loaded from settings.json
+[2025-04-16 20:31:06] Settings loaded
+[2025-04-16 20:31:10] Running in demonstration mode
+[2025-04-16 20:31:10] Intake CFD Optimization Suite initialized
+[2025-04-16 20:31:15] Running simulation workflow...
+[2025-04-16 20:31:15] Error starting workflow: 'WorkflowGUI' object has no attribute 'submit_workflow_to_hpc'
+[2025-04-16 20:31:17] Workflow failed
+[2025-04-16 20:33:48] Loaded 8 HPC profiles for workflow
+[2025-04-16 20:33:48] Workflow tab initialized
+[2025-04-16 20:33:49] Visualization tab initialized
+[2025-04-16 20:33:49] Convergence plot initialized
+[2025-04-16 20:33:49] Pareto front plot initialized
+[2025-04-16 20:33:49] Optimization tab initialized
+[2025-04-16 20:33:49] Settings tab initialized
+[2025-04-16 20:33:49] UI setup complete
+[2025-04-16 20:33:49] Settings loaded from settings.json
+[2025-04-16 20:33:49] Settings loaded
+[2025-04-16 20:33:53] Running in demonstration mode
+[2025-04-16 20:33:53] Intake CFD Optimization Suite initialized
+[2025-04-16 20:34:01] Running simulation workflow...
+[2025-04-16 20:34:02] Preparing to submit job to HPC using profile 'hpc_username'...
+[2025-04-16 20:35:44] Loaded 8 HPC profiles for workflow
+[2025-04-16 20:35:44] Workflow tab initialized
+[2025-04-16 20:35:45] Visualization tab initialized
+[2025-04-16 20:35:45] Convergence plot initialized
+[2025-04-16 20:35:45] Pareto front plot initialized
+[2025-04-16 20:35:45] Optimization tab initialized
+[2025-04-16 20:35:45] Settings tab initialized
+[2025-04-16 20:35:45] UI setup complete
+[2025-04-16 20:35:45] Settings loaded from settings.json
+[2025-04-16 20:35:45] Settings loaded
+[2025-04-16 20:35:46] Running in demonstration mode
+[2025-04-16 20:35:47] Intake CFD Optimization Suite initialized
+[2025-04-16 20:35:54] Running simulation workflow...
+[2025-04-16 20:35:54] Updating NX model...
+[2025-04-16 20:35:54] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:35:54] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 20:35:54] Generating mesh...
+[2025-04-16 20:35:55] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 20:35:55] Running CFD simulation...
+[2025-04-16 20:35:55] CFD simulation completed
+[2025-04-16 20:35:55] Processing results...
+[2025-04-16 20:35:55] Results processing completed: processed_results.csv
+[2025-04-16 20:35:55] Simulation completed successfully!
+[2025-04-16 20:35:55] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:35:55] 
+Results Summary:
+[2025-04-16 20:35:55] Pressure Drop: 107.0000 Pa
+[2025-04-16 20:35:55] Flow Rate: 57.5000 m³/s
+[2025-04-16 20:35:55] Flow Uniformity: 85.00%
+[2025-04-16 20:35:55] Workflow completed
+[2025-04-16 20:36:29] Running simulation workflow...
+[2025-04-16 20:36:29] Preparing to submit job to HPC using profile 'visible_in_gui'...
+[2025-04-16 20:42:32] Loaded 2 HPC profiles for workflow
+[2025-04-16 20:42:32] Workflow tab initialized
+[2025-04-16 20:42:33] Visualization tab initialized
+[2025-04-16 20:42:33] Convergence plot initialized
+[2025-04-16 20:42:33] Pareto front plot initialized
+[2025-04-16 20:42:33] Optimization tab initialized
+[2025-04-16 20:42:33] Settings tab initialized
+[2025-04-16 20:42:33] UI setup complete
+[2025-04-16 20:42:33] Settings loaded from settings.json
+[2025-04-16 20:42:33] Settings loaded
+[2025-04-16 20:42:37] Running in demonstration mode
+[2025-04-16 20:42:37] Intake CFD Optimization Suite initialized
+[2025-04-16 20:42:43] Running simulation workflow...
+[2025-04-16 20:42:43] Preparing to submit job to HPC using profile 'Profile2'...
+[2025-04-16 20:44:04] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 20:44:04] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:44:09] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 20:44:09] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:44:37] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 20:44:37] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:44:39] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-16 20:44:39] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-16 20:44:56] Loaded 2 HPC profiles for workflow
+[2025-04-16 20:44:56] Workflow tab initialized
+[2025-04-16 20:44:56] Visualization tab initialized
+[2025-04-16 20:44:56] Convergence plot initialized
+[2025-04-16 20:44:56] Pareto front plot initialized
+[2025-04-16 20:44:56] Optimization tab initialized
+[2025-04-16 20:44:56] Settings tab initialized
+[2025-04-16 20:44:56] UI setup complete
+[2025-04-16 20:44:56] Settings loaded from settings.json
+[2025-04-16 20:44:56] Settings loaded
+[2025-04-16 20:44:57] Running in demonstration mode
+[2025-04-16 20:44:58] Intake CFD Optimization Suite initialized
+[2025-04-16 20:45:08] Running simulation workflow...
+[2025-04-16 20:45:08] Updating NX model...
+[2025-04-16 20:45:08] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:45:08] NX workflow completed, generated: INTAKE3D.step
+[2025-04-16 20:45:08] Generating mesh...
+[2025-04-16 20:45:08] Mesh generation completed: INTAKE3D.msh
+[2025-04-16 20:45:08] Running CFD simulation...
+[2025-04-16 20:45:08] CFD simulation completed
+[2025-04-16 20:45:08] Processing results...
+[2025-04-16 20:45:08] Results processing completed: processed_results.csv
+[2025-04-16 20:45:08] Simulation completed successfully!
+[2025-04-16 20:45:08] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-16 20:45:08] 
+Results Summary:
+[2025-04-16 20:45:08] Pressure Drop: 107.0000 Pa
+[2025-04-16 20:45:08] Flow Rate: 57.5000 m³/s
+[2025-04-16 20:45:08] Flow Uniformity: 85.00%
+[2025-04-16 20:45:08] Workflow completed
+[2025-04-16 20:50:41] Loaded 2 HPC profiles for workflow
+[2025-04-16 20:50:41] Workflow tab initialized
+[2025-04-16 20:50:41] Visualization tab initialized
+[2025-04-16 20:50:41] Convergence plot initialized
+[2025-04-16 20:50:41] Pareto front plot initialized
+[2025-04-16 20:50:41] Optimization tab initialized
+[2025-04-16 20:50:41] Settings tab initialized
+[2025-04-16 20:50:41] UI setup complete
+[2025-04-16 20:50:41] Settings loaded from settings.json
+[2025-04-16 20:50:41] Settings loaded
+[2025-04-16 20:50:42] Running in demonstration mode
+[2025-04-16 20:50:43] Intake CFD Optimization Suite initialized
+[2025-04-16 20:55:23] Loaded 1 HPC profiles for workflow
+[2025-04-16 20:55:23] Workflow tab initialized
+[2025-04-16 20:55:23] Visualization tab initialized
+[2025-04-16 20:55:23] Convergence plot initialized
+[2025-04-16 20:55:23] Pareto front plot initialized
+[2025-04-16 20:55:23] Optimization tab initialized
+[2025-04-16 20:55:23] Settings tab initialized
+[2025-04-16 20:55:23] UI setup complete
+[2025-04-16 20:55:23] Settings loaded from settings.json
+[2025-04-16 20:55:23] Settings loaded
+[2025-04-16 20:55:25] Running in demonstration mode
+[2025-04-16 20:55:25] Intake CFD Optimization Suite initialized
+[2025-04-16 20:55:43] Running simulation workflow...
+[2025-04-16 20:55:43] Preparing to submit job to HPC using profile 'Defaultdashkdk'...
+[2025-04-17 15:43:04] Loaded 2 HPC profiles for workflow
+[2025-04-17 15:43:04] Workflow tab initialized
+[2025-04-17 15:43:04] Visualization tab initialized
+[2025-04-17 15:43:04] Convergence plot initialized
+[2025-04-17 15:43:04] Pareto front plot initialized
+[2025-04-17 15:43:04] Optimization tab initialized
+[2025-04-17 15:43:04] Settings tab initialized
+[2025-04-17 15:43:04] UI setup complete
+[2025-04-17 15:43:04] Settings loaded from settings.json
+[2025-04-17 15:43:04] Settings loaded
+[2025-04-17 15:43:06] Running in demonstration mode
+[2025-04-17 15:43:07] Intake CFD Optimization Suite initialized
+[2025-04-17 15:43:17] Running simulation workflow...
+[2025-04-17 15:43:18] Updating NX model...
+[2025-04-17 15:43:18] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 15:43:18] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 15:43:18] Generating mesh...
+[2025-04-17 15:43:18] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 15:43:18] Running CFD simulation...
+[2025-04-17 15:43:18] CFD simulation completed
+[2025-04-17 15:43:18] Processing results...
+[2025-04-17 15:43:18] Results processing completed: processed_results.csv
+[2025-04-17 15:43:18] Simulation completed successfully!
+[2025-04-17 15:43:18] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 15:43:18] 
+Results Summary:
+[2025-04-17 15:43:18] Pressure Drop: 107.0000 Pa
+[2025-04-17 15:43:18] Flow Rate: 57.5000 m³/s
+[2025-04-17 15:43:18] Flow Uniformity: 85.00%
+[2025-04-17 15:43:18] Workflow completed
+[2025-04-17 15:44:00] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 15:44:00] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:44:06] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 15:44:06] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:44:11] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-17 15:44:11] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:44:16] Applying appearance settings: Theme=System, Font Size=Large
+[2025-04-17 15:44:16] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:44:19] Applying appearance settings: Theme=System, Font Size=Small
+[2025-04-17 15:44:19] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:52:29] Loaded 2 HPC profiles for workflow
+[2025-04-17 15:52:29] Workflow tab initialized
+[2025-04-17 15:52:29] Visualization tab initialized
+[2025-04-17 15:52:30] Convergence plot initialized
+[2025-04-17 15:52:30] Pareto front plot initialized
+[2025-04-17 15:52:30] Optimization tab initialized
+[2025-04-17 15:52:30] Settings tab initialized
+[2025-04-17 15:52:30] UI setup complete
+[2025-04-17 15:52:30] Settings loaded successfully
+[2025-04-17 15:52:30] Running in demonstration mode
+[2025-04-17 15:52:30] Intake CFD Optimization Suite initialized
+[2025-04-17 15:52:40] Applying appearance settings: Theme=Light, Font Size=Large
+[2025-04-17 15:52:40] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:52:44] Applying appearance settings: Theme=Light, Font Size=Small
+[2025-04-17 15:52:44] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:52:54] Loaded 2 HPC profiles for workflow
+[2025-04-17 15:52:54] Workflow tab initialized
+[2025-04-17 15:52:54] Visualization tab initialized
+[2025-04-17 15:52:55] Convergence plot initialized
+[2025-04-17 15:52:55] Pareto front plot initialized
+[2025-04-17 15:52:55] Optimization tab initialized
+[2025-04-17 15:52:55] Settings tab initialized
+[2025-04-17 15:52:55] UI setup complete
+[2025-04-17 15:52:56] Settings loaded successfully
+[2025-04-17 15:52:56] Running in demonstration mode
+[2025-04-17 15:52:56] Intake CFD Optimization Suite initialized
+[2025-04-17 15:53:06] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 15:53:06] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 15:59:01] Loaded 2 HPC profiles for workflow
+[2025-04-17 15:59:01] Workflow tab initialized
+[2025-04-17 15:59:02] Visualization tab initialized
+[2025-04-17 15:59:02] Convergence plot initialized
+[2025-04-17 15:59:03] Pareto front plot initialized
+[2025-04-17 15:59:03] Optimization tab initialized
+[2025-04-17 15:59:03] Settings tab initialized
+[2025-04-17 15:59:03] UI setup complete
+[2025-04-17 15:59:03] Settings loaded successfully
+[2025-04-17 15:59:03] Running in demonstration mode
+[2025-04-17 15:59:04] Intake CFD Optimization Suite initialized
+[2025-04-17 15:59:25] Importing mesh from /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage/INTAKE3D.msh...
+[2025-04-17 15:59:25] Mesh imported successfully
+[2025-04-17 15:59:58] Importing geometry from /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage/INTAKE3D.step...
+[2025-04-17 15:59:58] Geometry imported successfully
+[2025-04-17 16:00:40] Importing geometry from /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage/NX/INTAKE3D.stp...
+[2025-04-17 16:00:41] Geometry imported successfully
+[2025-04-17 16:02:31] Importing mesh from /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage/Models/mesh.su2...
+[2025-04-17 16:02:31] Mesh imported successfully
+[2025-04-17 16:08:56] Loaded 2 HPC profiles for workflow
+[2025-04-17 16:08:56] Workflow tab initialized
+[2025-04-17 16:08:57] Visualization tab initialized
+[2025-04-17 16:08:57] Convergence plot initialized
+[2025-04-17 16:08:57] Pareto front plot initialized
+[2025-04-17 16:08:57] Optimization tab initialized
+[2025-04-17 16:08:57] Settings tab initialized
+[2025-04-17 16:08:57] UI setup complete
+[2025-04-17 16:08:57] Settings loaded successfully
+[2025-04-17 16:08:57] Running in demonstration mode
+[2025-04-17 16:08:58] Intake CFD Optimization Suite initialized
+[2025-04-17 16:09:28] Running simulation workflow...
+[2025-04-17 16:09:28] Updating NX model...
+[2025-04-17 16:09:28] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 16:09:28] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 16:09:28] Generating mesh...
+[2025-04-17 16:09:29] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 16:09:29] Running CFD simulation...
+[2025-04-17 16:09:29] CFD simulation completed
+[2025-04-17 16:09:29] Processing results...
+[2025-04-17 16:09:29] Results processing completed: processed_results.csv
+[2025-04-17 16:09:29] Simulation completed successfully!
+[2025-04-17 16:09:29] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 16:09:29] 
+Results Summary:
+[2025-04-17 16:09:29] Pressure Drop: 107.0000 Pa
+[2025-04-17 16:09:29] Flow Rate: 57.5000 m³/s
+[2025-04-17 16:09:29] Flow Uniformity: 85.00%
+[2025-04-17 16:09:29] Workflow completed
+[2025-04-17 16:09:46] Running simulation workflow...
+[2025-04-17 16:09:46] Preparing to submit job to HPC using profile 'Defaultdashkdk'...
+[2025-04-17 16:15:03] Importing mesh from /mnt/c/Users/Mohammed/Desktop/Intake-CFD-Project/Garage/Models/mesh.su2...
+[2025-04-17 16:15:03] Mesh imported successfully
+[2025-04-17 16:15:22] Loaded 2 HPC profiles for workflow
+[2025-04-17 16:15:22] Workflow tab initialized
+[2025-04-17 16:15:22] Visualization tab initialized
+[2025-04-17 16:15:23] Convergence plot initialized
+[2025-04-17 16:15:23] Pareto front plot initialized
+[2025-04-17 16:15:23] Optimization tab initialized
+[2025-04-17 16:15:23] Settings tab initialized
+[2025-04-17 16:15:23] UI setup complete
+[2025-04-17 16:15:23] Settings loaded successfully
+[2025-04-17 16:15:23] Running in demonstration mode
+[2025-04-17 16:15:23] Intake CFD Optimization Suite initialized
+[2025-04-17 16:15:26] Running simulation workflow...
+[2025-04-17 16:15:26] Updating NX model...
+[2025-04-17 16:15:26] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 16:15:26] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 16:15:26] Generating mesh...
+[2025-04-17 16:15:26] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 16:15:26] Running CFD simulation...
+[2025-04-17 16:15:26] CFD simulation completed
+[2025-04-17 16:15:26] Processing results...
+[2025-04-17 16:15:26] Results processing completed: processed_results.csv
+[2025-04-17 16:15:26] Simulation completed successfully!
+[2025-04-17 16:15:26] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 16:15:26] 
+Results Summary:
+[2025-04-17 16:15:26] Pressure Drop: 107.0000 Pa
+[2025-04-17 16:15:26] Flow Rate: 57.5000 m³/s
+[2025-04-17 16:15:26] Flow Uniformity: 85.00%
+[2025-04-17 16:15:26] Workflow completed
+[2025-04-17 17:13:32] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:13:32] Workflow tab initialized
+[2025-04-17 17:13:32] Visualization tab initialized
+[2025-04-17 17:13:33] Convergence plot initialized
+[2025-04-17 17:13:33] Pareto front plot initialized
+[2025-04-17 17:13:33] Optimization tab initialized
+[2025-04-17 17:13:33] Settings tab initialized
+[2025-04-17 17:13:33] UI setup complete
+[2025-04-17 17:13:33] Settings loaded successfully
+[2025-04-17 17:13:33] Running in demonstration mode
+[2025-04-17 17:13:34] Intake CFD Optimization Suite initialized
+[2025-04-17 17:16:45] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:16:45] Workflow tab initialized
+[2025-04-17 17:16:45] Visualization tab initialized
+[2025-04-17 17:16:46] Convergence plot initialized
+[2025-04-17 17:16:46] Pareto front plot initialized
+[2025-04-17 17:16:46] Optimization tab initialized
+[2025-04-17 17:16:46] Settings tab initialized
+[2025-04-17 17:16:46] UI setup complete
+[2025-04-17 17:16:46] Settings loaded successfully
+[2025-04-17 17:16:46] Running in demonstration mode
+[2025-04-17 17:16:47] Intake CFD Optimization Suite initialized
+[2025-04-17 17:18:42] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:18:42] Workflow tab initialized
+[2025-04-17 17:18:43] Visualization tab initialized
+[2025-04-17 17:18:43] Convergence plot initialized
+[2025-04-17 17:18:43] Pareto front plot initialized
+[2025-04-17 17:18:43] Optimization tab initialized
+[2025-04-17 17:18:43] Settings tab initialized
+[2025-04-17 17:18:43] UI setup complete
+[2025-04-17 17:18:43] Settings loaded successfully
+[2025-04-17 17:18:44] Running in demonstration mode
+[2025-04-17 17:18:44] Intake CFD Optimization Suite initialized
+[2025-04-17 17:21:03] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:21:03] Workflow tab initialized
+[2025-04-17 17:21:03] Visualization tab initialized
+[2025-04-17 17:21:04] Convergence plot initialized
+[2025-04-17 17:21:04] Pareto front plot initialized
+[2025-04-17 17:21:04] Optimization tab initialized
+[2025-04-17 17:21:04] Settings tab initialized
+[2025-04-17 17:21:04] UI setup complete
+[2025-04-17 17:21:04] Settings loaded successfully
+[2025-04-17 17:21:04] Running in demonstration mode
+[2025-04-17 17:21:04] Intake CFD Optimization Suite initialized
+[2025-04-17 17:22:30] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:22:30] Workflow tab initialized
+[2025-04-17 17:22:31] Visualization tab initialized
+[2025-04-17 17:22:31] Convergence plot initialized
+[2025-04-17 17:22:31] Pareto front plot initialized
+[2025-04-17 17:22:31] Optimization tab initialized
+[2025-04-17 17:22:31] Settings tab initialized
+[2025-04-17 17:22:31] UI setup complete
+[2025-04-17 17:22:31] Settings loaded successfully
+[2025-04-17 17:22:31] Running in demonstration mode
+[2025-04-17 17:22:31] Intake CFD Optimization Suite initialized
+[2025-04-17 17:26:05] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:26:05] Workflow tab initialized
+[2025-04-17 17:26:05] Visualization tab initialized
+[2025-04-17 17:26:05] Convergence plot initialized
+[2025-04-17 17:26:06] Pareto front plot initialized
+[2025-04-17 17:26:06] Optimization tab initialized
+[2025-04-17 17:26:06] Settings tab initialized
+[2025-04-17 17:26:06] UI setup complete
+[2025-04-17 17:26:06] Settings loaded successfully
+[2025-04-17 17:26:06] Running in demonstration mode
+[2025-04-17 17:26:06] Intake CFD Optimization Suite initialized
+[2025-04-17 17:26:49] Convergence plot initialized
+[2025-04-17 17:26:49] Pareto front plot initialized
+[2025-04-17 17:26:49] Starting Genetic Algorithm optimization with population size 30
+[2025-04-17 17:30:03] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:30:03] Workflow tab initialized
+[2025-04-17 17:30:03] Visualization tab initialized
+[2025-04-17 17:30:03] Convergence plot initialized
+[2025-04-17 17:30:03] Pareto front plot initialized
+[2025-04-17 17:30:03] Optimization tab initialized
+[2025-04-17 17:30:04] Settings tab initialized
+[2025-04-17 17:30:04] UI setup complete
+[2025-04-17 17:30:04] Settings loaded successfully
+[2025-04-17 17:30:04] Running in demonstration mode
+[2025-04-17 17:30:04] Intake CFD Optimization Suite initialized
+[2025-04-17 17:30:24] Convergence plot initialized
+[2025-04-17 17:30:24] Pareto front plot initialized
+[2025-04-17 17:30:59] Submitting optimization to HPC...
+[2025-04-17 17:31:01] Optimization job submitted to HPC
+[2025-04-17 17:31:29] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 17:31:29] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 17:31:35] Applying appearance settings: Theme=System, Font Size=Medium
+[2025-04-17 17:31:35] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 17:31:39] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-17 17:31:39] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 17:32:10] Running simulation workflow...
+[2025-04-17 17:32:10] Updating NX model...
+[2025-04-17 17:32:10] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:32:10] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:32:10] Generating mesh...
+[2025-04-17 17:32:10] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:32:10] Running CFD simulation...
+[2025-04-17 17:32:10] CFD simulation completed
+[2025-04-17 17:32:10] Processing results...
+[2025-04-17 17:32:10] Results processing completed: processed_results.csv
+[2025-04-17 17:32:10] Simulation completed successfully!
+[2025-04-17 17:32:10] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:32:10] 
+Results Summary:
+[2025-04-17 17:32:10] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:32:10] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:32:10] Flow Uniformity: 85.00%
+[2025-04-17 17:32:10] Workflow completed
+[2025-04-17 17:33:04] Running simulation workflow...
+[2025-04-17 17:33:04] Updating NX model...
+[2025-04-17 17:33:04] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:04] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:33:04] Generating mesh...
+[2025-04-17 17:33:04] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:33:04] Running CFD simulation...
+[2025-04-17 17:33:04] CFD simulation completed
+[2025-04-17 17:33:04] Processing results...
+[2025-04-17 17:33:04] Results processing completed: processed_results.csv
+[2025-04-17 17:33:04] Simulation completed successfully!
+[2025-04-17 17:33:04] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:04] 
+Results Summary:
+[2025-04-17 17:33:04] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:33:04] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:33:04] Flow Uniformity: 85.00%
+[2025-04-17 17:33:04] Workflow completed
+[2025-04-17 17:33:07] Running simulation workflow...
+[2025-04-17 17:33:07] Updating NX model...
+[2025-04-17 17:33:07] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:07] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:33:07] Generating mesh...
+[2025-04-17 17:33:07] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:33:07] Running CFD simulation...
+[2025-04-17 17:33:07] CFD simulation completed
+[2025-04-17 17:33:07] Processing results...
+[2025-04-17 17:33:07] Results processing completed: processed_results.csv
+[2025-04-17 17:33:07] Simulation completed successfully!
+[2025-04-17 17:33:07] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:07] 
+Results Summary:
+[2025-04-17 17:33:07] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:33:07] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:33:07] Flow Uniformity: 85.00%
+[2025-04-17 17:33:07] Workflow completed
+[2025-04-17 17:33:27] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:33:27] Workflow tab initialized
+[2025-04-17 17:33:28] Visualization tab initialized
+[2025-04-17 17:33:28] Convergence plot initialized
+[2025-04-17 17:33:28] Pareto front plot initialized
+[2025-04-17 17:33:28] Optimization tab initialized
+[2025-04-17 17:33:28] Settings tab initialized
+[2025-04-17 17:33:28] UI setup complete
+[2025-04-17 17:33:28] Settings loaded successfully
+[2025-04-17 17:33:28] Running in demonstration mode
+[2025-04-17 17:33:29] Intake CFD Optimization Suite initialized
+[2025-04-17 17:33:33] Running simulation workflow...
+[2025-04-17 17:33:33] Updating NX model...
+[2025-04-17 17:33:33] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:34] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:33:34] Generating mesh...
+[2025-04-17 17:33:34] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:33:34] Running CFD simulation...
+[2025-04-17 17:33:34] CFD simulation completed
+[2025-04-17 17:33:34] Processing results...
+[2025-04-17 17:33:34] Results processing completed: processed_results.csv
+[2025-04-17 17:33:34] Simulation completed successfully!
+[2025-04-17 17:33:34] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:34] 
+Results Summary:
+[2025-04-17 17:33:34] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:33:34] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:33:34] Flow Uniformity: 85.00%
+[2025-04-17 17:33:34] Workflow completed
+[2025-04-17 17:33:36] Running simulation workflow...
+[2025-04-17 17:33:36] Updating NX model...
+[2025-04-17 17:33:36] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:36] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:33:36] Generating mesh...
+[2025-04-17 17:33:36] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:33:36] Running CFD simulation...
+[2025-04-17 17:33:36] CFD simulation completed
+[2025-04-17 17:33:36] Processing results...
+[2025-04-17 17:33:36] Results processing completed: processed_results.csv
+[2025-04-17 17:33:37] Simulation completed successfully!
+[2025-04-17 17:33:37] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:37] 
+Results Summary:
+[2025-04-17 17:33:37] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:33:37] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:33:37] Flow Uniformity: 85.00%
+[2025-04-17 17:33:37] Workflow completed
+[2025-04-17 17:33:41] Running simulation workflow...
+[2025-04-17 17:33:42] Updating NX model...
+[2025-04-17 17:33:42] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:42] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:33:42] Generating mesh...
+[2025-04-17 17:33:42] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:33:42] Running CFD simulation...
+[2025-04-17 17:33:42] CFD simulation completed
+[2025-04-17 17:33:42] Processing results...
+[2025-04-17 17:33:42] Results processing completed: processed_results.csv
+[2025-04-17 17:33:42] Simulation completed successfully!
+[2025-04-17 17:33:42] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:33:42] 
+Results Summary:
+[2025-04-17 17:33:42] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:33:42] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:33:42] Flow Uniformity: 85.00%
+[2025-04-17 17:33:42] Workflow completed
+[2025-04-17 17:34:07] Loaded 2 HPC profiles for workflow
+[2025-04-17 17:34:07] Workflow tab initialized
+[2025-04-17 17:34:07] Visualization tab initialized
+[2025-04-17 17:34:08] Convergence plot initialized
+[2025-04-17 17:34:08] Pareto front plot initialized
+[2025-04-17 17:34:08] Optimization tab initialized
+[2025-04-17 17:34:08] Settings tab initialized
+[2025-04-17 17:34:08] UI setup complete
+[2025-04-17 17:34:08] Settings loaded successfully
+[2025-04-17 17:34:08] Running in demonstration mode
+[2025-04-17 17:34:08] Intake CFD Optimization Suite initialized
+[2025-04-17 17:34:15] Running simulation workflow...
+[2025-04-17 17:34:15] Updating NX model...
+[2025-04-17 17:34:15] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:34:15] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:34:15] Generating mesh...
+[2025-04-17 17:34:15] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:34:15] Running CFD simulation...
+[2025-04-17 17:34:15] CFD simulation completed
+[2025-04-17 17:34:15] Processing results...
+[2025-04-17 17:34:15] Results processing completed: processed_results.csv
+[2025-04-17 17:34:15] Simulation completed successfully!
+[2025-04-17 17:34:15] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:34:15] 
+Results Summary:
+[2025-04-17 17:34:15] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:34:15] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:34:15] Flow Uniformity: 85.00%
+[2025-04-17 17:34:15] Workflow completed
+[2025-04-17 17:34:20] Running simulation workflow...
+[2025-04-17 17:34:20] Updating NX model...
+[2025-04-17 17:34:21] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:34:21] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:34:21] Generating mesh...
+[2025-04-17 17:34:21] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:34:21] Running CFD simulation...
+[2025-04-17 17:34:21] CFD simulation completed
+[2025-04-17 17:34:21] Processing results...
+[2025-04-17 17:34:21] Results processing completed: processed_results.csv
+[2025-04-17 17:34:21] Simulation completed successfully!
+[2025-04-17 17:34:21] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:34:21] 
+Results Summary:
+[2025-04-17 17:34:21] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:34:21] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:34:21] Flow Uniformity: 85.00%
+[2025-04-17 17:34:21] Workflow completed
+[2025-04-17 17:35:03] Running simulation workflow...
+[2025-04-17 17:35:03] Preparing to submit job to HPC using profile 'New_Profile'...
+[2025-04-17 17:35:32] Loaded 3 HPC profiles for workflow
+[2025-04-17 17:35:32] Workflow tab initialized
+[2025-04-17 17:35:32] Visualization tab initialized
+[2025-04-17 17:35:33] Convergence plot initialized
+[2025-04-17 17:35:33] Pareto front plot initialized
+[2025-04-17 17:35:33] Optimization tab initialized
+[2025-04-17 17:35:33] Settings tab initialized
+[2025-04-17 17:35:33] UI setup complete
+[2025-04-17 17:35:33] Settings loaded successfully
+[2025-04-17 17:35:33] Running in demonstration mode
+[2025-04-17 17:35:33] Intake CFD Optimization Suite initialized
+[2025-04-17 17:35:36] Running simulation workflow...
+[2025-04-17 17:35:36] Updating NX model...
+[2025-04-17 17:35:36] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:35:36] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:35:36] Generating mesh...
+[2025-04-17 17:35:36] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:35:36] Running CFD simulation...
+[2025-04-17 17:35:36] CFD simulation completed
+[2025-04-17 17:35:36] Processing results...
+[2025-04-17 17:35:36] Results processing completed: processed_results.csv
+[2025-04-17 17:35:36] Simulation completed successfully!
+[2025-04-17 17:35:36] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:35:37] 
+Results Summary:
+[2025-04-17 17:35:37] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:35:37] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:35:37] Flow Uniformity: 85.00%
+[2025-04-17 17:35:37] Workflow completed
+[2025-04-17 17:35:40] Running simulation workflow...
+[2025-04-17 17:35:40] Updating NX model...
+[2025-04-17 17:35:40] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:35:40] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:35:40] Generating mesh...
+[2025-04-17 17:35:40] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:35:40] Running CFD simulation...
+[2025-04-17 17:35:41] CFD simulation completed
+[2025-04-17 17:35:41] Processing results...
+[2025-04-17 17:35:41] Results processing completed: processed_results.csv
+[2025-04-17 17:35:41] Simulation completed successfully!
+[2025-04-17 17:35:41] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:35:41] 
+Results Summary:
+[2025-04-17 17:35:41] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:35:41] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:35:41] Flow Uniformity: 85.00%
+[2025-04-17 17:35:41] Workflow completed
+[2025-04-17 17:36:39] Running simulation workflow...
+[2025-04-17 17:36:39] Updating NX model...
+[2025-04-17 17:36:39] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:36:39] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:36:39] Generating mesh...
+[2025-04-17 17:36:39] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:36:39] Running CFD simulation...
+[2025-04-17 17:36:39] CFD simulation completed
+[2025-04-17 17:36:39] Processing results...
+[2025-04-17 17:36:39] Results processing completed: processed_results.csv
+[2025-04-17 17:36:39] Simulation completed successfully!
+[2025-04-17 17:36:39] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:36:39] 
+Results Summary:
+[2025-04-17 17:36:39] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:36:39] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:36:39] Flow Uniformity: 85.00%
+[2025-04-17 17:36:39] Workflow completed
+[2025-04-17 17:37:03] Running simulation workflow...
+[2025-04-17 17:37:03] Updating NX model...
+[2025-04-17 17:37:03] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:37:03] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 17:37:03] Generating mesh...
+[2025-04-17 17:37:03] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 17:37:03] Running CFD simulation...
+[2025-04-17 17:37:03] CFD simulation completed
+[2025-04-17 17:37:03] Processing results...
+[2025-04-17 17:37:03] Results processing completed: processed_results.csv
+[2025-04-17 17:37:03] Simulation completed successfully!
+[2025-04-17 17:37:03] 
+Parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 17:37:03] 
+Results Summary:
+[2025-04-17 17:37:03] Pressure Drop: 107.0000 Pa
+[2025-04-17 17:37:03] Flow Rate: 57.5000 m³/s
+[2025-04-17 17:37:03] Flow Uniformity: 85.00%
+[2025-04-17 17:37:03] Workflow completed
+[2025-04-17 17:37:46] Convergence plot initialized
+[2025-04-17 17:37:46] Pareto front plot initialized
+[2025-04-17 17:37:46] Starting Gradient Descent optimization with population size 30
+[2025-04-17 17:38:49] Convergence plot initialized
+[2025-04-17 17:38:49] Pareto front plot initialized
+[2025-04-17 17:38:49] Starting Genetic Algorithm optimization with population size 30
+[2025-04-17 17:45:38] Loaded 3 HPC profiles for workflow
+[2025-04-17 17:45:38] Workflow tab initialized
+[2025-04-17 17:45:39] Visualization tab initialized
+[2025-04-17 17:45:39] Convergence plot initialized
+[2025-04-17 17:45:39] Pareto front plot initialized
+[2025-04-17 17:45:39] Optimization tab initialized
+[2025-04-17 17:45:39] Settings tab initialized
+[2025-04-17 17:45:39] UI setup complete
+[2025-04-17 17:45:39] Settings loaded successfully
+[2025-04-17 17:45:39] Running in demonstration mode
+[2025-04-17 17:45:39] Intake CFD Optimization Suite initialized
+[2025-04-17 17:53:52] Loaded 3 HPC profiles for workflow
+[2025-04-17 17:53:52] Workflow tab initialized
+[2025-04-17 17:53:52] Visualization tab initialized
+[2025-04-17 17:53:53] Convergence plot initialized
+[2025-04-17 17:53:53] Pareto front plot initialized
+[2025-04-17 17:53:53] Optimization tab initialized
+[2025-04-17 17:53:53] Settings tab initialized
+[2025-04-17 17:53:53] UI setup complete
+[2025-04-17 17:53:53] Settings loaded successfully
+[2025-04-17 17:53:53] Running in demonstration mode
+[2025-04-17 17:53:53] Intake CFD Optimization Suite initialized
+[2025-04-17 17:55:42] Loaded 3 HPC profiles for workflow
+[2025-04-17 17:55:42] Workflow tab initialized
+[2025-04-17 18:29:48] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:29:48] Workflow tab initialized
+[2025-04-17 18:29:59] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:29:59] Workflow tab initialized
+[2025-04-17 18:30:51] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:30:51] Workflow tab initialized
+[2025-04-17 18:33:47] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:33:47] Workflow tab initialized
+[2025-04-17 18:34:57] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:34:57] Workflow tab initialized
+[2025-04-17 18:36:31] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:36:31] Workflow tab initialized
+[2025-04-17 18:36:32] 3D visualization interface initialized
+[2025-04-17 18:37:58] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:37:58] Workflow tab initialized
+[2025-04-17 18:37:58] 3D visualization interface initialized
+[2025-04-17 18:37:58] Modernized visualization tab initialized
+[2025-04-17 18:37:59] Convergence plot initialized
+[2025-04-17 18:37:59] Pareto front plot initialized
+[2025-04-17 18:37:59] Optimization tab initialized
+[2025-04-17 18:37:59] Settings tab initialized
+[2025-04-17 18:37:59] UI setup complete
+[2025-04-17 18:37:59] Settings loaded successfully
+[2025-04-17 18:37:59] Running in demonstration mode
+[2025-04-17 18:37:59] Intake CFD Optimization Suite initialized
+[2025-04-17 18:39:25] Running simulation workflow...
+[2025-04-17 18:39:25] Updating NX model...
+[2025-04-17 18:39:25] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:39:25] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:39:25] Generating mesh...
+[2025-04-17 18:39:25] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:39:25] Running CFD simulation...
+[2025-04-17 18:39:25] CFD simulation completed
+[2025-04-17 18:39:25] Processing results...
+[2025-04-17 18:39:25] Results processing completed: processed_results.csv
+[2025-04-17 18:39:25] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:25] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:26] Workflow completed
+[2025-04-17 18:39:27] Running simulation workflow...
+[2025-04-17 18:39:27] Updating NX model...
+[2025-04-17 18:39:27] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:39:27] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:39:28] Generating mesh...
+[2025-04-17 18:39:28] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:39:28] Running CFD simulation...
+[2025-04-17 18:39:28] CFD simulation completed
+[2025-04-17 18:39:28] Processing results...
+[2025-04-17 18:39:28] Results processing completed: processed_results.csv
+[2025-04-17 18:39:28] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:28] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:28] Workflow completed
+[2025-04-17 18:39:30] Running simulation workflow...
+[2025-04-17 18:39:30] Updating NX model...
+[2025-04-17 18:39:31] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:39:31] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:39:31] Generating mesh...
+[2025-04-17 18:39:31] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:39:31] Running CFD simulation...
+[2025-04-17 18:39:31] CFD simulation completed
+[2025-04-17 18:39:31] Processing results...
+[2025-04-17 18:39:31] Results processing completed: processed_results.csv
+[2025-04-17 18:39:31] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:31] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:39:31] Workflow completed
+[2025-04-17 18:39:57] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:39:57] Workflow tab initialized
+[2025-04-17 18:39:58] 3D visualization interface initialized
+[2025-04-17 18:39:58] Modernized visualization tab initialized
+[2025-04-17 18:39:58] Convergence plot initialized
+[2025-04-17 18:39:58] Pareto front plot initialized
+[2025-04-17 18:39:58] Optimization tab initialized
+[2025-04-17 18:39:58] Settings tab initialized
+[2025-04-17 18:39:58] UI setup complete
+[2025-04-17 18:39:58] Settings loaded successfully
+[2025-04-17 18:39:58] Running in demonstration mode
+[2025-04-17 18:39:59] Intake CFD Optimization Suite initialized
+[2025-04-17 18:40:02] Running simulation workflow...
+[2025-04-17 18:40:02] Updating NX model...
+[2025-04-17 18:40:02] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:40:03] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:40:03] Generating mesh...
+[2025-04-17 18:40:03] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:40:03] Running CFD simulation...
+[2025-04-17 18:40:03] CFD simulation completed
+[2025-04-17 18:40:03] Processing results...
+[2025-04-17 18:40:03] Results processing completed: processed_results.csv
+[2025-04-17 18:40:03] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:40:03] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:40:03] Workflow completed
+[2025-04-17 18:40:06] Running simulation workflow...
+[2025-04-17 18:40:06] Updating NX model...
+[2025-04-17 18:40:06] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:40:06] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:40:06] Generating mesh...
+[2025-04-17 18:40:06] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:40:06] Running CFD simulation...
+[2025-04-17 18:40:07] CFD simulation completed
+[2025-04-17 18:40:07] Processing results...
+[2025-04-17 18:40:07] Results processing completed: processed_results.csv
+[2025-04-17 18:40:07] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:40:07] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:40:07] Workflow completed
+[2025-04-17 18:41:55] Convergence plot initialized
+[2025-04-17 18:41:56] Pareto front plot initialized
+[2025-04-17 18:41:56] Starting Genetic Algorithm optimization with population size 30
+[2025-04-17 18:43:28] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 18:43:28] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 18:43:58] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-17 18:43:58] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 18:49:07] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:49:07] Modernized workflow tab initialized
+[2025-04-17 18:49:07] 3D visualization interface initialized
+[2025-04-17 18:49:07] Modernized visualization tab initialized
+[2025-04-17 18:49:08] Convergence plot initialized
+[2025-04-17 18:49:08] Pareto front plot initialized
+[2025-04-17 18:49:08] Optimization tab initialized
+[2025-04-17 18:49:08] Settings tab initialized
+[2025-04-17 18:49:08] UI setup complete
+[2025-04-17 18:49:08] Settings loaded successfully
+[2025-04-17 18:49:08] Running in demonstration mode
+[2025-04-17 18:49:08] Intake CFD Optimization Suite initialized
+[2025-04-17 18:49:35] Running simulation workflow...
+[2025-04-17 18:49:35] Updating NX model...
+[2025-04-17 18:49:35] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:49:35] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:49:35] Generating mesh...
+[2025-04-17 18:49:35] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:49:35] Running CFD simulation...
+[2025-04-17 18:49:35] CFD simulation completed
+[2025-04-17 18:49:35] Processing results...
+[2025-04-17 18:49:35] Results processing completed: processed_results.csv
+[2025-04-17 18:49:35] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:49:35] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:49:35] Workflow completed
+[2025-04-17 18:49:40] Running simulation workflow...
+[2025-04-17 18:49:40] Updating NX model...
+[2025-04-17 18:49:40] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:49:40] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:49:40] Generating mesh...
+[2025-04-17 18:49:40] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:49:40] Running CFD simulation...
+[2025-04-17 18:49:40] CFD simulation completed
+[2025-04-17 18:49:40] Processing results...
+[2025-04-17 18:49:40] Results processing completed: processed_results.csv
+[2025-04-17 18:49:41] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:49:41] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:49:41] Workflow completed
+[2025-04-17 18:50:02] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:50:02] Workflow tab initialized
+[2025-04-17 18:50:03] 3D visualization interface initialized
+[2025-04-17 18:50:03] Modernized visualization tab initialized
+[2025-04-17 18:50:04] Convergence plot initialized
+[2025-04-17 18:50:04] Pareto front plot initialized
+[2025-04-17 18:50:04] Optimization tab initialized
+[2025-04-17 18:50:04] Settings tab initialized
+[2025-04-17 18:50:04] UI setup complete
+[2025-04-17 18:50:04] Settings loaded successfully
+[2025-04-17 18:50:04] Running in demonstration mode
+[2025-04-17 18:50:04] Intake CFD Optimization Suite initialized
+[2025-04-17 18:50:07] Running simulation workflow...
+[2025-04-17 18:50:08] Updating NX model...
+[2025-04-17 18:50:08] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 18:50:08] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 18:50:08] Generating mesh...
+[2025-04-17 18:50:08] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 18:50:08] Running CFD simulation...
+[2025-04-17 18:50:08] CFD simulation completed
+[2025-04-17 18:50:08] Processing results...
+[2025-04-17 18:50:08] Results processing completed: processed_results.csv
+[2025-04-17 18:50:08] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:50:08] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 18:50:08] Workflow completed
+[2025-04-17 18:50:30] Loaded 3 HPC profiles for workflow
+[2025-04-17 18:50:30] Workflow tab initialized
+[2025-04-17 18:50:31] 3D visualization interface initialized
+[2025-04-17 18:50:31] Modernized visualization tab initialized
+[2025-04-17 18:50:31] Convergence plot initialized
+[2025-04-17 18:50:32] Pareto front plot initialized
+[2025-04-17 18:50:32] Optimization tab initialized
+[2025-04-17 18:50:32] Settings tab initialized
+[2025-04-17 18:50:32] UI setup complete
+[2025-04-17 18:50:32] Settings loaded successfully
+[2025-04-17 18:50:32] Running in demonstration mode
+[2025-04-17 18:50:32] Intake CFD Optimization Suite initialized
+[2025-04-17 18:51:39] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-17 18:51:39] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 19:00:42] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:03:14] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:04:43] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:05:15] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:07:02] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:09:50] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:15:50] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:16:15] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:17:16] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:17:36] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:17:36] Workflow initialized and ready
+[2025-04-17 19:17:36] Modernized workflow tab initialized
+[2025-04-17 19:22:07] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:22:07] Workflow initialized and ready
+[2025-04-17 19:22:07] Modernized workflow tab initialized
+[2025-04-17 19:27:12] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:27:12] Workflow initialized and ready
+[2025-04-17 19:27:12] Modernized workflow tab initialized
+[2025-04-17 19:28:02] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:28:02] Workflow initialized and ready
+[2025-04-17 19:28:02] Modernized workflow tab initialized
+[2025-04-17 19:30:01] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:30:01] Workflow initialized and ready
+[2025-04-17 19:30:01] Modernized workflow tab initialized
+[2025-04-17 19:30:14] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:30:14] Workflow initialized and ready
+[2025-04-17 19:30:14] Modernized workflow tab initialized
+[2025-04-17 19:31:11] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:31:11] Workflow initialized and ready
+[2025-04-17 19:31:11] Modernized workflow tab initialized
+[2025-04-17 19:31:11] 3D visualization interface initialized
+[2025-04-17 19:31:11] Modernized visualization tab initialized
+[2025-04-17 19:31:12] Convergence plot initialized
+[2025-04-17 19:31:12] Pareto front plot initialized
+[2025-04-17 19:31:12] Optimization tab initialized
+[2025-04-17 19:31:12] Settings tab initialized
+[2025-04-17 19:31:13] UI setup complete
+[2025-04-17 19:31:13] Settings loaded successfully
+[2025-04-17 19:31:13] Running in demonstration mode
+[2025-04-17 19:31:13] Intake CFD Optimization Suite initialized
+[2025-04-17 19:37:30] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:37:30] Workflow initialized and ready
+[2025-04-17 19:37:30] Modernized workflow tab initialized
+[2025-04-17 19:37:30] 3D visualization interface initialized
+[2025-04-17 19:37:31] Modernized visualization tab initialized
+[2025-04-17 19:37:31] Convergence plot initialized
+[2025-04-17 19:37:31] Pareto front plot initialized
+[2025-04-17 19:37:31] Optimization tab initialized
+[2025-04-17 19:37:32] Settings tab initialized
+[2025-04-17 19:37:32] UI setup complete
+[2025-04-17 19:37:32] Settings loaded successfully
+[2025-04-17 19:37:32] Running in demonstration mode
+[2025-04-17 19:37:32] Intake CFD Optimization Suite initialized
+[2025-04-17 19:38:34] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 19:38:34] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 19:38:51] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:38:51] Workflow initialized and ready
+[2025-04-17 19:38:51] Modernized workflow tab initialized
+[2025-04-17 19:38:51] 3D visualization interface initialized
+[2025-04-17 19:38:51] Modernized visualization tab initialized
+[2025-04-17 19:38:51] Convergence plot initialized
+[2025-04-17 19:38:51] Pareto front plot initialized
+[2025-04-17 19:38:51] Optimization tab initialized
+[2025-04-17 19:38:51] Settings tab initialized
+[2025-04-17 19:38:51] UI setup complete
+[2025-04-17 19:38:52] Settings loaded successfully
+[2025-04-17 19:38:52] Running in demonstration mode
+[2025-04-17 19:38:52] Intake CFD Optimization Suite initialized
+[2025-04-17 19:39:51] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-17 19:39:51] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 19:39:59] Applying appearance settings: Theme=Dark, Font Size=Medium
+[2025-04-17 19:39:59] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 19:40:08] Workflow log cleared
+[2025-04-17 19:45:17] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:45:17] Workflow initialized and ready
+[2025-04-17 19:45:17] Modernized workflow tab initialized
+[2025-04-17 19:45:17] 3D visualization interface initialized
+[2025-04-17 19:45:17] Modernized visualization tab initialized
+[2025-04-17 19:45:17] Convergence plot initialized
+[2025-04-17 19:45:18] Pareto front plot initialized
+[2025-04-17 19:45:18] Optimization tab initialized
+[2025-04-17 19:45:18] Settings tab initialized
+[2025-04-17 19:45:18] UI setup complete
+[2025-04-17 19:45:18] Settings loaded successfully
+[2025-04-17 19:45:18] Running in demonstration mode
+[2025-04-17 19:45:18] Intake CFD Optimization Suite initialized
+[2025-04-17 19:46:32] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:46:32] Workflow tab initialized
+[2025-04-17 19:46:32] 3D visualization interface initialized
+[2025-04-17 19:46:32] Modernized visualization tab initialized
+[2025-04-17 19:46:33] Convergence plot initialized
+[2025-04-17 19:46:33] Pareto front plot initialized
+[2025-04-17 19:46:33] Optimization tab initialized
+[2025-04-17 19:46:33] Settings tab initialized
+[2025-04-17 19:46:33] UI setup complete
+[2025-04-17 19:46:33] Settings loaded successfully
+[2025-04-17 19:46:33] Running in demonstration mode
+[2025-04-17 19:46:34] Intake CFD Optimization Suite initialized
+[2025-04-17 19:46:44] Running simulation workflow...
+[2025-04-17 19:46:45] Updating NX model...
+[2025-04-17 19:46:45] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 19:46:45] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 19:46:45] Generating mesh...
+[2025-04-17 19:46:45] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 19:46:45] Running CFD simulation...
+[2025-04-17 19:46:45] CFD simulation completed
+[2025-04-17 19:46:45] Processing results...
+[2025-04-17 19:46:45] Results processing completed: processed_results.csv
+[2025-04-17 19:46:45] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 19:46:45] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 19:46:45] Workflow completed
+[2025-04-17 19:46:59] Running simulation workflow...
+[2025-04-17 19:46:59] Preparing to submit job to HPC using profile 'New_Profile'...
+[2025-04-17 19:52:11] Loaded 3 HPC profiles for workflow
+[2025-04-17 19:52:11] Workflow tab initialized
+[2025-04-17 19:52:12] 3D visualization interface initialized
+[2025-04-17 19:52:12] Modernized visualization tab initialized
+[2025-04-17 19:52:13] Convergence plot initialized
+[2025-04-17 19:52:13] Pareto front plot initialized
+[2025-04-17 19:52:13] Optimization tab initialized
+[2025-04-17 19:52:13] Settings tab initialized
+[2025-04-17 19:52:13] UI setup complete
+[2025-04-17 19:52:13] Settings loaded successfully
+[2025-04-17 19:52:13] Running in demonstration mode
+[2025-04-17 19:52:13] Intake CFD Optimization Suite initialized
+[2025-04-17 19:52:50] Running simulation workflow...
+[2025-04-17 19:52:50] Updating NX model...
+[2025-04-17 19:52:50] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 19:52:50] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 19:52:50] Generating mesh...
+[2025-04-17 19:52:50] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 19:52:50] Running CFD simulation...
+[2025-04-17 19:52:50] CFD simulation completed
+[2025-04-17 19:52:50] Processing results...
+[2025-04-17 19:52:50] Results processing completed: processed_results.csv
+[2025-04-17 19:52:50] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 19:52:50] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 19:52:50] Workflow completed
+[2025-04-17 22:54:12] Loaded 3 HPC profiles for workflow
+[2025-04-17 22:54:12] Workflow tab initialized
+[2025-04-17 22:54:13] 3D visualization interface initialized
+[2025-04-17 22:54:13] Modernized visualization tab initialized
+[2025-04-17 22:54:13] Convergence plot initialized
+[2025-04-17 22:54:13] Pareto front plot initialized
+[2025-04-17 22:54:13] Optimization tab initialized
+[2025-04-17 22:54:13] Settings tab initialized
+[2025-04-17 22:54:13] UI setup complete
+[2025-04-17 22:54:13] Settings loaded successfully
+[2025-04-17 22:54:13] Running in demonstration mode
+[2025-04-17 22:54:13] Intake CFD Optimization Suite initialized
+[2025-04-17 22:54:18] Running simulation workflow...
+[2025-04-17 22:54:18] Updating NX model...
+[2025-04-17 22:54:18] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 22:54:18] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 22:54:18] Generating mesh...
+[2025-04-17 22:54:18] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 22:54:18] Running CFD simulation...
+[2025-04-17 22:54:18] CFD simulation completed
+[2025-04-17 22:54:18] Processing results...
+[2025-04-17 22:54:18] Results processing completed: processed_results.csv
+[2025-04-17 22:54:18] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:54:18] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:54:18] Workflow completed
+[2025-04-17 22:54:21] Running simulation workflow...
+[2025-04-17 22:54:21] Updating NX model...
+[2025-04-17 22:54:21] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 22:54:21] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 22:54:21] Generating mesh...
+[2025-04-17 22:54:21] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 22:54:21] Running CFD simulation...
+[2025-04-17 22:54:21] CFD simulation completed
+[2025-04-17 22:54:21] Processing results...
+[2025-04-17 22:54:21] Results processing completed: processed_results.csv
+[2025-04-17 22:54:21] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:54:21] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:54:21] Workflow completed
+[2025-04-17 22:54:55] Applying appearance settings: Theme=Light, Font Size=Medium
+[2025-04-17 22:54:55] Error applying appearance settings: apply_font_size() takes from 1 to 2 positional arguments but 4 were given
+[2025-04-17 22:55:12] Convergence plot initialized
+[2025-04-17 22:55:12] Pareto front plot initialized
+[2025-04-17 22:55:12] Starting Genetic Algorithm optimization with population size 30
+[2025-04-17 22:56:38] Running simulation workflow...
+[2025-04-17 22:56:38] Updating NX model...
+[2025-04-17 22:56:38] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 22:56:38] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 22:56:38] Generating mesh...
+[2025-04-17 22:56:39] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 22:56:39] Running CFD simulation...
+[2025-04-17 22:56:39] CFD simulation completed
+[2025-04-17 22:56:39] Processing results...
+[2025-04-17 22:56:39] Results processing completed: processed_results.csv
+[2025-04-17 22:56:39] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:56:39] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:56:39] Workflow completed
+[2025-04-17 22:57:02] Convergence plot initialized
+[2025-04-17 22:57:02] Pareto front plot initialized
+[2025-04-17 22:57:02] Starting Particle Swarm optimization with population size 30
+[2025-04-17 22:58:05] Running simulation workflow...
+[2025-04-17 22:58:05] Updating NX model...
+[2025-04-17 22:58:05] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 22:58:05] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 22:58:06] Generating mesh...
+[2025-04-17 22:58:06] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 22:58:06] Running CFD simulation...
+[2025-04-17 22:58:06] CFD simulation completed
+[2025-04-17 22:58:06] Processing results...
+[2025-04-17 22:58:06] Results processing completed: processed_results.csv
+[2025-04-17 22:58:06] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:58:06] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 22:58:06] Workflow completed
+[2025-04-17 22:58:11] Running simulation workflow...
+[2025-04-17 22:58:11] Preparing to submit job to HPC using profile 'Default'...
+[2025-04-17 22:58:36] Submitting job to HPC system...
+[2025-04-17 22:58:36] Submitting job to HPC...
+[2025-04-17 22:58:36] Error submitting HPC job: 'hostname'
+[2025-04-17 22:58:36] Error submitting job: 'hostname'
+[2025-04-17 22:58:36] Job submission failed
+[2025-04-17 22:58:39] Workflow failed: Failed to submit job: 'hostname'
+[2025-04-17 22:58:39] Workflow failed
+[2025-04-17 23:00:19] Running simulation workflow...
+[2025-04-17 23:00:19] Preparing to submit job to HPC using profile 'Default'...
+[2025-04-17 23:01:37] Convergence plot initialized
+[2025-04-17 23:01:37] Pareto front plot initialized
+[2025-04-17 23:01:37] Starting Particle Swarm optimization with population size 30
+[2025-04-17 23:02:54] Loaded 3 HPC profiles for workflow
+[2025-04-17 23:02:54] Workflow tab initialized
+[2025-04-17 23:02:55] 3D visualization interface initialized
+[2025-04-17 23:02:55] Modernized visualization tab initialized
+[2025-04-17 23:02:56] Convergence plot initialized
+[2025-04-17 23:02:56] Pareto front plot initialized
+[2025-04-17 23:02:56] Optimization tab initialized
+[2025-04-17 23:02:56] Settings tab initialized
+[2025-04-17 23:02:56] UI setup complete
+[2025-04-17 23:02:56] Settings loaded successfully
+[2025-04-17 23:02:56] Running in demonstration mode
+[2025-04-17 23:02:56] Intake CFD Optimization Suite initialized
+[2025-04-17 23:05:00] Running simulation workflow...
+[2025-04-17 23:05:00] Updating NX model...
+[2025-04-17 23:05:00] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 23:05:00] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 23:05:00] Generating mesh...
+[2025-04-17 23:05:00] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 23:05:01] Running CFD simulation...
+[2025-04-17 23:05:01] CFD simulation completed
+[2025-04-17 23:05:01] Processing results...
+[2025-04-17 23:05:01] Results processing completed: processed_results.csv
+[2025-04-17 23:05:01] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 23:05:01] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 23:05:01] Workflow completed
+[2025-04-17 23:06:14] Convergence plot initialized
+[2025-04-17 23:06:14] Pareto front plot initialized
+[2025-04-17 23:06:14] Starting Genetic Algorithm optimization with population size 30
+[2025-04-17 23:08:39] Loaded 3 HPC profiles for workflow
+[2025-04-17 23:08:39] Workflow tab initialized
+[2025-04-17 23:08:39] 3D visualization interface initialized
+[2025-04-17 23:08:39] Modernized visualization tab initialized
+[2025-04-17 23:08:39] Convergence plot initialized
+[2025-04-17 23:08:39] Pareto front plot initialized
+[2025-04-17 23:08:39] Optimization tab initialized
+[2025-04-17 23:08:39] Settings tab initialized
+[2025-04-17 23:08:39] UI setup complete
+[2025-04-17 23:08:39] Settings loaded successfully
+[2025-04-17 23:08:39] Running in demonstration mode
+[2025-04-17 23:08:40] Intake CFD Optimization Suite initialized
+[2025-04-17 23:08:44] Running simulation workflow...
+[2025-04-17 23:08:44] Updating NX model...
+[2025-04-17 23:08:44] Generated expressions file with parameters: L4=3.0, L5=3.0, Alpha1=15.0, Alpha2=15.0, Alpha3=15.0
+[2025-04-17 23:08:44] NX workflow completed, generated: INTAKE3D.step
+[2025-04-17 23:08:44] Generating mesh...
+[2025-04-17 23:08:44] Mesh generation completed: INTAKE3D.msh
+[2025-04-17 23:08:44] Running CFD simulation...
+[2025-04-17 23:08:45] CFD simulation completed
+[2025-04-17 23:08:45] Processing results...
+[2025-04-17 23:08:45] Results processing completed: processed_results.csv
+[2025-04-17 23:08:45] Error loading and displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 23:08:45] Error displaying results: 'WorkflowGUI' object has no attribute 'results_notebook'
+[2025-04-17 23:08:45] Workflow completed

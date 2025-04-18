@@ -1,0 +1,9 @@
+{
+  "demo_mode": false,
+  "nx_path": "C:/Users/Mohammed/Desktop/Intake-CFD-Project/nx/nx_express2.py",
+  "gmsh_path": "./gmsh_process",
+  "cfd_path": "./cfd_solver",
+  "results_dir": "cfd_results",
+  "parallel_processes": "4",
+  "theme": "System"
+}

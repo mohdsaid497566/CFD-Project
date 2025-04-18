@@ -2,7 +2,7 @@
     "Default": {
         "hpc_enabled": true,
         "hpc_host": "localhost",
-        "hpc_username": "myself",
+        "hpc_username": "",
         "hpc_port": 22,
         "hpc_remote_dir": "/home/user/cfd_projects",
         "use_key_auth": false,
@@ -13,6 +13,16 @@
         "hpc_enabled": true,
         "hpc_host": "localhost",
         "hpc_username": "myself",
+        "hpc_port": 22,
+        "hpc_remote_dir": "/home/user/cfd_projects",
+        "use_key_auth": false,
+        "key_path": "",
+        "visible_in_gui": true
+    },
+    "New_Profile": {
+        "hpc_enabled": true,
+        "hpc_host": "localhost",
+        "hpc_username": "new_profile",
         "hpc_port": 22,
         "hpc_remote_dir": "/home/user/cfd_projects",
         "use_key_auth": false,
