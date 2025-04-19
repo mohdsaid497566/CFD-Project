@@ -1,0 +1,4 @@
+#!/bin/bash
+echo 'Mock results processor running...'
+echo 'Processing results from $2 to $4'
+echo '0.123' > $4

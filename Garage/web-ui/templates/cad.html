@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAD Generation - Intake CFD Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Intake CFD Project</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/cad">CAD Generation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/simulation">Simulation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/results">Results</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/settings">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="mb-4">CAD Generation</h1>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Model Parameters</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/cad">
+                            <!-- Group 1: Basic Parameters -->
+                            <div class="mb-4">
+                                <h6>Basic Dimensions</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="runner_length" class="form-label">Runner Length (mm)</label>
+                                            <input type="number" step="0.1" class="form-control" id="runner_length" name="runner_length" value="{{ config.get('runner_length', 150) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="runner_diameter" class="form-label">Runner Diameter (mm)</label>
+                                            <input type="number" step="0.1" class="form-control" id="runner_diameter" name="runner_diameter" value="{{ config.get('runner_diameter', 35) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="plenum_volume" class="form-label">Plenum Volume (cc)</label>
+                                            <input type="number" step="10" class="form-control" id="plenum_volume" name="plenum_volume" value="{{ config.get('plenum_volume', 2000) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="throttle_diameter" class="form-label">Throttle Diameter (mm)</label>
+                                            <input type="number" step="0.1" class="form-control" id="throttle_diameter" name="throttle_diameter" value="{{ config.get('throttle_diameter', 45) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Group 2: Advanced Parameters -->
+                            <div class="mb-4">
+                                <h6>Advanced Parameters</h6>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="runner_taper" class="form-label">Runner Taper (deg)</label>
+                                            <input type="number" step="0.1" class="form-control" id="runner_taper" name="runner_taper" value="{{ config.get('runner_taper', 1) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="runner_spacing" class="form-label">Runner Spacing (mm)</label>
+                                            <input type="number" step="0.1" class="form-control" id="runner_spacing" name="runner_spacing" value="{{ config.get('runner_spacing', 80) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="wall_thickness" class="form-label">Wall Thickness (mm)</label>
+                                            <input type="number" step="0.1" class="form-control" id="wall_thickness" name="wall_thickness" value="{{ config.get('wall_thickness', 3) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Save Parameters</button>
+                                <button type="button" id="generateBtn" class="btn btn-success">Generate CAD Model</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Model Preview</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div id="model-preview">
+                            <img src="{{ url_for('static', filename='images/model_placeholder.png') }}" class="img-fluid mb-3" alt="Model preview">
+                            <p class="text-muted">CAD model preview will appear here after generation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Calculated Parameters</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group" id="calculated-params">
+                            <li class="list-group-item">Resonant RPM: <span id="resonant-rpm">--</span></li>
+                            <li class="list-group-item">Velocity at 6000 RPM: <span id="velocity-6000">--</span> m/s</li>
+                            <li class="list-group-item">Helmholtz frequency: <span id="helmholtz-freq">--</span> Hz</li>
+                        </ul>
+                        <button type="button" id="calculateBtn" class="btn btn-outline-primary mt-3">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            // Show loading state
+            this.disabled = true;
+            this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Generating...';
+            
+            // Call API to run generation
+            fetch('/api/run-generation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Update preview image (if available)
+                    // This assumes the generation script updates a static image
+                    const previewImg = document.querySelector('#model-preview img');
+                    previewImg.src = previewImg.src + '?t=' + new Date().getTime(); // Force image refresh
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            })
+            .finally(() => {
+                // Reset button state
+                this.disabled = false;
+                this.innerHTML = 'Generate CAD Model';
+            });
+        });
+        
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            // Get form values
+            const runnerLength = parseFloat(document.getElementById('runner_length').value);
+            const runnerDiameter = parseFloat(document.getElementById('runner_diameter').value);
+            const plenumVolume = parseFloat(document.getElementById('plenum_volume').value);
+            
+            // Call API to calculate parameters
+            fetch('/api/calculate-parameters', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    runner_length: runnerLength,
+                    runner_diameter: runnerDiameter,
+                    plenum_volume: plenumVolume
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the displayed values
+                    document.getElementById('resonant-rpm').textContent = Math.round(data.results.resonant_rpm);
+                    document.getElementById('velocity-6000').textContent = data.results.velocity.toFixed(2);
+                    document.getElementById('helmholtz-freq').textContent = data.results.helmholtz_freq.toFixed(2);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error: ' + error);
+            });
+        });
+    </script>
+</body>
+</html>

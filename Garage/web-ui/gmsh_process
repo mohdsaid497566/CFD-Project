@@ -1,0 +1,5 @@
+#!/bin/bash
+echo 'Mock gmsh_process running...'
+echo 'Processing $2 to $4'
+echo 'Created mock mesh file'
+touch $4

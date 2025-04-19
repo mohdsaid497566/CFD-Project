@@ -1,0 +1,18 @@
+<!-- Find and remove the theme preview section that would look something like this: -->
+<div class="col-span-1">
+  <div class="theme-preview" id="themePreview">
+    <h5>Theme Preview</h5>
+    <p>This is how your selected theme will look.</p>
+    
+    <h6>Font Size Preview:</h6>
+    <p>Text sample with the selected font size</p>
+    
+    <h6>Sample Form Field</h6>
+    <input type="text" class="form-control" placeholder="Input field preview">
+    
+    <div class="mt-2">
+      <button class="btn btn-primary">Primary Button</button>
+      <button class="btn btn-outline-primary">Outline Button</button>
+    </div>
+  </div>
+</div>

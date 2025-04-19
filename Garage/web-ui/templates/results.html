@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - Intake CFD Project</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Intake CFD Project</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/cad">CAD Generation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/simulation">Simulation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/results">Results</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/settings">Settings</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <h1 class="mb-4">Simulation Results</h1>
+        
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5>Available Results</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group" id="result-list">
+                            {% if results %}
+                                {% for result in results %}
+                                <button type="button" class="list-group-item list-group-item-action" onclick="loadResult('{{ result }}')">
+                                    {{ result }}
+                                </button>
+                                {% endfor %}
+                            {% else %}
+                                <p class="text-muted">No results available. Run a simulation first.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Result Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group" id="result-info">
+                            <li class="list-group-item">Date: <span id="result-date">--</span></li>
+                            <li class="list-group-item">RPM: <span id="result-rpm">--</span></li>
+                            <li class="list-group-item">Run time: <span id="result-runtime">--</span></li>
+                            <li class="list-group-item">Status: <span id="result-status">--</span></li>
+                        </ul>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button type="button" id="exportBtn" class="btn btn-outline-primary" disabled>Export Data</button>
+                            <button type="button" id="deleteBtn" class="btn btn-outline-danger" disabled>Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Visualization</h5>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-outline-secondary btn-sm active" id="btn-velocity">Velocity</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-pressure">Pressure</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-temperature">Temperature</button>
+                            <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-turbulence">Turbulence</button>
+                        </div>
+                    </div>
+                    <div class="card-body text-center">
+                        <div id="visualization">
+                            <img src="{{ url_for('static', filename='images/result_placeholder.png') }}" class="img-fluid mb-3" alt="CFD visualization">
+                            <p class="text-muted">Select a simulation result to view visualization</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>Flow Rate Analysis</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <div id="flow-chart">
+                                    <img src="{{ url_for('static', filename='images/flow_chart_placeholder.png') }}" class="img-fluid" alt="Flow rate chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5>Performance Metrics</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Volumetric Efficiency</td>
+                                            <td id="vol-efficiency">--</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Peak Flow Rate</td>
+                                            <td id="peak-flow">--</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Pressure Drop</td>
+                                            <td id="pressure-drop">--</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Flow Distribution Variance</td>
+                                            <td id="flow-variance">--</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to handle loading a result
+        function loadResult(resultName) {
+            // In a real application, this would fetch data from the server
+            console.log('Loading result:', resultName);
+            
+            // Enable buttons
+            document.getElementById('exportBtn').disabled = false;
+            document.getElementById('deleteBtn').disabled = false;
+            
+            // Update result info with mock data
+            document.getElementById('result-date').textContent = '2023-06-15 14:30';
+            document.getElementById('result-rpm').textContent = '6000';
+            document.getElementById('result-runtime').textContent = '1:45:23';
+            document.getElementById('result-status').textContent = 'Completed';
+            
+            // Update metrics with mock data
+            document.getElementById('vol-efficiency').textContent = '94.2%';
+            document.getElementById('peak-flow').textContent = '245.6 CFM';
+            document.getElementById('pressure-drop').textContent = '18.4 kPa';
+            document.getElementById('flow-variance').textContent = '3.2%';
+            
+            // Update selected result in list
+            const resultItems = document.querySelectorAll('#result-list .list-group-item');
+            resultItems.forEach(item => {
+                if (item.textContent.trim() === resultName) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // In a real app, you would update the visualization images based on the result
+        }
+        
+        // Set up visualization type buttons
+        const visButtons = document.querySelectorAll('.btn-group .btn');
+        visButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                visButtons.forEach(btn => btn.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // In a real app, you would update the visualization image based on the selected type
+                const visType = this.id.replace('btn-', '');
+                console.log('Changing visualization to:', visType);
+            });
+        });
+        
+        // Set up export button
+        document.getElementById('exportBtn').addEventListener('click', function() {
+            alert('Exporting result data...');
+            // In a real app, this would initiate a download of the result data
+        });
+        
+        // Set up delete button
+        document.getElementById('deleteBtn').addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this result?')) {
+                alert('Result deleted');
+                // In a real app, this would delete the result and refresh the list
+            }
+        });
+    </script>
+</body>
+</html>

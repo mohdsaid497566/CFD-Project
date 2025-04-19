@@ -1,0 +1,117 @@
+/* Global CSS Variables */
+:root {
+  /* Default theme colors (light theme) */
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f5f5f5;
+  --border-color: #e0e0e0;
+  --input-bg: #ffffff;
+  --primary-color: #1976d2;
+  --secondary-bg: #f9f9f9;
+  --hover-color: rgba(0, 0, 0, 0.04);
+  --accent-color: #1976d2;
+  
+  /* Animation settings */
+  --transition-speed: 0.3s;
+  
+  /* Font sizes */
+  --font-size-small: 14px;
+  --font-size-medium: 16px;
+  --font-size-large: 18px;
+  --font-size-x-large: 20px;
+}
+
+/* Global styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Apply theme to common elements */
+button, .button {
+  transition: background-color var(--transition-speed), 
+              color var(--transition-speed), 
+              border-color var(--transition-speed);
+}
+
+input, select, textarea {
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+  transition: background-color var(--transition-speed), 
+              color var(--transition-speed), 
+              border-color var(--transition-speed);
+}
+
+.card, .paper, .container {
+  background-color: var(--card-bg);
+  color: var(--text-color);
+  border-color: var(--border-color);
+  transition: background-color var(--transition-speed), 
+              color var(--transition-speed), 
+              border-color var(--transition-speed);
+}
+
+a {
+  color: var(--primary-color);
+  transition: color var(--transition-speed);
+}
+
+/* Hover effects */
+button:hover, .button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-color); 
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: var(--border-color); 
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color); 
+}
+
+/* Helper classes for theming */
+.primary-color {
+  color: var(--primary-color);
+}
+
+.accent-bg {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.secondary-bg {
+  background-color: var(--secondary-bg);
+}
+
+/* System theme detection support */
+@media (prefers-color-scheme: dark) {
+  [data-theme="system"] {
+    --background-color: #121212;
+    --text-color: #e0e0e0;
+    --card-bg: #1e1e1e;
+    --border-color: #444;
+    --input-bg: #333;
+    --primary-color: #90caf9;
+    --secondary-bg: #2a2a2a;
+    --hover-color: rgba(255, 255, 255, 0.08);
+  }
+}
