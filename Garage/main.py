@@ -430,399 +430,6 @@ def run_tests():
         print(e.stderr)
         print("Detailed logs can be found in 'error_log.txt'.")
         raise RuntimeError("Unit tests did not pass. Fix the issues and try again.")
-
-class WorkflowManager:
-    """Manages the execution of CFD workflow processes separate from the GUI"""
-    def __init__(self, logger=None, demo_mode=False):
-        """Initialize the workflow manager
-        
-        Args:
-            logger: Function to use for logging
-            demo_mode: Whether to run in demonstration mode
-        """
-        self.logger = logger or print
-        self.demo_mode = demo_mode
-        self.workflow_steps = []
-        self.current_step = None
-        self.workflow_running = False
-        self.workflow_canceled = False
-        self.results = {}
-        self.parameters = {}
-        
-        # Initialize any required resources
-        self._initialize_resources()
-        
-    def _initialize_resources(self):
-        """Initialize any resources needed by the workflow"""
-        # Create necessary directories
-        os.makedirs("cfd_results", exist_ok=True)
-        
-        # Create mock executables if in demo mode
-        if self.demo_mode:
-            self.logger("Creating mock executables for demonstration")
-            create_mock_executables()
-        
-    def define_workflow(self, steps):
-        """Define the workflow steps
-        
-        Args:
-            steps: List of workflow step definitions
-        """
-        self.workflow_steps = steps
-        self.logger(f"Workflow defined with {len(steps)} steps")
-    
-    def get_step_status(self, step_name):
-        """Get the status of a specific workflow step
-        
-        Args:
-            step_name: Name of the step to check
-            
-        Returns:
-            Status of the specified step
-        """
-        for step in self.workflow_steps:
-            if step['name'] == step_name:
-                return step['status']
-        return None
-    
-    def update_step_status(self, step_name, status):
-        """Update the status of a workflow step
-        
-        Args:
-            step_name: Name of the step to update
-            status: New status ('pending', 'running', 'complete', 'error', 'canceled')
-        """
-        for step in self.workflow_steps:
-            if step['name'] == step_name:
-                step['status'] = status
-                self.logger(f"Step '{step_name}' status updated to '{status}'")
-                break
-
-    def run_workflow(self, parameters, callback=None):
-        """Run the complete workflow with the given parameters
-        
-        Args:
-            parameters: Dictionary of workflow parameters
-            callback: Optional callback function to receive status updates
-            
-        Returns:
-            Results dictionary
-        """
-        if self.workflow_running:
-            self.logger("Workflow already running")
-            return False
-            
-        self.workflow_running = True
-        self.workflow_canceled = False
-        self.parameters = parameters
-        self.results = {}
-        
-        # Reset all steps to pending
-        for step in self.workflow_steps:
-            step['status'] = 'pending'
-        
-        # Execute each step in sequence
-        try:
-            for step in self.workflow_steps:
-                if self.workflow_canceled:
-                    self.logger("Workflow execution canceled")
-                    break
-                    
-                self.current_step = step
-                self.update_step_status(step['name'], 'running')
-                
-                # Execute the step
-                if callback:
-                    callback(f"Executing step: {step['name']}")
-                    
-                result = self._execute_step(step, parameters)
-                
-                # Store step result
-                self.results[step['name']] = result
-                self.update_step_status(step['name'], 'complete')
-                
-            return self.results
-            
-        except Exception as e:
-            self.logger(f"Error in workflow execution: {str(e)}")
-            if self.current_step:
-                self.update_step_status(self.current_step['name'], 'error')
-            raise
-        finally:
-            self.workflow_running = False
-            self.current_step = None
-
-    def _execute_step(self, step, parameters):
-        """Execute a single workflow step
-        
-        Args:
-            step: Workflow step definition
-            parameters: Dictionary of workflow parameters
-            
-        Returns:
-            Step execution result
-        """
-        step_name = step['name']
-        self.logger(f"Executing step: {step_name}")
-        
-        if step_name == "CAD":
-            return self._execute_cad_step(parameters)
-        elif step_name == "Mesh":
-            return self._execute_mesh_step(parameters)
-        elif step_name == "CFD":
-            return self._execute_cfd_step(parameters)
-        elif step_name == "Results":
-            return self._execute_results_step(parameters)
-        else:
-            raise ValueError(f"Unknown workflow step: {step_name}")
-
-    def _execute_cad_step(self, parameters):
-        """Execute CAD step to update geometry
-        
-        Args:
-            parameters: Workflow parameters
-            
-        Returns:
-            Path to generated STEP file
-        """
-        self.logger("Updating NX model...")
-        
-        # Extract parameters
-        L4 = parameters.get('L4')
-        L5 = parameters.get('L5')
-        alpha1 = parameters.get('alpha1')
-        alpha2 = parameters.get('alpha2')
-        alpha3 = parameters.get('alpha3')
-        
-        # Generate expressions file
-        exp(L4, L5, alpha1, alpha2, alpha3)
-        
-        # Run NX workflow
-        if self.demo_mode:
-            self.logger("DEMO MODE: Using mock NX workflow")
-            time.sleep(2)  # Simulate processing time
-            step_file = "INTAKE3D.step"
-            # Create demo file
-            with open(step_file, "w") as f:
-                f.write("MOCK STEP FILE - This is not a real STEP file\n")
-                f.write(f"Generated by mock NX workflow\n")
-                f.write(f"Parameters: L4={L4}, L5={L5}, Alpha1={alpha1}, Alpha2={alpha2}, Alpha3={alpha3}\n")
-        else:
-            step_file = run_nx_workflow()
-        
-        return step_file
-    
-    def _execute_mesh_step(self, parameters):
-        """Execute meshing step
-        
-        Args:
-            parameters: Workflow parameters
-            
-        Returns:
-            Path to generated mesh file
-        """
-        # Get input from previous step
-        step_file = self.results.get("CAD")
-        if not step_file:
-            raise ValueError("CAD step must be completed before meshing")
-        
-        mesh_file = "INTAKE3D.msh"
-        
-        if self.demo_mode:
-            self.logger(f"DEMO MODE: Using mock mesh processing for {step_file}")
-            time.sleep(3)  # Simulate processing time
-            with open(mesh_file, "w") as f:
-                f.write("MOCK MESH FILE - This is not a real mesh file\n")
-                f.write(f"Generated from: {step_file}\n")
-        else:
-            process_mesh(step_file, mesh_file)
-        
-        return mesh_file
-    
-    def _execute_cfd_step(self, parameters):
-        """Execute CFD simulation step
-        
-        Args:
-            parameters: Workflow parameters
-            
-        Returns:
-            Path to results directory
-        """
-        # Get input from previous step
-        mesh_file = self.results.get("Mesh")
-        if not mesh_file:
-            raise ValueError("Mesh step must be completed before CFD simulation")
-        
-        results_dir = "cfd_results"
-        
-        if self.demo_mode:
-            self.logger(f"DEMO MODE: Using mock CFD solver for {mesh_file}")
-            time.sleep(5)  # Simulate processing time
-            os.makedirs(results_dir, exist_ok=True)
-            # Create sample results
-            self._create_demo_cfd_results(results_dir, self.parameters)
-        else:
-            run_cfd(mesh_file)
-        
-        return results_dir
-    
-    def _execute_results_step(self, parameters):
-        """Process simulation results
-        
-        Args:
-            parameters: Workflow parameters
-            
-        Returns:
-            Dictionary of processed results
-        """
-        # Get input from previous step
-        results_dir = self.results.get("CFD")
-        if not results_dir:
-            raise ValueError("CFD step must be completed before results processing")
-        
-        output_file = "processed_results.csv"
-        
-        if self.demo_mode:
-            self.logger(f"DEMO MODE: Using mock results processing for {results_dir}")
-            time.sleep(2)  # Simulate processing time
-            # Generate mock results based on input parameters
-            L4 = parameters.get('L4', 3.0)
-            L5 = parameters.get('L5', 3.0)
-            alpha1 = parameters.get('alpha1', 15.0)
-            alpha2 = parameters.get('alpha2', 15.0)
-            alpha3 = parameters.get('alpha3', 15.0)
-            
-            # Calculate sample metrics
-            pressure_drop = 100 * (0.5 + 0.2 * L4 - 0.1 * L5 + 0.01 * alpha1 + 0.005 * alpha2 + 0.003 * alpha3)
-            flow_rate = 50 * (1 + 0.1 * L4 + 0.15 * L5 - 0.01 * alpha1 - 0.02 * alpha2 - 0.01 * alpha3)
-            uniformity = 85 * (1 - 0.02 * abs(L4 - 3) - 0.02 * abs(L5 - 3) - 0.01 * abs(alpha1 - 15) - 0.01 * abs(alpha2 - 15) - 0.01 * abs(alpha3 - 15))
-            
-            # Write to output file
-            with open(output_file, "w") as f:
-                f.write("Parameter,Value\n")
-                f.write(f"pressure_drop,{pressure_drop}\n")
-                f.write(f"flow_rate,{flow_rate}\n")
-                f.write(f"uniformity,{uniformity}\n")
-                
-            processed_results = {
-                'file': output_file,
-                'metrics': {
-                    'pressure_drop': pressure_drop,
-                    'flow_rate': flow_rate,
-                    'uniformity': uniformity
-                },
-                'visualization_data': self._generate_visualization_data(parameters)
-            }
-        else:
-            process_results(results_dir, output_file)
-            # Parse results file to extract metrics
-            processed_results = self._parse_results_file(output_file)
-        
-        return processed_results
-
-    def cancel_workflow(self):
-        """Cancel the running workflow"""
-        if self.workflow_running:
-            self.workflow_canceled = True
-            self.logger("Workflow cancellation requested")
-            return True
-        return False
-    
-    def _initialize_resources(self):
-        """Initialize any resources needed by the workflow"""
-        # Create necessary directories
-        os.makedirs("cfd_results", exist_ok=True)
-        
-        # Create mock executables if in demo mode
-        if self.demo_mode:
-            self.logger("Creating mock executables for demonstration")
-            create_mock_executables()
-    
-    def _create_demo_cfd_results(self, results_dir, parameters):
-        """Create demo CFD results files"""
-        os.makedirs(results_dir, exist_ok=True)
-        
-        # Extract parameters
-        L4 = parameters.get('L4', 3.0)
-        L5 = parameters.get('L5', 3.0)
-        alpha1 = parameters.get('alpha1', 15.0)
-        alpha2 = parameters.get('alpha2', 15.0)
-        alpha3 = parameters.get('alpha3', 15.0)
-        
-        # Create pressure data file
-        with open(f"{results_dir}/pressure.dat", "w") as f:
-            pressure = 100 * (0.5 + 0.2 * L4 - 0.1 * L5 + 0.01 * alpha1)
-            f.write(f"{pressure}\n")
-        
-        # Create velocity data file
-        with open(f"{results_dir}/velocity.dat", "w") as f:
-            velocity = 50 * (1 + 0.1 * L4 + 0.15 * L5 - 0.01 * alpha1)
-            f.write(f"{velocity}\n")
-    
-    def _generate_visualization_data(self, parameters):
-        """Generate visualization data for demo mode
-        
-        Args:
-            parameters: Workflow parameters
-            
-        Returns:
-            Dictionary of visualization data
-        """
-        # Extract parameters
-        L4 = parameters.get('L4', 3.0)
-        L5 = parameters.get('L5', 3.0)
-        alpha1 = parameters.get('alpha1', 15.0)
-        alpha2 = parameters.get('alpha2', 15.0)
-        alpha3 = parameters.get('alpha3', 15.0)
-        
-        # Create sample data
-        X, Y = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
-        R = np.sqrt(X**2 + Y**2)
-        
-        # Calculate fields based on parameters
-        intensity = 0.5 + 0.1 * L4 + 0.05 * L5 + 0.01 * (alpha1 + alpha2 + alpha3)
-        phase = 0.1 * alpha1
-        
-        return {
-            'X': X,
-            'Y': Y,
-            'Z': intensity * np.sin(R + phase) / (R + 0.1),
-            'Pressure': intensity * (1 - np.exp(-0.1 * R**2)) * (1 + 0.2 * np.sin(5*R)),
-            'Velocity': intensity * 2 * np.exp(-0.2 * R**2) * (1 + 0.1 * np.cos(5*Y)),
-            'Temperature': intensity * (0.5 + 0.5 * np.tanh(R - 2)),
-            'Turbulence': intensity * 0.1 * (X**2 + Y**2) * np.exp(-0.1 * R)
-        }
-    
-    def _parse_results_file(self, file_path):
-        """Parse results from CSV file
-        
-        Args:
-            file_path: Path to results CSV file
-            
-        Returns:
-            Dictionary of processed results
-        """
-        metrics = {}
-        
-        try:
-            with open(file_path, 'r') as f:
-                lines = f.readlines()
-                
-            for line in lines[1:]:  # Skip header
-                if ',' in line:
-                    key, value = line.strip().split(',', 1)
-                    try:
-                        metrics[key] = float(value)
-                    except ValueError:
-                        metrics[key] = value
-        except Exception as e:
-            self.logger(f"Error parsing results file: {str(e)}")
-        
-        return {
-            'file': file_path,
-            'metrics': metrics
-        }
-
 # Enhanced GUI Class for Pre-/Post-Processing
 class ModernTheme:
     """Modern theme settings for the application"""
@@ -893,110 +500,14 @@ class ModernTheme:
         
         # Configure root window
         root.configure(background=self.bg_color)
-
-    def _apply_light_theme(self, root):
-            """Apply light theme to the application"""
-            self.bg_color = "#f0f0f0"
-            self.fg_color = "#000000"
-            self.secondary_color = "#0078d7"
-            self.selected_bg = "#CCE8FF"
-            self.hover_color = "#E5F1FB"
-            
-            style = ttk.Style()
-            style.theme_use('clam')  # Use clam as base theme - stable across platforms
-            
-            # Configure ttk styles
-            style.configure(".", 
-                        background=self.bg_color,
-                        foreground=self.fg_color,
-                        fieldbackground=self.bg_color)
-            
-            style.configure("TButton", 
-                        background=self.bg_color, 
-                        foreground=self.fg_color)
-            
-            style.map("TButton",
-                    background=[("active", self.hover_color)],
-                    foreground=[("active", self.fg_color)])
-            
-            style.configure("TFrame", background=self.bg_color)
-            style.configure("TNotebook", background=self.bg_color)
-            style.configure("TNotebook.Tab", background=self.bg_color, foreground=self.fg_color)
-            style.map("TNotebook.Tab",
-                    background=[("selected", self.selected_bg)],
-                    foreground=[("selected", self.fg_color)])
-            
-            style.configure("TLabelframe", background=self.bg_color, foreground=self.fg_color)
-            style.configure("TLabelframe.Label", background=self.bg_color, foreground=self.fg_color)
-            
-            # Configure the root window and standard widgets
-            root.configure(background=self.bg_color)
-            
-            # Apply recursively to all tkinter widgets
-            self._update_widget_colors(root)
-    
-    def _apply_dark_theme(self, root):
-        """Apply dark theme to the application"""
-        self.bg_color = "#2d2d2d"
-        self.fg_color = "#ffffff"
-        self.secondary_color = "#0078d7"
-        self.selected_bg = "#185a9d"
-        self.hover_color = "#404040"
-        
-        style = ttk.Style()
-        style.theme_use('clam')  # Use clam as base theme - stable across platforms
-        
-        # Configure ttk styles for dark theme
-        style.configure(".", 
-                      background=self.bg_color,
-                      foreground=self.fg_color,
-                      fieldbackground="#3d3d3d")
-        
-        style.configure("TButton", 
-                       background="#3d3d3d", 
-                       foreground=self.fg_color)
-        
-        style.map("TButton",
-                 background=[("active", self.hover_color)],
-                 foreground=[("active", self.fg_color)])
-        
-        style.configure("TFrame", background=self.bg_color)
-        style.configure("TNotebook", background=self.bg_color)
-        style.configure("TNotebook.Tab", background="#3d3d3d", foreground=self.fg_color)
-        style.map("TNotebook.Tab",
-                 background=[("selected", self.selected_bg)],
-                 foreground=[("selected", "#ffffff")])
-        
-        style.configure("TLabelframe", background=self.bg_color, foreground=self.fg_color)
-        style.configure("TLabelframe.Label", background=self.bg_color, foreground=self.fg_color)
-        
-        style.configure("TEntry", fieldbackground="#3d3d3d", foreground=self.fg_color)
-        style.configure("TCombobox", fieldbackground="#3d3d3d", foreground=self.fg_color,
-                      selectbackground=self.selected_bg, selectforeground="#ffffff")
-        
-        # Configure the root window
-        root.configure(background=self.bg_color)
-        
-        # Apply recursively to all tkinter widgets
-        self._update_widget_colors(root)
-
-    def _apply_system_theme(self, root):
-        """Apply system theme (falls back to light or dark based on OS settings)"""
-        # Check if we can detect system dark mode
-        # This is a simplified approach - in practice, you might want to use platform-specific methods
-        if self._is_system_in_dark_mode():
-            self._apply_dark_theme(root)
-        else:
-            self._apply_light_theme(root)
-    
-    def _is_system_in_dark_mode(self):
+    def is_system_in_dark_mode(self):
         """Detect if system is using dark mode"""
         # This is a simplified implementation
         # In practice, you would use platform-specific methods
         # For now, just always return False (default to light theme)
         return False
     
-    def _update_widget_colors(self, widget):
+    def update_widget_colors(self, widget):
         """Recursively update colors for all widgets"""
         try:
             # Skip updating certain widget types
@@ -1019,14 +530,14 @@ class ModernTheme:
                         
             # Recursively process all children
             for child in widget.winfo_children():
-                self._update_widget_colors(child)
+                self.update_widget_colors(child)
                 
         except Exception as e:
             # Just log the error and continue - don't let theme issues crash the app
             print(f"Error updating widget colors: {e}")
             pass
     
-    def _get_timestamp(self):
+    def get_timestamp(self):
         """Get current timestamp for logging"""
         import datetime
         return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -1064,10 +575,10 @@ def add_tooltip(self, widget, text):
     """Add a tooltip to a widget"""
     return ToolTip(widget, text)
 
-class WorkflowGUI:
+class GUI:
     """Main GUI class for the Intake CFD Optimization Suite"""    
     def __init__(self, root):
-        """Initialize the WorkflowGUI with the root Tk window"""
+        """Initialize the GUI with the root Tk window"""
         self.root = root
         
         # Initialize the theme
@@ -1100,10 +611,13 @@ class WorkflowGUI:
         self.hpc_key_file_passphrase = tk.StringVar(value="")
         self.memory_scale = tk.DoubleVar(value=1.0)
         self.results_notebook = None
+        self.theme_combo = None
         
         self.theme_var = tk.StringVar(value="Light")
-        self.font_size_var = tk.StringVar(value="Medium")
-        
+        self.font_size_var = tk.StringVar(value="12")
+        self.font_family_var = tk.StringVar(value="Default") 
+        self.font_size = 12  # Add this numeric version of font size
+
         # Initialize visualization frames as None
         self.contour_frame = None
         self.vector_frame = None
@@ -1114,6 +628,9 @@ class WorkflowGUI:
         self.azimuth_var = tk.IntVar(value=45)
         self.surface_display_var = tk.StringVar(value="Surface")
         
+        self.animation_running = False
+        self.animation_timer_id = None
+
         # Load settings
         self.load_settings()
         
@@ -1142,25 +659,7 @@ class WorkflowGUI:
             'Temperature': None,
             'Turbulence': None
         }
-        
-            # Initialize workflow manager
-        self.workflow_manager = WorkflowManager(
-            logger=self.log,
-            demo_mode=DEMO_MODE
-        )
-        
-        # Define standard workflow steps
-        self.workflow_manager.define_workflow([
-            {'name': 'CAD', 'status': 'pending', 'desc': 'Updates the NX model with parameters'},
-            {'name': 'Mesh', 'status': 'pending', 'desc': 'Generates mesh from geometry'},
-            {'name': 'CFD', 'status': 'pending', 'desc': 'Runs CFD simulation'},
-            {'name': 'Results', 'status': 'pending', 'desc': 'Processes simulation results'}
-        ])
-        
-        # Store reference to the steps for UI updates
-        self.workflow_steps = self.workflow_manager.workflow_steps
-        
-        
+                
         # Update memory usage display
         self.update_memory_display()
         
@@ -1237,196 +736,7 @@ class WorkflowGUI:
         except Exception as e:
             self.log(f"Error toggling auth type: {e}")
 
-    def browse_key_file(self):
-        """Browse for SSH private key file"""
-        from tkinter import filedialog
-        try:
-            key_file = filedialog.askopenfilename(
-                title="Select SSH Private Key",
-                filetypes=[("All Files", "*.*"), ("SSH Key", "*.pem")]
-            )
-            if key_file:
-                self.hpc_key_path.delete(0, tk.END)
-                self.hpc_key_path.insert(0, key_file)
-        except Exception as e:
-            self.log(f"Error browsing for key file: {e}")
-
-    def test_hpc_connection(self):
-        """Test HPC connection"""
-        try:
-            self.connection_status_var.set("Status: Testing...")
-            self.connection_status_label.config(foreground="orange")
-            
-            # Get connection details
-            config = self.get_hpc_config()
-            if not config:
-                return
-                
-            # Disable test button during test
-            if hasattr(self, 'test_connection_button'):
-                self.test_connection_button.config(state=tk.DISABLED)
-            
-            # Run the test in a thread
-            thread = threading.Thread(target=self._test_connection_thread, args=(config,), daemon=True)
-            thread.start()
-        except Exception as e:
-            self.log(f"Error testing HPC connection: {e}")
-            self.connection_status_var.set(f"Status: Error - {str(e)}")
-            self.connection_status_label.config(foreground="red")
-
-    def _test_connection_thread(self, config):
-        """Thread to test HPC connection"""
-        try:
-            # Try to import paramiko
-            try:
-                import paramiko
-            except ImportError:
-                # Update UI in main thread
-                self.root.after(0, lambda: self.update_connection_status(False, "Paramiko SSH library not installed"))
-                return
-            
-            # Test connection
-            try:
-                client = paramiko.SSHClient()
-                client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-                
-                if config.get("use_key"):
-                    # Connect with key
-                    client.connect(
-                        hostname=config["hostname"],
-                        port=config["port"],
-                        username=config["username"],
-                        key_filename=config["key_path"],
-                        timeout=10
-                    )
-                else:
-                    # Connect with password
-                    client.connect(
-                        hostname=config["hostname"],
-                        port=config["port"],
-                        username=config["username"],
-                        password=config["password"],
-                        timeout=10
-                    )
-                    
-                # Execute a simple command to test
-                stdin, stdout, stderr = client.exec_command("uname -a")
-                result = stdout.read().decode('utf-8')
-                
-                # Close connection
-                client.close()
-                
-                # Update UI in main thread
-                self.root.after(0, lambda: self.update_connection_status(True, f"Connected: {result.strip()}"))
-                
-            except Exception as e:
-                # Update UI in main thread
-                self.root.after(0, lambda: self.update_connection_status(False, str(e)))
-                
-        except Exception as e:
-            # Update UI in main thread
-            self.root.after(0, lambda: self.update_connection_status(False, f"Error: {str(e)}"))
-
-    def update_connection_status(self, success, message):
-        """Update connection status UI"""
-        try:
-            if success:
-                self.connection_status_var.set(f"Status: Connected")
-                self.connection_status_label.config(foreground="green")
-                self.log(f"HPC connection successful: {message}")
-            else:
-                self.connection_status_var.set(f"Status: Failed")
-                self.connection_status_label.config(foreground="red")
-                self.log(f"HPC connection failed: {message}")
-                messagebox.showerror("Connection Failed", f"Failed to connect: {message}")
-            
-            # Re-enable test button
-            if hasattr(self, 'test_connection_button'):
-                self.test_connection_button.config(state=tk.NORMAL)
-        except Exception as e:
-            self.log(f"Error updating connection status: {e}")
-
-    def get_hpc_config(self):
-        """Get HPC connection configuration from UI settings"""
-        try:
-            # Check if all required widgets exist
-            required_attrs = ['hpc_hostname', 'hpc_username', 'hpc_port']
-            if not all(hasattr(self, attr) for attr in required_attrs):
-                self.log("Error: HPC widgets not properly initialized")
-                return None
-                
-            config = {
-                "hostname": self.hpc_hostname.get(),
-                "username": self.hpc_username.get(),
-                "port": int(self.hpc_port.get()) if self.hpc_port.get().isdigit() else 22,
-            }
-            
-            # Get authentication details
-            if hasattr(self, 'auth_type') and self.auth_type.get() == "key":
-                config["use_key"] = True
-                config["key_path"] = self.hpc_key_path.get() if hasattr(self, 'hpc_key_path') else ""
-            else:
-                config["use_key"] = False
-                config["password"] = self.hpc_password.get() if hasattr(self, 'hpc_password') else ""
-                
-            # Get scheduler type
-            if hasattr(self, 'hpc_scheduler'):
-                config["scheduler"] = self.hpc_scheduler.get()
-                
-            return config
-        except Exception as e:
-            self.log(f"Error getting HPC config: {e}")
-            messagebox.showerror("Error", f"Invalid HPC configuration: {str(e)}")
-            return None
-
-    def save_hpc_profiles(self):
-        """Save HPC settings to config file"""
-        try:
-            settings = {
-                "hpc_enabled": True,
-                "visible_in_gui": True,
-                "hostname": self.hpc_hostname.get() if hasattr(self, 'hpc_hostname') else "",
-                "username": self.hpc_username.get() if hasattr(self, 'hpc_username') else "",
-                "port": int(self.hpc_port.get()) if hasattr(self, 'hpc_port') and self.hpc_port.get().isdigit() else 22,
-                "remote_dir": self.hpc_remote_dir.get() if hasattr(self, 'hpc_remote_dir') else "/home/user/cfd_projects",
-                "use_key": self.auth_type.get() == "key" if hasattr(self, 'auth_type') else False,
-                "key_path": self.hpc_key_path.get() if hasattr(self, 'hpc_key_path') else "",
-                "scheduler": self.hpc_scheduler.get() if hasattr(self, 'hpc_scheduler') else "slurm",
-                "job_defaults": {}
-            }
-            
-            # Add job settings
-            if hasattr(self, 'job_name'):
-                settings["job_defaults"]["name"] = self.job_name.get()
-            if hasattr(self, 'job_nodes'):
-                settings["job_defaults"]["nodes"] = self.job_nodes.get()
-            if hasattr(self, 'job_cores_per_node'):
-                settings["job_defaults"]["cores_per_node"] = self.job_cores_per_node.get()
-            if hasattr(self, 'job_walltime'):
-                settings["job_defaults"]["walltime"] = self.job_walltime.get()
-            if hasattr(self, 'job_queue'):
-                settings["job_defaults"]["queue"] = self.job_queue.get()
-            
-            # Ensure Config directory exists
-            import os
-            config_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Config")
-            os.makedirs(config_dir, exist_ok=True)
-            
-            # Save settings
-            import json
-            settings_file = os.path.join(config_dir, "hpc_profiles.json")
-            with open(settings_file, 'w') as f:
-                json.dump(settings, f, indent=4)
-            
-            self.log("HPC settings saved successfully")
-            messagebox.showinfo("Success", "HPC settings saved successfully")
-            return True
-        except Exception as e:
-            self.log(f"Error saving HPC settings: {e}")
-            messagebox.showerror("Error", f"Failed to save HPC settings: {str(e)}")
-            return False
-
-    def _create_default_hpc_profiles(self):
+    def create_default_hpc_profiles(self):
         """Create default HPC settings"""
         default_settings = {
             "hpc_enabled": True,
@@ -1605,16 +915,37 @@ class WorkflowGUI:
         font_frame.pack(fill='x', pady=5, padx=5)
         
         self.font_size_var = tk.StringVar(value="normal")
-        ttk.Radiobutton(font_frame, text="Small", variable=self.font_size_var, 
+        ttk.Radiobutton(font_frame, text="8", variable=self.font_size_var, 
                     value="small", command=lambda: self.apply_font_size(8)).grid(
                     row=0, column=0, sticky='w', pady=5)
-        ttk.Radiobutton(font_frame, text="Normal", variable=self.font_size_var, 
+        ttk.Radiobutton(font_frame, text="12", variable=self.font_size_var, 
                     value="normal", command=lambda: self.apply_font_size(10)).grid(
                     row=0, column=1, sticky='w', pady=5)
-        ttk.Radiobutton(font_frame, text="Large", variable=self.font_size_var, 
+        ttk.Radiobutton(font_frame, text="16", variable=self.font_size_var, 
                     value="large", command=lambda: self.apply_font_size(12)).grid(
                     row=0, column=2, sticky='w', pady=5)
         
+        font_family_frame = ttk.LabelFrame(appearance_tab, text="Font Family", padding=10)
+        font_family_frame.pack(fill='x', pady=5, padx=5)
+
+        available_fonts = self.get_available_fonts()
+        
+        self.font_family_var = tk.StringVar(value="Default")
+                        
+        if len(available_fonts) > 6:
+            ttk.Label(font_family_frame, text="Fonts:").pack(anchor='w', pady=(10, 2))
+            self.additional_font_var = tk.StringVar()
+            additional_font_combo = ttk.Combobox(font_family_frame, textvariable=self.additional_font_var, 
+                                            values=available_fonts, state="readonly")
+        additional_font_combo.pack(fill='x', pady=2)
+        
+        def apply_selected_font(event):
+            selected = self.additional_font_var.get()
+            if selected:
+                self.font_family_var.set(selected)
+                self.apply_font_family()
+        
+        additional_font_combo.bind("<<ComboboxSelected>>", apply_selected_font)        
         # Advanced settings tab
         advanced_tab = ttk.Frame(settings_notebook)
         settings_notebook.add(advanced_tab, text="Advanced")
@@ -1679,48 +1010,58 @@ class WorkflowGUI:
         
         # Update memory info
         self.update_memory_display()
+   
+    def get_available_fonts(self):
+        """Get a list of available fonts on the system"""
+        try:
+            import tkinter.font as tkfont
+            
+            # Get available fonts from the system
+            available_fonts = sorted(list(set(tkfont.families())))
+            
+            # Filter out special font names and duplicates
+            filtered_fonts = []
+            for font in available_fonts:
+                # Skip fonts that start with @ (vertical fonts on Windows)
+                if not font.startswith('@') and font not in filtered_fonts:
+                    filtered_fonts.append(font)
+            
+            return filtered_fonts
+        except Exception as e:
+            self.log(f"Error getting available fonts: {e}")
+            # Return safe defaults
+            return ["Default", "Arial", "Helvetica", "Times", "Courier", "Verdana"]
     
-    def browse_nx_path(self):
-        """Browse for NX executable"""
-        file_path = filedialog.askopenfilename(
-            title="Select NX Executable",
-            filetypes=[("Executable files", "*.exe"), ("All files", "*.*")]
-        )
-        if file_path:
-            self.nx_path_var.set(file_path)
-    
+    def apply_font_family(self):
+        """Apply just the font family change without changing size"""
+        try:
+            # Get the selected font family
+            font_family = self.font_family_var.get()
+            
+            # Apply the font family at the current font size
+            current_size = self.font_size if hasattr(self, 'font_size') else 12
+            self.apply_font_size(current_size, font_family)
+            
+            # Update the preview if it exists
+            if hasattr(self, 'font_preview'):
+                # Use the actual font to show a preview
+                preview_font = (font_family if font_family != "Default" else "TkDefaultFont", 
+                               current_size, "normal")
+                self.font_preview.config(font=preview_font)
+                
+            self.log(f"Font family updated to {font_family}")
+            
+        except Exception as e:
+            self.log(f"Error applying font family: {e}")
+            messagebox.showerror("Font Error", 
+                                f"Could not apply font family '{font_family}'. It may not be available on your system.")
+        
     def browse_project_dir(self):
         """Browse for project directory"""
         dir_path = filedialog.askdirectory(title="Select Project Directory")
         if dir_path:
             self.project_dir_var.set(dir_path)
             
-    def apply_dark_theme(self):
-        """Apply dark theme to the application"""
-        # Update theme object - remove secondary_color reference, use only existing properties
-        self.theme.bg_color = "#2C3E50"
-        self.theme.primary_color = "#34495E"
-        self.theme.secondary_color = "#3498DB"  # Secondary color already exists
-        self.theme.text_color = "#ECF0F1"
-        self.theme.success_color = "#2ECC71"
-        self.theme.warning_color = "#F39C12"
-        self.theme.error_color = "#E74C3C"
-        self.theme.border_color = "#7F8C8D"
-        
-        # Apply theme to all widgets
-        self.theme.apply_theme(self.root)
-        
-        # Switch to dark theme variants for all canvases if they exist
-        if hasattr(self, 'workflow_canvas'):
-            self.workflow_canvas.configure(bg=self.theme.bg_color, highlightbackground=self.theme.border_color)
-        
-        # Update status
-        self.update_status("Applied dark theme")
-        
-        # Redraw workflow if available
-        if hasattr(self, '_redraw_workflow'):
-            self._redraw_workflow()
-    
     def apply_light_theme(self):
         """Apply light theme to the application"""
         self.theme.primary_color = "#4a6fa5"  # Blue
@@ -1741,16 +1082,8 @@ class WorkflowGUI:
         
         # Redraw workflow if available
         if hasattr(self, '_redraw_workflow'):
-            self._redraw_workflow()
-    
-    def apply_system_theme(self):
-        """Apply system theme to the application"""
-        # For simplicity, use light theme as system theme
-        self.apply_light_theme()
-        
-        # Update status
-        self.update_status("Applied system theme")
-        
+            self.redraw_workflow()
+            
     def save_settings(self):
         """Save settings to a configuration file"""
         try:
@@ -1767,7 +1100,8 @@ class WorkflowGUI:
                 },
                 "appearance": {
                     "theme": self.theme_var.get() if hasattr(self, 'theme_var') else "Light",
-                    "font_size": self.font_size_var.get() if hasattr(self, 'font_size_var') else "Medium"
+                    "font_size": self.font_size_var.get() if hasattr(self, 'font_size_var') else "12",
+                    "font_family": self.font_family_var.get() if hasattr(self, 'font_family_var') else "Default"
                 }
             }
             
@@ -1817,11 +1151,13 @@ class WorkflowGUI:
                 app = settings["appearance"]
                 if "theme" in app and hasattr(self, 'theme_var'):
                     self.theme_var.set(app["theme"])
-                    self.apply_appearance_settings()
                     
                 if "font_size" in app and hasattr(self, 'font_size_var'):
                     self.font_size_var.set(app["font_size"])
                     self.apply_appearance_settings()
+            
+                if "font_family" in app and hasattr(self, 'font_family_var'):
+                    self.font_family_var.set(app["font_family"])
             
             self.log("Settings loaded successfully")
             
@@ -1861,6 +1197,8 @@ class WorkflowGUI:
             if hasattr(self, 'font_size_var'):
                 self.font_size_var.set("normal")
             
+            if hasattr(self, 'font_family_var'):
+                self.font_family_var.set("Default")
             # Apply reset settings
             self.apply_appearance_settings()
             
@@ -1880,7 +1218,48 @@ class WorkflowGUI:
         # In a real app, this would connect to a server to check for updates
         # For this demo, just show a message
         messagebox.showinfo("Update Check", "You are using the latest version of the Intake CFD Optimization Suite.")
-    
+   
+    def show_diagnostics_result(self, results, memory_message, disk_message):
+        """Display system diagnostics results in a formatted message box"""
+        try:
+            # Create a dialog to show results
+            result_dialog = tk.Toplevel(self.root)
+            result_dialog.title("Diagnostics Results")
+            result_dialog.geometry("600x400")
+            result_dialog.transient(self.root)
+            result_dialog.grab_set()
+            
+            # Add content
+            main_frame = ttk.Frame(result_dialog, padding=10)
+            main_frame.pack(fill='both', expand=True)
+            
+            ttk.Label(main_frame, text="System Diagnostics Results", 
+                    font=self.theme.header_font).pack(pady=10)
+            
+            # Display results in a scrolled text widget
+            results_text = scrolledtext.ScrolledText(main_frame, wrap=tk.WORD, height=15, width=70)
+            results_text.pack(fill='both', expand=True, pady=10)
+            
+            # Format and insert results
+            results_text.insert(tk.END, "=== SYSTEM DIAGNOSTICS SUMMARY ===\n\n")
+            
+            # Insert system info
+            results_text.insert(tk.END, f"Memory: {memory_message}\n")
+            results_text.insert(tk.END, f"Disk: {disk_message}\n\n")
+            
+            # Insert test results or error messages
+            results_text.insert(tk.END, "--- Detailed Results ---\n")
+            for test, result in results.items():
+                results_text.insert(tk.END, f"{test}: {result}\n")
+            
+            # Add close button
+            ttk.Button(main_frame, text="Close", 
+                      command=result_dialog.destroy).pack(pady=10)
+            
+        except Exception as e:
+            self.log(f"Error showing diagnostics results: {str(e)}")
+            messagebox.showerror("Error", f"Failed to display diagnostics results: {str(e)}")
+        
     def run_diagnostics(self):
         """Run system diagnostics"""
         # Create a dialog to show diagnostics progress
@@ -1916,11 +1295,14 @@ class WorkflowGUI:
         def run_thread():
             try:
                 # Run diagnostics
-                self._run_diagnostics_thread(status_var, results_text, progress, close_button)
+                self.run_diagnostics_thread(status_var, results_text, progress, close_button)
             except Exception as e:
                 # Handle errors
                 self.log(f"Diagnostics error: {str(e)}")
-                self.root.after(0, lambda: self._show_diagnostics_error(str(e)))
+                # Create a dictionary with the error message instead of passing the string directly
+                error_dict = {"Error": str(e)}
+                # Use _show_diagnostics_result with appropriate error messages
+                self.root.after(0, lambda: self.show_diagnostics_result(error_dict, "Memory info unavailable", "Disk info unavailable"))
                 self.root.after(0, lambda: status_var.set("Diagnostics failed"))
                 self.root.after(0, lambda: progress.stop())
                 self.root.after(0, lambda: close_button.config(state='normal'))
@@ -1928,91 +1310,7 @@ class WorkflowGUI:
         # Start diagnostics thread
         threading.Thread(target=run_thread, daemon=True).start()
 
-    def run_workflow(self):
-        """Run the entire intake optimization workflow"""
-        try:
-            # Check if a workflow is already running
-            if self.workflow_running:
-                messagebox.showinfo("Workflow Running", "A workflow is already running. Please wait for it to complete or cancel it.")
-                return
-            
-            # Validate inputs
-            try:
-                self._validate_workflow_inputs()
-            except Exception as ve:
-                messagebox.showerror("Invalid Input", str(ve))
-                return
-            
-            # Get parameter values
-            parameters = {
-                'L4': float(self.l4_workflow.get()),
-                'L5': float(self.l5_workflow.get()),
-                'alpha1': float(self.alpha1_workflow.get()),
-                'alpha2': float(self.alpha2_workflow.get()),
-                'alpha3': float(self.alpha3_workflow.get())
-            }
-            
-            # Update UI state
-            self.workflow_running = True
-            self.run_button.config(state='disabled')
-            self.cancel_button.config(state='normal')
-            
-            # Clear status text
-            if hasattr(self, 'workflow_status_text'):
-                self.workflow_status_text.configure(state='normal')
-                self.workflow_status_text.delete(1.0, tk.END)
-                self.workflow_status_text.configure(state='disabled')
-            
-            # Check if using HPC
-            if self.env_var.get() == "hpc":
-                # Run workflow on HPC
-                self._run_hpc_workflow(parameters['L4'], parameters['L5'], 
-                                    parameters['alpha1'], parameters['alpha2'], parameters['alpha3'])
-            else:
-                # Create and start a local worker thread
-                self.workflow_thread = threading.Thread(
-                    target=self._run_workflow_thread,
-                    args=(parameters,),
-                    daemon=True
-                )
-                self.workflow_thread.start()
-            
-            # Update status
-            self.update_status("Workflow started", show_progress=True)
-            
-        except Exception as e:
-            self.log(f"Error starting workflow: {str(e)}")
-            messagebox.showerror("Error", f"Failed to start workflow: {str(e)}")
-
-    def _run_workflow_thread(self, parameters):
-        """Run the workflow process in a separate thread"""
-        try:
-            # Reset workflow cancel flag
-            self.workflow_manager.workflow_canceled = False
-            
-            # Define status update callback
-            def status_callback(message):
-                self.root.after(0, lambda: self._update_workflow_status(message))
-            
-            # Run the workflow
-            results = self.workflow_manager.run_workflow(
-                parameters=parameters,
-                callback=status_callback
-            )
-            
-            # Process results
-            if results and not self.workflow_manager.workflow_canceled:
-                # Display results in the UI
-                self.root.after(0, lambda: self._display_workflow_results(results, parameters))
-                self.root.after(0, lambda: self._workflow_completed())
-            elif self.workflow_manager.workflow_canceled:
-                self.root.after(0, lambda: self._workflow_canceled())
-            
-        except Exception as e:
-            self.log(f"Workflow error: {str(e)}")
-            self.root.after(0, lambda: self._workflow_failed(str(e)))
-            
-    def _validate_workflow_inputs(self):
+    def validate_workflow_inputs(self):
         """Validate workflow input parameters"""
         try:
             # Check that all parameters are valid numbers
@@ -2043,397 +1341,6 @@ class WorkflowGUI:
         except ValueError:
             messagebox.showerror("Invalid Input", "All parameters must be valid numbers")
             return False
-
-    def _run_workflow_thread(self, L4, L5, alpha1, alpha2, alpha3):
-        """Run the workflow process in a separate thread"""
-        try:
-            # Flag to track if the workflow was canceled
-            self.workflow_canceled = False
-            
-            # Generate and export expressions
-            self._update_workflow_status("Generating expressions...")
-            if DEMO_MODE:
-                time.sleep(1)  # Simulate processing time
-            self._update_workflow_step("CAD", "running")
-            
-            # Generate expression file
-            try:
-                exp(L4, L5, alpha1, alpha2, alpha3)
-                self._update_workflow_status("Expressions generated")
-            except Exception as e:
-                self._update_workflow_status(f"Error generating expressions: {str(e)}")
-                self._update_workflow_step("CAD", "error")
-                self._workflow_failed(f"Expression generation failed: {str(e)}")
-                return
-            
-            # Check if canceled
-            if self.workflow_canceled:
-                self._workflow_canceled()
-                return
-            
-            # Run NX update
-            self._update_workflow_status("Updating NX model...")
-            try:
-                if not DEMO_MODE:
-                    run_nx_workflow()
-                else:
-                    time.sleep(2)  # Simulate NX processing time
-                self._update_workflow_status("NX model updated successfully")
-                self._update_workflow_step("CAD", "complete")
-            except Exception as e:
-                self._update_workflow_status(f"Error updating NX model: {str(e)}")
-                self._update_workflow_step("CAD", "error")
-                self._workflow_failed(f"NX update failed: {str(e)}")
-                return
-            
-            # Check if canceled
-            if self.workflow_canceled:
-                self._workflow_canceled()
-                return
-            
-            # Process mesh
-            self._update_workflow_status("Generating mesh...")
-            self._update_workflow_step("Mesh", "running")
-            try:
-                if not DEMO_MODE:
-                    process_mesh("INTAKE3D.step", "INTAKE3D.msh")
-                else:
-                    time.sleep(3)  # Simulate mesh generation time
-                self._update_workflow_status("Mesh generated successfully")
-                self._update_workflow_step("Mesh", "complete")
-            except Exception as e:
-                self._update_workflow_status(f"Error generating mesh: {str(e)}")
-                self._update_workflow_step("Mesh", "error")
-                self._workflow_failed(f"Mesh generation failed: {str(e)}")
-                return
-            
-            # Check if canceled
-            if self.workflow_canceled:
-                self._workflow_canceled()
-                return
-            
-            # Run CFD simulation
-            self._update_workflow_status("Running CFD simulation...")
-            self._update_workflow_step("CFD", "running")
-            try:
-                if not DEMO_MODE:
-                    run_cfd("INTAKE3D.msh")
-                else:
-                    time.sleep(5)  # Simulate CFD computation time
-                self._update_workflow_status("CFD simulation completed successfully")
-                self._update_workflow_step("CFD", "complete")
-            except Exception as e:
-                self._update_workflow_status(f"Error running CFD simulation: {str(e)}")
-                self._update_workflow_step("CFD", "error")
-                self._workflow_failed(f"CFD simulation failed: {str(e)}")
-                return
-            
-            # Check if canceled
-            if self.workflow_canceled:
-                self._workflow_canceled()
-                return
-            
-            # Process CFD results
-            self._update_workflow_status("Processing CFD results...")
-            self._update_workflow_step("Results", "running")
-            try:
-                if not DEMO_MODE:
-                    process_results("cfd_results", "processed_results.csv")
-                else:
-                    time.sleep(2)  # Simulate results processing time
-                    
-                    # In demo mode, generate sample visualization data
-                    X, Y = np.meshgrid(np.linspace(-1, 1, 50), np.linspace(-1, 1, 50))
-                    R = np.sqrt(X**2 + Y**2)
-                    Z = np.exp(-R**2) * 100  # Gaussian shape
-                    
-                    # Store the data for visualization
-                    self.visualization_data = {
-                        'X': X,
-                        'Y': Y,
-                        'Pressure': Z,
-                        'Velocity': 20 * (1 - np.exp(-R)),
-                        'Temperature': 300 + 50 * np.exp(-R**2),
-                        'Turbulence': 5 * R * np.exp(-R)
-                    }
-                    
-                self._update_workflow_status("Results processing completed")
-                self._update_workflow_step("Results", "complete")
-            except Exception as e:
-                self._update_workflow_status(f"Error processing results: {str(e)}")
-                self._update_workflow_step("Results", "error")
-                self._workflow_failed(f"Results processing failed: {str(e)}")
-                return
-            
-            # Load and display results
-            try:
-                # In a real application, we would load actual data from processed_results.csv
-                # For demo mode, we use the generated data
-                self._load_and_display_results("processed_results.csv", L4, L5, alpha1, alpha2, alpha3)
-                self._update_workflow_status("Workflow completed successfully")
-                self._workflow_completed()
-            except Exception as e:
-                self._update_workflow_status(f"Error loading results: {str(e)}")
-                self._workflow_failed(f"Loading results failed: {str(e)}")
-            
-        except Exception as e:
-            self._update_workflow_status(f"Unexpected error: {str(e)}")
-            self._workflow_failed(f"Workflow failed: {str(e)}")
-
-    def _update_workflow_status(self, message):
-        """Update the workflow status text with a new message"""
-        self.log(message)
-        
-        # Update text widget if available
-        if hasattr(self, 'workflow_status_text'):
-            try:
-                self.workflow_status_text.configure(state='normal')
-                self.workflow_status_text.insert(tk.END, message + "\n")
-                self.workflow_status_text.see(tk.END)
-                self.workflow_status_text.configure(state='disabled')
-            except Exception as e:
-                print(f"Warning: Could not update workflow status text: {e}")
-        
-        # Update main status bar
-        self.update_status(message)
-
-    def _update_workflow_step(self, step_name, status):
-        """Update the status of a workflow step and redraw"""
-        if not hasattr(self, 'workflow_steps'):
-            return
-            
-        # Find the step by name and update its status
-        for step in self.workflow_steps:
-            if step['name'] == step_name:
-                step['status'] = status
-                break
-        
-        # Redraw the workflow visualization
-        self._redraw_workflow()
-
-    def _load_and_display_results(self, results_file, L4, L5, alpha1, alpha2, alpha3):
-        """Load and display simulation results"""
-        try:
-            # First, check if notebook and visualization tab exist
-            if hasattr(self, 'notebook') and hasattr(self, 'visualization_tab'):
-                # Switch to visualization tab
-                self.notebook.select(self.visualization_tab)
-            
-            # Check if results_notebook exists and is not None
-            if hasattr(self, 'results_notebook') and self.results_notebook is not None:
-                # Switch to CFD results tab
-                if hasattr(self, 'cfd_results_tab'):
-                    self.results_notebook.select(self.cfd_results_tab)
-                self.log("Switched to CFD results tab")
-            else:
-                self.log("Warning: Results notebook not available for visualization")
-            
-            # In a real implementation, this would parse the results file
-            # For demo, we'll create sample results
-            
-            # Create sample visualization data
-            self.visualization_data = {
-                'X': np.linspace(-5, 5, 50),
-                'Y': np.linspace(-5, 5, 50),
-                'Z': None,
-                'Pressure': None,
-                'Velocity': None,
-                'Temperature': None,
-                'Turbulence': None
-            }
-            
-            # Create meshgrid
-            X, Y = np.meshgrid(self.visualization_data['X'], self.visualization_data['Y'])
-            R = np.sqrt(X**2 + Y**2)
-            
-            # Calculate sample data fields based on input parameters
-            # Simulating relationship between parameters and results
-            intensity = 0.5 + 0.1 * L4 + 0.05 * L5 + 0.01 * (alpha1 + alpha2 + alpha3)
-            phase = 0.1 * alpha1
-            
-            self.visualization_data['Z'] = intensity * np.sin(R + phase) / (R + 0.1)
-            self.visualization_data['Pressure'] = intensity * (1 - np.exp(-0.1 * R**2)) * (1 + 0.2 * np.sin(5*R))
-            self.visualization_data['Velocity'] = intensity * 2 * np.exp(-0.2 * R**2) * (1 + 0.1 * np.cos(5*Y))
-            self.visualization_data['Temperature'] = intensity * (0.5 + 0.5 * np.tanh(R - 2))
-            self.visualization_data['Turbulence'] = intensity * 0.1 * (X**2 + Y**2) * np.exp(-0.1 * R)
-            
-            # Update visualization
-            self.update_cfd_visualization()
-            
-            # Create results summary
-            self._update_workflow_status("Simulation completed successfully!")
-            self._update_workflow_status(f"\nParameters: L4={L4}, L5={L5}, Alpha1={alpha1}, Alpha2={alpha2}, Alpha3={alpha3}")
-            self._update_workflow_status("\nResults Summary:")
-            
-            # Simulate extracting key metrics
-            pressure_drop = 100 * (0.5 + 0.2 * L4 - 0.1 * L5 + 0.01 * alpha1 + 0.005 * alpha2 + 0.003 * alpha3)
-            flow_rate = 50 * (1 + 0.1 * L4 + 0.15 * L5 - 0.01 * alpha1 - 0.02 * alpha2 - 0.01 * alpha3)
-            uniformity = 85 * (1 - 0.02 * abs(L4 - 3) - 0.02 * abs(L5 - 3) - 0.01 * abs(alpha1 - 15) - 0.01 * abs(alpha2 - 15) - 0.01 * abs(alpha3 - 15))
-            
-            self._update_workflow_status(f"Pressure Drop: {pressure_drop:.4f} Pa")
-            self._update_workflow_status(f"Flow Rate: {flow_rate:.4f} m³/s")
-            self._update_workflow_status(f"Flow Uniformity: {uniformity:.2f}%")
-            
-            # Store results for later use
-            self.last_results = {
-                'parameters': {
-                    'L4': L4, 'L5': L5, 'alpha1': alpha1, 'alpha2': alpha2, 'alpha3': alpha3
-                },
-                'metrics': {
-                    'pressure_drop': pressure_drop,
-                    'flow_rate': flow_rate,
-                    'uniformity': uniformity
-                }
-            }
-            
-            # Also update the statistics view
-            if hasattr(self, 'stats_text'):
-                self.stats_text.config(state='normal')
-                self.stats_text.delete(1.0, tk.END)
-                self.stats_text.insert(tk.END, f"Results Statistics Summary\n")
-                self.stats_text.insert(tk.END, f"===========================\n\n")
-                self.stats_text.insert(tk.END, f"Parameters:\n")
-                self.stats_text.insert(tk.END, f"  L4: {L4:.4f}\n")
-                self.stats_text.insert(tk.END, f"  L5: {L5:.4f}\n")
-                self.stats_text.insert(tk.END, f"  Alpha1: {alpha1:.4f}°\n")
-                self.stats_text.insert(tk.END, f"  Alpha2: {alpha2:.4f}°\n")
-                self.stats_text.insert(tk.END, f"  Alpha3: {alpha3:.4f}°\n\n")
-                self.stats_text.insert(tk.END, f"Results Metrics:\n")
-                self.stats_text.insert(tk.END, f"  Pressure Drop: {pressure_drop:.4f} Pa\n")
-                self.stats_text.insert(tk.END, f"  Flow Rate: {flow_rate:.4f} m³/s\n")
-                self.stats_text.insert(tk.END, f"  Flow Uniformity: {uniformity:.2f}%\n\n")
-                
-                # Add some statistical measures of the data fields
-                for field in ['Pressure', 'Velocity', 'Temperature', 'Turbulence']:
-                    if field in self.visualization_data and self.visualization_data[field] is not None:
-                        data = self.visualization_data[field]
-                        self.stats_text.insert(tk.END, f"{field} Statistics:\n")
-                        self.stats_text.insert(tk.END, f"  Min: {np.min(data):.4f}\n")
-                        self.stats_text.insert(tk.END, f"  Max: {np.max(data):.4f}\n")
-                        self.stats_text.insert(tk.END, f"  Mean: {np.mean(data):.4f}\n")
-                        self.stats_text.insert(tk.END, f"  Std Dev: {np.std(data):.4f}\n\n")
-                
-                self.stats_text.config(state='disabled')
-            
-        except Exception as e:
-            self.log(f"Error loading and displaying results: {str(e)}")
-            self._update_workflow_status(f"Error displaying results: {str(e)}")
-
-    def _workflow_completed(self):
-        """Handle workflow completion"""
-        # Update UI state
-        self.workflow_running = False
-        
-        if hasattr(self, 'run_button'):
-            self.run_button.config(state='normal')
-            
-        if hasattr(self, 'cancel_button'):
-            self.cancel_button.config(state='disabled')
-        
-        # Update status
-        self.update_status("Workflow completed successfully", show_progress=False)
-        
-        # Show notification
-        messagebox.showinfo("Workflow Complete", "The workflow has been completed successfully.")
-
-    def _workflow_canceled(self):
-        """Handle workflow cancellation"""
-        # Update UI state
-        self.workflow_running = False
-        
-        if hasattr(self, 'run_button'):
-            self.run_button.config(state='normal')
-            
-        if hasattr(self, 'cancel_button'):
-            self.cancel_button.config(state='disabled')
-        
-        # Update status
-        self.update_status("Workflow canceled", show_progress=False)
-        
-        # Set status for incomplete steps
-        if hasattr(self, 'workflow_steps'):
-            for step in self.workflow_steps:
-                if step['status'] == 'running':
-                    step['status'] = 'canceled'
-                elif step['status'] == 'pending':
-                    step['status'] = 'canceled'
-            
-            # Redraw the workflow
-            self._redraw_workflow()
-        
-        # Update status text
-        self._update_workflow_status("Workflow has been canceled by the user")
-
-    def _workflow_failed(self, error_message):
-        """Handle workflow failure"""
-        # Update UI state
-        self.workflow_running = False
-        
-        if hasattr(self, 'run_button'):
-            self.run_button.config(state='normal')
-            
-        if hasattr(self, 'cancel_button'):
-            self.cancel_button.config(state='disabled')
-        
-        # Update status
-        self.update_status(f"Workflow failed: {error_message}", show_progress=False)
-        
-        # Update status text
-        self._update_workflow_status(f"Workflow failed: {error_message}")
-        
-        # Show error dialog
-        messagebox.showerror("Workflow Failed", f"The workflow has failed:\n\n{error_message}")
-
-    def cancel_workflow(self):
-        """Cancel the running workflow"""
-        if not self.workflow_running:
-            return
-            
-        answer = messagebox.askyesno("Confirm Cancel", "Are you sure you want to cancel the current workflow?")
-        if not answer:
-            return
-            
-        # Set the canceled flag for the thread to detect
-        self.workflow_canceled = True
-        
-        # Update status
-        self.update_status("Canceling workflow...", show_progress=True)
-        
-        # If using real processes, we might need to actually terminate them
-        if hasattr(self, 'process') and self.process:
-            try:
-                self.process.terminate()
-            except:
-                pass
-
-    def get_hpc_config(self):
-        """
-        Get HPC configuration from the UI
-        
-        Returns:
-            dict: HPC configuration dictionary
-        """
-        import sys
-        sys.path.append(os.path.join(os.path.dirname(__file__), 'Garage', 'HPC'))
-        from HPC.hpc_integration import get_hpc_config
-        return get_hpc_config(self)
-
-    def refresh_job_list(self):
-        """Refresh the HPC job list"""
-        import sys
-        sys.path.append(os.path.join(os.path.dirname(__file__), 'Garage', 'HPC'))
-        from HPC.hpc_integration import refresh_job_list
-        refresh_job_list(self)
-
-    def update_job_tree(self, jobs):
-        """Update the job tree with the list of jobs"""
-        from HPC.hpc_integration import update_job_list
-        update_job_list(self, jobs)
-
-    def submit_job(self):
-        """Show dialog to submit a new HPC job"""
-        from HPC.hpc_integration import submit_job
-        submit_job(self)
 
     def cancel_job(self):
         """Cancel a selected HPC job"""
@@ -2727,7 +1634,7 @@ class WorkflowGUI:
             """Start the optimization process"""
             try:
                 # Validate inputs
-                self._validate_optimization_inputs()
+                self.validate_optimization_inputs()
                 
                 # Check if optimization is already running
                 if hasattr(self, 'optimization_running') and self.optimization_running:
@@ -2775,7 +1682,7 @@ class WorkflowGUI:
                 if env == "local":
                     # Start optimization in a separate thread
                     self.opt_thread = threading.Thread(
-                        target=self._run_optimization_thread,
+                        target=self.run_optimization_thread,
                         args=(method, bounds, pop_size, max_gen, mut_rate, cross_rate, objective, opt_goal),
                         daemon=True
                     )
@@ -2808,7 +1715,7 @@ class WorkflowGUI:
                 messagebox.showerror("Error", f"Failed to start optimization: {str(e)}")
                 self.opt_status_var.set("Optimization failed")
 
-    def _validate_optimization_inputs(self):
+    def validate_optimization_inputs(self):
         """Validate optimization input parameters"""
         try:
             # Check that all bounds are valid numbers
@@ -2878,7 +1785,7 @@ class WorkflowGUI:
                 raise ValueError("All parameter bounds must be valid numbers")
             raise
 
-    def _run_optimization_thread(self, method, bounds, pop_size, max_gen, mut_rate, cross_rate, objective, opt_goal):
+    def run_optimization_thread(self, method, bounds, pop_size, max_gen, mut_rate, cross_rate, objective, opt_goal):
         """Run optimization in a separate thread"""
         try:
             # Set up flag to allow stopping
@@ -2903,7 +1810,7 @@ class WorkflowGUI:
             for gen in range(1, max_gen + 1):
                 # Check if optimization was stopped
                 if self.optimization_stopped:
-                    self.root.after(0, lambda: self._optimization_stopped())
+                    self.root.after(0, lambda: self.optimization_stopped())
                     return
                     
                 # Update progress
@@ -2985,7 +1892,7 @@ class WorkflowGUI:
                 self.convergence_data['mean_values'].append(mean_fitness)
                 
                 # Update convergence plot
-                self.root.after(0, lambda: self._update_convergence_plot())
+                self.root.after(0, lambda: self.update_convergence_plot())
                 
                 # Update Pareto front for demonstration (using two objectives)
                 if gen % 2 == 0:  # Update every other generation for efficiency
@@ -3004,7 +1911,7 @@ class WorkflowGUI:
                         'objective2': objective2_values,
                         'parameters': pop_solutions.copy()
                     }
-                    self.root.after(0, lambda: self._update_pareto_front())
+                    self.root.after(0, lambda: self.update_pareto_front())
                 
                 # Simulate some delay for visual effect
                 time.sleep(0.2)
@@ -3012,16 +1919,16 @@ class WorkflowGUI:
             # Optimization complete
             if best_solution:
                 # Update best design tab with the best solution
-                self.root.after(0, lambda: self._update_best_design(best_solution, best_fitness, objective))
+                self.root.after(0, lambda: self.update_best_design(best_solution, best_fitness, objective))
             
             # Mark optimization as complete
-            self.root.after(0, lambda: self._optimization_completed())
+            self.root.after(0, lambda: self.optimization_completed())
             
         except Exception as e:
             self.log(f"Optimization error: {str(e)}")
-            self.root.after(0, lambda: self._optimization_failed(str(e)))
+            self.root.after(0, lambda: self.optimization_failed(str(e)))
 
-    def _update_convergence_plot(self):
+    def update_convergence_plot(self):
         """Update the convergence plot with latest data"""
         if not hasattr(self, 'opt_ax') or not hasattr(self, 'convergence_data'):
             return
@@ -3050,7 +1957,7 @@ class WorkflowGUI:
         # Redraw the canvas
         self.opt_canvas.draw()
 
-    def _update_pareto_front(self):
+    def update_pareto_front(self):
         """Update the Pareto front plot with latest data"""
         if not hasattr(self, 'pareto_ax') or not hasattr(self, 'pareto_data'):
             return
@@ -3113,7 +2020,7 @@ class WorkflowGUI:
         # Redraw the canvas
         self.pareto_canvas.draw()
 
-    def _update_best_design(self, solution, fitness, objective_name):
+    def update_best_design(self, solution, fitness, objective_name):
         """Update the best design tab with the optimization result"""
         if not hasattr(self, 'param_values') or not hasattr(self, 'obj_values'):
             return
@@ -3204,7 +2111,7 @@ class WorkflowGUI:
         # Update status
         self.opt_status_var.set("Stopping optimization...")
 
-    def _optimization_completed(self):
+    def optimization_completed(self):
         """Handle optimization completion"""
         self.optimization_running = False
         self.start_opt_button.config(state="normal")
@@ -3214,14 +2121,14 @@ class WorkflowGUI:
         
         messagebox.showinfo("Optimization Complete", "The optimization process has completed successfully.")
         
-    def _optimization_stopped(self):
+    def optimization_stopped(self):
         """Handle optimization being stopped by user"""
         self.optimization_running = False
         self.start_opt_button.config(state="normal")
         
         self.opt_status_var.set("Optimization stopped by user")
         
-    def _optimization_failed(self, error_message):
+    def optimization_failed(self, error_message):
         """Handle optimization failure"""
         self.optimization_running = False
         self.start_opt_button.config(state="normal")
@@ -5033,6 +3940,11 @@ class WorkflowGUI:
         
         self.log("Optimization tab initialized")
 
+    # The code `setup_workflow_tab` appears to be a function or method call in Python. Without
+    # seeing the implementation of the function or method, it is not possible to determine exactly
+    # what it does. The name suggests that it may be setting up or configuring a workflow tab in a
+    # program or system.
+
     def setup_workflow_tab(self):
         """Set up the workflow tab"""
         # Main frame for workflow tab
@@ -5147,7 +4059,7 @@ class WorkflowGUI:
         ]
         
         # Draw the workflow
-        self._redraw_workflow()
+        self.redraw_workflow()
         
         # Status text area
         status_frame = ttk.LabelFrame(workflow_frame, text="Status")
@@ -5158,369 +4070,157 @@ class WorkflowGUI:
         self.workflow_status_text.insert(tk.END, "Ready to start workflow. Set parameters and click 'Run Workflow'.")
         self.workflow_status_text.config(state='disabled')
         
-        def _on_tab_selected(event):
-            if event.widget.index("current") == 0:  # Workflow tab is selected (index 0)
-                self._redraw_workflow()
-
-        # Bind to notebook tab change
-        self.notebook.bind("<<NotebookTabChanged>>", _on_tab_selected)
-
-        # Force initial draw of workflow
-        self.root.update()
-        self._redraw_workflow()
-        
         self.log("Workflow tab initialized")
 
-    def setup_settings_tab(self):
-            """Set up the Settings tab"""
-            # Main frame for settings tab
-            main_frame = ttk.Frame(self.settings_tab, padding=self.theme.padding)
-            main_frame.pack(fill='both', expand=True)
-            
-            # Create sections for different settings
-            # General Settings
-            general_frame = ttk.LabelFrame(main_frame, text="General Settings", padding=self.theme.padding)
-            general_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.small_padding)
-            
-            # Path settings
-            ttk.Label(general_frame, text="NX Path:").grid(row=0, column=0, sticky='w', padx=5, pady=5)
-            self.nx_path = ttk.Entry(general_frame, width=50)
-            self.nx_path.grid(row=0, column=1, padx=5, pady=5, sticky='w')
-            ttk.Button(general_frame, text="Browse", command=self.browse_nx_path).grid(row=0, column=2, padx=5, pady=5)
-            
-            ttk.Label(general_frame, text="Project Directory:").grid(row=1, column=0, sticky='w', padx=5, pady=5)
-            self.project_dir = ttk.Entry(general_frame, width=50)
-            self.project_dir.grid(row=1, column=1, padx=5, pady=5, sticky='w')
-            ttk.Button(general_frame, text="Browse", command=self.browse_project_dir).grid(row=1, column=2, padx=5, pady=5)
-            
-            # Appearance Settings
-            appearance_frame = ttk.LabelFrame(main_frame, text="Appearance", padding=self.theme.padding)
-            appearance_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.small_padding)
-            
-            # Theme selection
-            ttk.Label(appearance_frame, text="Theme:").grid(row=0, column=0, sticky='w', padx=5, pady=5)
-            self.theme_combo = ttk.Combobox(appearance_frame, values=["Light", "Dark", "System"])
-            self.theme_combo.grid(row=0, column=1, padx=5, pady=5, sticky='w')
-            self.theme_combo.current(0)  # Default to light theme
-            
-            # Font size selection
-            ttk.Label(appearance_frame, text="Font Size:").grid(row=1, column=0, sticky='w', padx=5, pady=5)
-            self.font_size = ttk.Combobox(appearance_frame, values=["Small", "Medium", "Large"])
-            self.font_size.grid(row=1, column=1, padx=5, pady=5, sticky='w')
-            self.font_size.current(1)  # Default to medium
-            ttk.Button(appearance_frame, text="Apply", command=self.apply_appearance_settings).grid(row=1, column=2, padx=5, pady=5)
-            
-            # Simulation Settings
-            sim_frame = ttk.LabelFrame(main_frame, text="Simulation Settings", padding=self.theme.padding)
-            sim_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.small_padding)
-            
-            # CFD solver settings
-            ttk.Label(sim_frame, text="CFD Solver:").grid(row=0, column=0, sticky='w', padx=5, pady=5)
-            self.solver_combo = ttk.Combobox(sim_frame, values=["OpenFOAM", "Fluent", "Star-CCM+", "Custom"])
-            self.solver_combo.grid(row=0, column=1, padx=5, pady=5, sticky='w')
-            self.solver_combo.current(0)  # Default to OpenFOAM
-            
-            # Mesher settings
-            ttk.Label(sim_frame, text="Mesher:").grid(row=1, column=0, sticky='w', padx=5, pady=5)
-            self.mesher_combo = ttk.Combobox(sim_frame, values=["GMSH", "Fluent Meshing", "Star-CCM+ Meshing", "Custom"])
-            self.mesher_combo.grid(row=1, column=1, padx=5, pady=5, sticky='w')
-            self.mesher_combo.current(0)  # Default to GMSH
-            
-            # Default mesh size
-            ttk.Label(sim_frame, text="Default Mesh Size:").grid(row=2, column=0, sticky='w', padx=5, pady=5)
-            mesh_size_frame = ttk.Frame(sim_frame)
-            mesh_size_frame.grid(row=2, column=1, sticky='w', padx=5, pady=5)
-            
-            self.mesh_size = ttk.Entry(mesh_size_frame, width=10)
-            self.mesh_size.pack(side='left')
-            self.mesh_size.insert(0, "0.1")
-            ttk.Label(mesh_size_frame, text="m").pack(side='left')
-            
-            # Default viscosity
-            ttk.Label(sim_frame, text="Default Viscosity:").grid(row=3, column=0, sticky='w', padx=5, pady=5)
-            viscosity_frame = ttk.Frame(sim_frame)
-            viscosity_frame.grid(row=3, column=1, sticky='w', padx=5, pady=5)
-            
-            self.viscosity = ttk.Entry(viscosity_frame, width=10)
-            self.viscosity.pack(side='left')
-            self.viscosity.insert(0, "1.8e-5")
-            ttk.Label(viscosity_frame, text="kg/m·s").pack(side='left')
-            
-            # Default density
-            ttk.Label(sim_frame, text="Default Density:").grid(row=4, column=0, sticky='w', padx=5, pady=5)
-            density_frame = ttk.Frame(sim_frame)
-            density_frame.grid(row=4, column=1, sticky='w', padx=5, pady=5)
-            
-            self.density = ttk.Entry(density_frame, width=10)
-            self.density.pack(side='left')
-            self.density.insert(0, "1.225")
-            ttk.Label(density_frame, text="kg/m³").pack(side='left')
-            
-            # Advanced Settings
-            adv_frame = ttk.LabelFrame(main_frame, text="Advanced Settings", padding=self.theme.padding)
-            adv_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.small_padding)
-            
-            # Number of threads
-            ttk.Label(adv_frame, text="Number of Threads:").grid(row=0, column=0, sticky='w', padx=5, pady=5)
-            self.threads = ttk.Entry(adv_frame, width=5)
-            self.threads.grid(row=0, column=1, padx=5, pady=5, sticky='w')
-            self.threads.insert(0, str(multiprocessing.cpu_count()))
-            
-            # Debugging mode
-            self.debug_var = tk.BooleanVar(value=False)
-            ttk.Checkbutton(adv_frame, text="Enable Debug Mode", variable=self.debug_var).grid(row=1, column=0, columnspan=2, sticky='w', padx=5, pady=5)
-            
-            # Auto-save interval
-            ttk.Label(adv_frame, text="Auto-save Interval (min):").grid(row=2, column=0, sticky='w', padx=5, pady=5)
-            self.autosave = ttk.Entry(adv_frame, width=5)
-            self.autosave.grid(row=2, column=1, padx=5, pady=5, sticky='w')
-            self.autosave.insert(0, "10")
-            
-            # Memory usage limit
-            ttk.Label(adv_frame, text="Memory Limit (%):").grid(row=3, column=0, sticky='w', padx=5, pady=5)
-            self.memory_limit = ttk.Scale(adv_frame, from_=10, to=90, orient='horizontal', length=200)
-            self.memory_limit.grid(row=3, column=1, padx=5, pady=5, sticky='w')
-            self.memory_limit.set(70)  # Default to 70%
-            
-            # Memory usage display
-            self.memory_usage_var = tk.StringVar(value="Current Memory Usage: Unknown")
-            ttk.Label(adv_frame, textvariable=self.memory_usage_var).grid(row=4, column=0, columnspan=2, sticky='w', padx=5, pady=5)
-            
-            # System information
-            info_frame = ttk.LabelFrame(main_frame, text="System Information", padding=self.theme.padding)
-            info_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.small_padding)
-            
-            # Get system info
-            cpu_info = platform.processor()
-            memory_info = self.get_memory_info()
-            os_info = f"{platform.system()} {platform.release()}"
-            python_ver = platform.python_version()
-            
-            # Display system info
-            ttk.Label(info_frame, text="CPU:").grid(row=0, column=0, sticky='w', padx=5, pady=2)
-            ttk.Label(info_frame, text=cpu_info).grid(row=0, column=1, sticky='w', padx=5, pady=2)
-            
-            ttk.Label(info_frame, text="Memory:").grid(row=1, column=0, sticky='w', padx=5, pady=2)
-            ttk.Label(info_frame, text=memory_info).grid(row=1, column=1, sticky='w', padx=5, pady=2)
-            
-            ttk.Label(info_frame, text="OS:").grid(row=2, column=0, sticky='w', padx=5, pady=2)
-            ttk.Label(info_frame, text=os_info).grid(row=2, column=1, sticky='w', padx=5, pady=2)
-            
-            ttk.Label(info_frame, text="Python:").grid(row=3, column=0, sticky='w', padx=5, pady=2)
-            ttk.Label(info_frame, text=python_ver).grid(row=3, column=1, sticky='w', padx=5, pady=2)
-            
-            # Action Buttons
-            button_frame = ttk.Frame(main_frame)
-            button_frame.pack(fill='x', padx=self.theme.padding, pady=self.theme.padding)
-            
-            ttk.Button(button_frame, text="Save Settings", command=self.save_settings).pack(side='left', padx=5)
-            ttk.Button(button_frame, text="Load Settings", command=self.load_settings).pack(side='left', padx=5)
-            ttk.Button(button_frame, text="Reset to Defaults", command=self.reset_settings).pack(side='left', padx=5)
-            ttk.Button(button_frame, text="Check for Updates", command=self.check_updates).pack(side='right', padx=5)
-            ttk.Button(button_frame, text="Run Diagnostics", command=self.run_diagnostics).pack(side='right', padx=5)
-            
-            # Schedule periodic updates of memory usage
-            self.root.after(1000, self.update_memory_display)
-            
-            self.log("Settings tab initialized")
 
-    def _redraw_workflow(self):
+    def toggle_execution_environment(self):
+        """Toggle between local and HPC execution for workflow"""
+        if hasattr(self, 'env_var') and hasattr(self, 'workflow_hpc_frame'):
+            if self.env_var.get() == "hpc":
+                self.workflow_hpc_frame.pack(anchor='w', pady=5)
+            else:
+                self.workflow_hpc_frame.pack_forget()
+
+    def redraw_workflow(self):
         """Redraw the workflow visualization with enhanced visuals"""
         if not hasattr(self, 'workflow_canvas') or not hasattr(self, 'workflow_steps'):
             return
-                
-        try:
-            # Clear the canvas
-            self.workflow_canvas.delete("all")
             
-            # Get canvas dimensions
-            width = self.workflow_canvas.winfo_width()
-            height = self.workflow_canvas.winfo_height()
+        # Clear the canvas
+        self.workflow_canvas.delete("all")
+        
+        # Get canvas dimensions
+        width = self.workflow_canvas.winfo_width()
+        height = self.workflow_canvas.winfo_height()
+        
+        # If canvas size is not yet determined, use default values
+        if width <= 1:
+            width = 800
+        if height <= 1:
+            height = 200
+        
+        # Colors for different statuses with transparency for modern look
+        colors = {
+            "pending": "#E0E0E0",   # Light gray
+            "running": "#FFC107",   # Amber
+            "complete": "#4CAF50",  # Green
+            "error": "#F44336",     # Red
+            "canceled": "#9E9E9E"   # Gray
+        }
+        
+        # Draw connections between steps with gradients and animations for running steps
+        for i in range(len(self.workflow_steps) - 1):
+            x1 = int(self.workflow_steps[i]["x"] * width)
+            y1 = int(self.workflow_steps[i]["y"] * height)
+            x2 = int(self.workflow_steps[i+1]["x"] * width)
+            y2 = int(self.workflow_steps[i+1]["y"] * height)
             
-            # If canvas size is not yet determined, use default values
-            if width <= 1:
-                width = 800
-            if height <= 1:
-                height = 200
+            # Determine connection appearance based on status
+            start_status = self.workflow_steps[i]["status"]
+            end_status = self.workflow_steps[i+1]["status"]
             
-            # Colors for different statuses
-            colors = {
-                "pending": "#E0E0E0",   # Light gray
-                "running": "#FFC107",   # Amber
-                "complete": "#4CAF50",  # Green
-                "error": "#F44336",     # Red
-                "canceled": "#9E9E9E"   # Gray
-            }
-            
-            # Default primary color if theme is not available
-            primary_color = "#3498db"  # Default blue
-            if hasattr(self, 'theme') and hasattr(self.theme, 'primary_color'):
-                primary_color = self.theme.primary_color
+            # Base connection
+            if start_status == "complete" and end_status == "pending":
+                # Ready for next step - dashed line
+                self.workflow_canvas.create_line(
+                    x1+25, y1, x2-25, y2, 
+                    fill=colors[start_status], 
+                    width=2.5, 
+                    dash=(6, 3)
+                )
+            elif start_status == "running":
+                # Currently running - animated line effect
+                self.workflow_canvas.create_line(
+                    x1+25, y1, x2-25, y2, 
+                    fill=colors[start_status], 
+                    width=3
+                )
                 
-            # Draw connections between steps
-            for i in range(len(self.workflow_steps) - 1):
-                # Safely extract coordinates with error checking
-                try:
-                    x1 = float(self.workflow_steps[i].get("x", 0.1))
-                    y1 = float(self.workflow_steps[i].get("y", 0.5))
-                    x2 = float(self.workflow_steps[i+1].get("x", 0.1))
-                    y2 = float(self.workflow_steps[i+1].get("y", 0.5))
-                except (ValueError, TypeError, KeyError):
-                    # Use defaults if there's any issue with the coordinates
-                    x1 = 0.1 + (i * 0.25)
-                    y1 = 0.5
-                    x2 = 0.1 + ((i+1) * 0.25)
-                    y2 = 0.5
-                
-                # Convert to canvas coordinates
-                x1 = int(x1 * width)
-                y1 = int(y1 * height)
-                x2 = int(x2 * width)
-                y2 = int(y2 * height)
-                
-                # Determine connection appearance based on status
-                start_status = self.workflow_steps[i].get("status", "pending")
-                end_status = self.workflow_steps[i+1].get("status", "pending")
-                
-                # Base connection
-                if start_status == "complete" and end_status == "pending":
-                    # Ready for next step - dashed line
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=2.5, 
-                        dash=(6, 3)
-                    )
-                elif start_status == "running":
-                    # Currently running - animated line effect
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=3
-                    )
-                    
-                    # Add small moving dot for animation effect
-                    dot_pos = (datetime.datetime.now().timestamp() * 2) % 1.0
-                    dot_x = x1 + (x2 - x1) * dot_pos
-                    dot_y = y1 + (y2 - y1) * dot_pos
-                    self.workflow_canvas.create_oval(
-                        dot_x-5, dot_y-5, dot_x+5, dot_y+5,
-                        fill=colors.get(start_status, "#CCCCCC"),
-                        outline=""
-                    )
-                    
-                    # Schedule redraw for animation
-                    self.root.after(50, self._redraw_workflow)
-                else:
-                    # Normal connection
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=2
-                    )
-            
-            # Draw each step with modern styling
-            for idx, step in enumerate(self.workflow_steps):
-                # Safely extract coordinates with error checking
-                try:
-                    step_x = float(step.get("x", 0.1))
-                    step_y = float(step.get("y", 0.5))
-                except (ValueError, TypeError, KeyError):
-                    # Use defaults if there's any issue with the coordinates
-                    step_x = 0.1 + (idx * 0.25)
-                    step_y = 0.5
-                
-                # Convert to canvas coordinates
-                x = int(step_x * width)
-                y = int(step_y * height)
-                
-                status = step.get("status", "pending")
-                name = step.get("name", f"Step {idx+1}")
-                
-                color = colors.get(status, "#CCCCCC")
-                
-                # Add shadow for 3D effect
+                # Add small moving dot for animation effect
+                dot_pos = (datetime.datetime.now().timestamp() * 2) % 1.0
+                dot_x = x1 + (x2 - x1) * dot_pos
+                dot_y = y1 + (y2 - y1) * dot_pos
                 self.workflow_canvas.create_oval(
-                    x-22, y-22+3, x+22, y+22+3, 
-                    fill="#CCCCCC",  # Light gray for shadow
+                    dot_x-5, dot_y-5, dot_x+5, dot_y+5,
+                    fill=colors[start_status],
                     outline=""
                 )
                 
-                # Draw circle with gradient effect
-                for i in range(3):
-                    size = 22 - i*2
-                    self.workflow_canvas.create_oval(
-                        x-size, y-size, x+size, y+size, 
-                        fill=color, 
-                        outline=primary_color if i == 0 else ""
-                    )
-                
-                # For running state, add pulsing animation
-                if status == "running":
-                    pulse_size = 25 + (math.sin(datetime.datetime.now().timestamp() * 5) + 1) * 3
-                    self.workflow_canvas.create_oval(
-                        x-pulse_size, y-pulse_size, x+pulse_size, y+pulse_size, 
-                        outline=color, 
-                        width=2
-                    )
-                    
-                    # Schedule redraw for animation
-                    self.root.after(50, self._redraw_workflow)
-                
-                # Default font if theme is not available
-                header_font = ("Segoe UI", 12, "bold")
-                if hasattr(self, 'theme') and hasattr(self.theme, 'header_font'):
-                    header_font = self.theme.header_font
-                    
-                # Draw step name with shadow for better readability
-                self.workflow_canvas.create_text(
-                    x+1, y+1, 
-                    text=name, 
-                    fill="#CCCCCC",  # Light gray for text shadow
-                    font=header_font
+                # Schedule redraw for animation
+                self.root.after(50, self.redraw_workflow)
+            else:
+                # Normal connection
+                self.workflow_canvas.create_line(
+                    x1+25, y1, x2-25, y2, 
+                    fill=colors[start_status], 
+                    width=2
                 )
-                self.workflow_canvas.create_text(
-                    x, y, 
-                    text=name, 
-                    fill="white" if status in ["running", "complete"] else "#333333", 
-                    font=header_font
-                )
-                
-                # Draw status text below
-                status_y = y + 35
-                self.workflow_canvas.create_text(
-                    x, status_y, 
-                    text=status.title(), 
-                    fill="#333333"
-                )
-        except Exception as e:
-            import traceback
-            error_detail = traceback.format_exc()
-            self.log(f"Error drawing workflow: {str(e)}")
-            self.log(f"Detailed error: {error_detail}")
+        
+        # Draw each step with modern styling
+        for step in self.workflow_steps:
+            x = int(step["x"] * width)
+            y = int(step["y"] * height)
+            status = step["status"]
+            color = colors[status]
             
-            # Draw an error message on the canvas
-            try:
-                self.workflow_canvas.delete("all")
-                self.workflow_canvas.create_text(
-                    width/2, height/2,
-                    text=f"Error displaying workflow:\n{str(e)}",
-                    fill="#F44336",
-                    font=("Segoe UI", 10),
-                    justify="center"
+            # Add shadow for 3D effect
+            self.workflow_canvas.create_oval(
+                x-22, y-22+3, x+22, y+22+3, 
+                fill="#CCCCCC", 
+                outline=""
+            )
+            
+            # Draw circle with gradient effect
+            for i in range(3):
+                size = 22 - i*2
+                # Use the same color for all circles instead of varying alpha
+                self.workflow_canvas.create_oval(
+                    x-size, y-size, x+size, y+size, 
+                    fill=color, 
+                    outline=self.theme.primary_color if i == 0 else ""
                 )
-            except:
-                # If even the error display fails, just pass
-                pass
+            # For running state, add pulsing animation
+            if status == "running":
+                pulse_size = 25 + (math.sin(datetime.datetime.now().timestamp() * 5) + 1) * 3
+                self.workflow_canvas.create_oval(
+                    x-pulse_size, y-pulse_size, x+pulse_size, y+pulse_size, 
+                    outline=color, 
+                    width=2
+                )
+                
+                # Schedule redraw for animation
+                self.root.after(50, self.redraw_workflow)
+            
+            # Draw step name with shadow for better readability
+            self.workflow_canvas.create_text(
+                x+1, y+1, 
+                text=step["name"], 
+                fill="#000000", 
+                font=self.theme.header_font
+            )
+            self.workflow_canvas.create_text(
+                x, y, 
+                text=step["name"], 
+                fill="white" if status in ["running", "complete"] else self.theme.text_color, 
+                font=self.theme.header_font
+            )
+            
+            # Draw status text below
+            status_y = y + 35
+            self.workflow_canvas.create_text(
+                x, status_y, 
+                text=status.title(), 
+                fill=self.theme.text_color
+            )
 
     def workflow_canvas_click(self, event):
-        """Handle clicks on workflow canvas"""
+        """Handle clicks on workflow canvas with enhanced interactivity"""
         if not hasattr(self, 'workflow_canvas') or not hasattr(self, 'workflow_steps'):
             return
             
         # Get canvas dimensions
         width = self.workflow_canvas.winfo_width() or 800
-        height = self.workflow_canvas.winfo_height() or 120
+        height = self.workflow_canvas.winfo_height() or 200
         
         # Check if any step was clicked
         for step in self.workflow_steps:
@@ -5531,24 +4231,111 @@ class WorkflowGUI:
             # Calculate distance from click to step center
             distance = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
             
-            # If within circle radius, show details
-            if distance <= 20:  # 20px circle radius
-                # Display step details in a message box
-                messagebox.showinfo(
-                    f"Step: {step['name']}",
-                    f"Description: {step['desc']}\n"
-                    f"Status: {step['status'].title()}"
-                )
+            # If within circle radius, show details in a modern popup
+            if distance <= 22:  # Circle radius
+                self.show_step_details_popup(step, event.x_root, event.y_root)
                 return
 
-    def toggle_execution_environment(self):
-        """Toggle between local and HPC execution for workflow"""
-        if hasattr(self, 'env_var') and hasattr(self, 'workflow_hpc_frame'):
-            if self.env_var.get() == "hpc":
-                self.workflow_hpc_frame.pack(anchor='w', pady=5)
-            else:
-                self.workflow_hpc_frame.pack_forget()
-    
+    def show_step_details_popup(self, step, x_root, y_root):
+        """Show a modern popup with step details"""
+        # Create popup window
+        popup = tk.Toplevel(self.root)
+        popup.title(f"Step: {step['name']}")
+        popup.geometry(f"+{x_root+10}+{y_root+10}")
+        popup.transient(self.root)
+        
+        # Configure style
+        if hasattr(self, 'theme'):
+            popup.configure(background=self.theme.bg_color)
+        
+        # Create content
+        content_frame = ttk.Frame(popup, padding=15)
+        content_frame.pack(fill='both', expand=True)
+        
+        # Title with styled header
+        header_frame = ttk.Frame(content_frame)
+        header_frame.pack(fill='x', pady=5)
+        
+        ttk.Label(
+            header_frame, 
+            text=step['name'],
+            font=self.theme.header_font
+        ).pack(side='left')
+        
+        # Status indicator with color
+        status_colors = {
+            "pending": "gray",
+            "running": "#FFC107",
+            "complete": "#4CAF50",
+            "error": "#F44336",
+            "canceled": "#9E9E9E"
+        }
+        
+        status_frame = ttk.Frame(header_frame)
+        status_frame.pack(side='right')
+        
+        status_label = ttk.Label(
+            status_frame,
+            text=step['status'].title(),
+            foreground=status_colors.get(step['status'], "black")
+        )
+        status_label.pack(side='right')
+        
+        # Draw colored circle for status
+        status_canvas = tk.Canvas(status_frame, width=12, height=12, 
+                            background=self.theme.bg_color,
+                            highlightthickness=0)
+        status_canvas.pack(side='right', padx=5)
+        status_canvas.create_oval(2, 2, 10, 10, 
+                            fill=status_colors.get(step['status'], "gray"),
+                            outline="")
+        
+        # Separator
+        ttk.Separator(content_frame, orient='horizontal').pack(fill='x', pady=10)
+        
+        # Main content
+        info_frame = ttk.Frame(content_frame)
+        info_frame.pack(fill='both', expand=True, pady=5)
+        
+        # Two-column grid for information
+        grid_frame = ttk.Frame(info_frame)
+        grid_frame.pack(fill='x')
+        
+        # Description
+        ttk.Label(grid_frame, text="Description:", 
+                font=self.theme.normal_font + ("bold",)).grid(row=0, column=0, sticky='nw', padx=5, pady=5)
+        ttk.Label(grid_frame, text=step['desc'],
+                wraplength=300).grid(row=0, column=1, sticky='nw', padx=5, pady=5)
+        
+        # Time estimate
+        ttk.Label(grid_frame, text="Time Estimate:", 
+                font=self.theme.normal_font + ("bold",)).grid(row=1, column=0, sticky='nw', padx=5, pady=5)
+        ttk.Label(grid_frame, text=step['time_estimate']).grid(row=1, column=1, sticky='nw', padx=5, pady=5)
+        
+        # Dependencies
+        ttk.Label(grid_frame, text="Dependencies:", 
+                font=self.theme.normal_font + ("bold",)).grid(row=2, column=0, sticky='nw', padx=5, pady=5)
+        ttk.Label(grid_frame, text=", ".join(step['dependencies']) if step['dependencies'] else "None").grid(row=2, column=1, sticky='nw', padx=5, pady=5)
+        
+        # Add action buttons if applicable
+        button_frame = ttk.Frame(content_frame)
+        button_frame.pack(fill='x', pady=10)
+        
+        # Close button
+        ttk.Button(
+            button_frame,
+            text="Close",
+            command=popup.destroy
+        ).pack(side='right', padx=5)
+        
+        # View logs button if applicable
+        if step['status'] in ['complete', 'error', 'running']:
+            ttk.Button(
+                button_frame,
+                text="View Logs",
+                command=lambda s=step: self.view_step_logs(s)
+            ).pack(side='right', padx=5)
+
     def import_mesh(self):
         """Import mesh from file"""
         file_path = filedialog.askopenfilename(
@@ -5570,8 +4357,8 @@ class WorkflowGUI:
             self.update_status(f"Importing mesh from {file_path}...", show_progress=True)
             
             # For demonstration, we'll create a sample visualization
-            if DEMO_MODE or not self._load_real_mesh(file_path):
-                self._create_sample_mesh()
+            if DEMO_MODE or not self.load_real_mesh(file_path):
+                self.create_sample_mesh()
                 
             self.update_status(f"Mesh imported successfully", show_progress=False)
             messagebox.showinfo("Import Complete", f"Mesh imported from {os.path.basename(file_path)}")
@@ -5581,7 +4368,7 @@ class WorkflowGUI:
             self.update_status("Mesh import failed", show_progress=False)
             messagebox.showerror("Import Error", f"Failed to import mesh:\n\n{str(e)}")
     
-    def _load_real_mesh(self, file_path):
+    def load_real_mesh(self, file_path):
         """Load a real mesh file - returns True if successful"""
         try:
             # This would use a proper mesh parser in a real implementation
@@ -5591,7 +4378,7 @@ class WorkflowGUI:
             self.log(f"Error loading mesh file: {str(e)}")
             return False
     
-    def _create_sample_mesh(self):
+    def create_sample_mesh(self):
         """Create a sample mesh for visualization"""
         # Clear existing plot
         self.mesh_ax.clear()
@@ -5670,7 +4457,7 @@ class WorkflowGUI:
             display_mode = self.mesh_display_var.get()
             
             # Simply redraw the mesh for demonstration purposes
-            self._create_sample_mesh()
+            self.create_sample_mesh()
             
             # In a real app, you would change the display style based on the mode
             self.mesh_ax.set_title(f"Mesh - {display_mode}")
@@ -5700,8 +4487,8 @@ class WorkflowGUI:
             self.update_status(f"Importing geometry from {file_path}...", show_progress=True)
             
             # For demonstration, we'll create a sample visualization
-            if DEMO_MODE or not self._load_real_geometry(file_path):
-                self._create_sample_geometry()
+            if DEMO_MODE or not self.load_real_geometry(file_path):
+                self.create_sample_geometry()
                 
             self.update_status(f"Geometry imported successfully", show_progress=False)
             messagebox.showinfo("Import Complete", f"Geometry imported from {os.path.basename(file_path)}")
@@ -5711,7 +4498,7 @@ class WorkflowGUI:
             self.update_status("Geometry import failed", show_progress=False)
             messagebox.showerror("Import Error", f"Failed to import geometry:\n\n{str(e)}")
     
-    def _load_real_geometry(self, file_path):
+    def load_real_geometry(self, file_path):
         """Load a real geometry file - returns True if successful"""
         try:
             # This would use a proper CAD parser in a real implementation
@@ -5721,7 +4508,7 @@ class WorkflowGUI:
             self.log(f"Error loading geometry file: {str(e)}")
             return False
     
-    def _create_sample_geometry(self):
+    def create_sample_geometry(self):
         """Create a sample geometry for visualization"""
         # Clear existing plot
         self.geometry_ax.clear()
@@ -5799,7 +4586,7 @@ class WorkflowGUI:
             display_mode = self.geometry_display_var.get()
             
             # Simply redraw the geometry for demonstration purposes
-            self._create_sample_geometry()
+            self.create_sample_geometry()
             
             # Adjust display properties based on mode
             if display_mode == "Wireframe":
@@ -5857,7 +4644,7 @@ class WorkflowGUI:
             
             elif file_path.endswith('.vtk'):
                 # Export as VTK structured grid
-                self._export_to_vtk(file_path, field_name)
+                self.export_to_vtk(file_path, field_name)
                 
             elif file_path.endswith('.npy'):
                 # Export as NumPy array
@@ -5895,7 +4682,7 @@ class WorkflowGUI:
             self.update_status("Results export failed", show_progress=False)
             messagebox.showerror("Export Error", f"Failed to export results:\n\n{str(e)}")
     
-    def _export_to_vtk(self, file_path, field_name):
+    def export_to_vtk(self, file_path, field_name):
         """Export results to VTK file format"""
         try:
             # Get data
@@ -5955,7 +4742,7 @@ class WorkflowGUI:
         paned_window.add(visualization_area, weight=3)
         
         # Set up visualization controls in the control panel
-        self._setup_control_panel(control_panel)
+        self.setup_control_panel(control_panel)
         
         # Create a single notebook for different result views in the visualization area
         self.results_notebook = ttk.Notebook(visualization_area)
@@ -5980,7 +4767,7 @@ class WorkflowGUI:
         view_type_combo = ttk.Combobox(options_bar, textvariable=self.view_type_var, 
                                     values=view_types, state="readonly", width=15)
         view_type_combo.pack(side='left', padx=5)
-        view_type_combo.bind("<<ComboboxSelected>>", self._switch_result_view)
+        view_type_combo.bind("<<ComboboxSelected>>", self.switch_result_view)
         
         # Create a frame stack to hold different view types
         self.view_stack_frame = ttk.Frame(viz_display_frame)
@@ -5992,9 +4779,9 @@ class WorkflowGUI:
         self.comparison_frame = ttk.Frame(self.view_stack_frame)
         
         # Setup the actual visualization display in each view frame
-        self._setup_display_area(self.cfd_view_frame)
-        self._setup_3d_view(self.view_3d_frame)
-        self._setup_comparison_view(self.comparison_frame)
+        self.setup_display_area(self.cfd_view_frame)
+        self.setup_3d_view(self.view_3d_frame)
+        self.setup_comparison_view(self.comparison_frame)
         
         # Default to showing CFD view
         self.cfd_view_frame.pack(fill='both', expand=True)
@@ -6002,17 +4789,17 @@ class WorkflowGUI:
         # Add additional tabs for statistics and mesh at the same level as Results View
         self.statistics_tab = ttk.Frame(self.results_notebook)
         self.results_notebook.add(self.statistics_tab, text="Statistics")
-        self._setup_statistics_view(self.statistics_tab)
+        self.setup_statistics_view(self.statistics_tab)
         
         # Add tab for mesh visualization
         self.mesh_tab = ttk.Frame(self.results_notebook)
         self.results_notebook.add(self.mesh_tab, text="Mesh")
-        self._setup_mesh_view(self.mesh_tab)
+        self.setup_mesh_view(self.mesh_tab)
         
         self.log("Visualization tab initialized")
         
         
-    def _switch_result_view(self, event=None):
+    def switch_result_view(self, event=None):
         """Switch between different result view types in the Results View tab"""
         view_type = self.view_type_var.get()
         
@@ -6031,7 +4818,7 @@ class WorkflowGUI:
         
         self.log(f"Switched to {view_type} view")
            
-    def _setup_3d_view(self, parent):
+    def setup_3d_view(self, parent):
         """Setup 3D visualization view"""
         try:
             # Create matplotlib 3D figure
@@ -6055,47 +4842,23 @@ class WorkflowGUI:
             elevation_slider = ttk.Scale(controls_frame, from_=0, to=90, 
                                         orient='horizontal', length=200,
                                         variable=self.elevation_var,
-                                        command=self._update_3d_view_angle)
+                                        command=self.update_3d_view_angle)
             elevation_slider.grid(row=0, column=1, padx=5, pady=2)
             
             ttk.Label(controls_frame, text="Azimuth:").grid(row=1, column=0, padx=5, pady=2)
             azimuth_slider = ttk.Scale(controls_frame, from_=0, to=360, 
                                         orient='horizontal', length=200,
                                         variable=self.azimuth_var,
-                                        command=self._update_3d_view_angle)
+                                        command=self.update_3d_view_angle)
             azimuth_slider.grid(row=1, column=1, padx=5, pady=2)
             
             # Draw empty 3D plot
-            self._draw_empty_3d_plot()
+            self.draw_empty_3d_plot()
             
         except Exception as e:
             self.log(f"Error setting up 3D view: {str(e)}")
             ttk.Label(parent, text=f"Error setting up 3D view: {str(e)}").pack(pady=20)      
-            
-    def _toggle_range_inputs(self):
-        """Toggle min/max range inputs based on auto range setting"""
-        if self.auto_range_var.get():
-            # Disable manual inputs
-            for widget in self.range_inputs_frame.winfo_children():
-                if isinstance(widget, ttk.Entry):
-                    widget.configure(state='disabled')
-        else:
-            # Enable manual inputs
-            for widget in self.range_inputs_frame.winfo_children():
-                if isinstance(widget, ttk.Entry):
-                    widget.configure(state='normal')
-            
-            # Update with current values if data is available
-            if hasattr(self, 'visualization_data'):
-                field = self.field_var.get()
-                if field in self.visualization_data and self.visualization_data[field] is not None:
-                    Z = self.visualization_data[field]
-                    self.range_min_var.set(f"{np.min(Z):.4f}")
-                    self.range_max_var.set(f"{np.max(Z):.4f}")
-        
-        # Update visualization
-        self.update_cfd_visualization()
-    
+
     def update_cfd_visualization(self, event=None):
         """Update the CFD visualization based on selected field and visualization type"""
         try:
@@ -6175,7 +4938,7 @@ class WorkflowGUI:
                 except:
                     pass
     
-    def _update_statistics(self, data, field_name):
+    def update_statistics(self, data, field_name):
         """Update statistics display with data metrics"""
         if not hasattr(self, 'stats_text'):
             return
@@ -6323,14 +5086,36 @@ class WorkflowGUI:
         self.log(message)
 
     def update_memory_display(self):
-        """Update the memory usage in the status bar"""
-        if hasattr(self, 'memory_var'):
+        """Update the memory usage displays in the UI"""
+        try:
+            # Get the current memory information
             memory_info = self.get_memory_info()
-            self.memory_var.set(f"Memory: {memory_info}")
-        
-        # Schedule next update (every 5 seconds)
-        if hasattr(self, 'root'):
-            self.root.after(5000, self.update_memory_display)
+            
+            # Update memory information in status bar if available
+            if hasattr(self, 'memory_var'):
+                self.memory_var.set(f"Memory: {memory_info}")
+            
+            # Update memory information in settings tab if available
+            if hasattr(self, 'mem_info_var'):
+                self.mem_info_var.set(f"Memory: {memory_info}")
+                
+            self.log("Memory information updated")
+            
+            # Schedule the next update (every 5 seconds)
+            if hasattr(self, 'root'):
+                self.root.after(5000, self.update_memory_display)
+                
+        except Exception as e:
+            self.log(f"Error updating memory display: {str(e)}")
+            # Set error message in case of failure
+            if hasattr(self, 'memory_var'):
+                self.memory_var.set("Memory: Error retrieving")
+            if hasattr(self, 'mem_info_var'):
+                self.mem_info_var.set("Memory: Error retrieving")
+            
+            # Still schedule next update even if there was an error
+            if hasattr(self, 'root'):
+                self.root.after(5000, self.update_memory_display)
 
     def update_memory_usage(self):
         """Update the memory usage display"""
@@ -6356,9 +5141,14 @@ class WorkflowGUI:
         
     def apply_appearance_settings(self):
         """Apply selected appearance settings"""
-        theme_name = self.theme_combo.get()
-        font_size = self.font_size.get()
+        if hasattr(self, 'theme_combo') and self.theme_combo is not None:
+            theme_name = self.theme_combo.get()
+        else:
+            theme_name = self.theme_var.get() if hasattr(self, 'theme_var') else "Light"
         
+        font_size = self.font_size_var.get()
+        font_family = self.font_family_var.get() if hasattr(self, 'font_family_var') else "Default"
+
         self.log(f"Applying appearance settings: Theme={theme_name}, Font Size={font_size}")
         
         try:
@@ -6371,11 +5161,11 @@ class WorkflowGUI:
                 self.apply_system_theme()
             
             size_num = None
-            if font_size == "Small":
+            if font_size == "8":
                 size_num = 8
-            elif font_size == "Medium":
+            elif font_size == "12":
                 size_num = 12
-            elif font_size == "Large":
+            elif font_size == "16":
                 size_num = 16
             else:
                 # If it's not one of the predefined options, try to convert it to a number
@@ -6386,7 +5176,7 @@ class WorkflowGUI:
                     size_num = 12  # Default to size 12 if conversion fails
                           
             if size_num is not None:
-                self.apply_font_size(size_num)  
+                self.apply_font_size(size_num, font_family)
                                  
             messagebox.showinfo("Settings Applied", "Appearance settings have been applied.")
             self.update_status("Appearance settings applied")
@@ -6411,15 +5201,7 @@ class WorkflowGUI:
             
             # Apply theme to all widgets
             self.theme.apply_theme(self.root)
-            
-    def apply_light_theme(self):
-            """Apply light theme"""
-            # Reset theme object to default values
-            self.theme = ModernTheme()
-            
-            # Apply theme to all widgets
-            self.theme.apply_theme(self.root)
-            
+                        
     def apply_system_theme(self):
             """Apply system-based theme"""
             try:
@@ -6441,7 +5223,7 @@ class WorkflowGUI:
                 # If detection fails, fall back to light theme
                 self.apply_light_theme()
         
-    def apply_font_size(self, size_num):
+    def apply_font_size(self, size_num, font_family=None):
         """Apply font size settings based on numeric value
         
         Args:
@@ -6451,33 +5233,57 @@ class WorkflowGUI:
             # Convert input to a number if it's a string
             if isinstance(size_num, str):
                 size_num = float(size_num)
-                
+                    
             # Ensure we have a valid positive number
             if size_num <= 0:
                 size_num = 10  # Default to medium size
-                
+            
+            # Store the numeric font size value
+            self.font_size = size_num
+            if font_family is None and hasattr(self, 'font_family_var'):
+                font_family = self.font_family_var.get()
+
+            # Default to Segoe UI if nothing is specified
+            if font_family is None or font_family == "Default":
+                    font_family = "Bookman"
+                                        
             # Calculate proportional sizes for different UI elements
             small = max(int(size_num * 0.8), 6)  # Minimum 6pt
             normal = int(size_num)
             large = int(size_num * 1.2)
-            
+                
             # Update theme font sizes
-            self.theme.small_font = ("Segoe UI", small)
-            self.theme.normal_font = ("Segoe UI", normal)
-            self.theme.header_font = ("Segoe UI", large, "bold")
-            self.theme.button_font = ("Segoe UI", normal)
+            self.theme.small_font = (font_family, small)
+            self.theme.normal_font = (font_family, normal)
+            self.theme.header_font = (font_family, large, "bold")
+            self.theme.button_font = (font_family, normal)
             self.theme.code_font = ("Consolas", small+1)
-            
+           
+            if font_family == "Courier":
+                self.theme.code_font = (font_family, small+1)
+            else:
+                self.theme.code_font = ("Consolas", small+1)
+
+            # Update font_size_var to match the applied size
+            if hasattr(self, 'font_size_var'):
+                self.font_size_var.set(str(size_num))
+                       
+            if hasattr(self, 'font_family_var'):
+                current = self.font_family_var.get()
+                if current != font_family and font_family != "Default":
+                    self.font_family_var.set(font_family)
+
             # Apply theme to reapply fonts
             self.theme.apply_theme(self.root)
-            
+                
             # Log the change
             self.log(f"Font size updated to {size_num}")
-            
+                
         except (ValueError, TypeError) as e:
             # Handle conversion errors
             self.log(f"Error applying font size: {e}")
             # Fall back to a default size
+            self.font_size = 12  # Set default here too
             self.theme.small_font = ("Segoe UI", 10)
             self.theme.normal_font = ("Segoe UI", 12)
             self.theme.header_font = ("Segoe UI", 14, "bold")
@@ -6489,7 +5295,7 @@ class WorkflowGUI:
         """Execute the complete workflow process"""
         try:
             # Validate inputs before running
-            self._validate_workflow_inputs()
+            self.validate_workflow_inputs()
             
             # Check if a workflow is already running
             if hasattr(self, 'workflow_running') and self.workflow_running:
@@ -6518,7 +5324,7 @@ class WorkflowGUI:
             # Update status in workflow visualization
             for step in self.workflow_steps:
                 step["status"] = "pending"
-            self._redraw_workflow()
+            self.redraw_workflow()
             
             # Set workflow running flag
             self.workflow_running = True
@@ -6528,7 +5334,7 @@ class WorkflowGUI:
             if env == "local":
                 # Start workflow in separate thread to keep UI responsive
                 self.current_workflow = threading.Thread(
-                    target=self._run_workflow_thread,
+                    target=self.run_workflow_thread,
                     args=(L4, L5, alpha1, alpha2, alpha3),
                     daemon=True
                 )
@@ -6561,7 +5367,7 @@ class WorkflowGUI:
             messagebox.showerror("Error", f"Failed to start workflow: {str(e)}")
             self.update_status("Workflow failed", show_progress=False)
 
-    def _validate_workflow_inputs(self):
+    def validate_workflow_inputs(self):
         """Validate workflow input parameters"""
         try:
             # Check that all parameter values are valid numbers
@@ -6598,15 +5404,15 @@ class WorkflowGUI:
                 raise ValueError("All parameters must be valid numbers")
             raise
 
-    def _run_workflow_thread(self, L4, L5, alpha1, alpha2, alpha3):
+    def run_workflow_thread(self, L4, L5, alpha1, alpha2, alpha3):
         """Execute the workflow in a separate thread"""
         try:
             # Set up flag to allow cancellation
             self.workflow_canceled = False
             
             # STEP 1: Update NX model using expressions
-            self.root.after(0, lambda: self._update_workflow_status("Updating NX model..."))
-            self.root.after(0, lambda: self._update_workflow_step("CAD", "running"))
+            self.root.after(0, lambda: self.update_workflow_status("Updating NX model..."))
+            self.root.after(0, lambda: self.update_workflow_step("CAD", "running"))
             
             # Generate expressions file
             try:
@@ -6618,27 +5424,27 @@ class WorkflowGUI:
             
             # Check for cancellation before proceeding
             if self.workflow_canceled:
-                self.root.after(0, lambda: self._workflow_canceled())
+                self.root.after(0, lambda: self.workflow_canceled())
                 return
                 
             # Run NX automation to update model and export STEP
             try:
                 step_file = run_nx_workflow()
                 self.log(f"NX workflow completed, generated: {step_file}")
-                self.root.after(0, lambda: self._update_workflow_step("CAD", "complete"))
+                self.root.after(0, lambda: self.update_workflow_step("CAD", "complete"))
             except Exception as e:
                 self.log(f"Error in NX workflow: {str(e)}")
-                self.root.after(0, lambda: self._update_workflow_step("CAD", "error"))
+                self.root.after(0, lambda: self.update_workflow_step("CAD", "error"))
                 raise RuntimeError(f"NX workflow failed: {str(e)}")
             
             # Check for cancellation before proceeding
             if self.workflow_canceled:
-                self.root.after(0, lambda: self._workflow_canceled())
+                self.root.after(0, lambda: self.workflow_canceled())
                 return
                 
             # STEP 2: Generate mesh from STEP
-            self.root.after(0, lambda: self._update_workflow_status("Generating mesh..."))
-            self.root.after(0, lambda: self._update_workflow_step("Mesh", "running"))
+            self.root.after(0, lambda: self.update_workflow_status("Generating mesh..."))
+            self.root.after(0, lambda: self.update_workflow_step("Mesh", "running"))
             
             # Define mesh file
             mesh_file = "INTAKE3D.msh"
@@ -6647,39 +5453,39 @@ class WorkflowGUI:
             try:
                 process_mesh(step_file, mesh_file)
                 self.log(f"Mesh generation completed: {mesh_file}")
-                self.root.after(0, lambda: self._update_workflow_step("Mesh", "complete"))
+                self.root.after(0, lambda: self.update_workflow_step("Mesh", "complete"))
             except Exception as e:
                 self.log(f"Error in mesh generation: {str(e)}")
-                self.root.after(0, lambda: self._update_workflow_step("Mesh", "error"))
+                self.root.after(0, lambda: self.update_workflow_step("Mesh", "error"))
                 raise RuntimeError(f"Mesh generation failed: {str(e)}")
             
             # Check for cancellation before proceeding
             if self.workflow_canceled:
-                self.root.after(0, lambda: self._workflow_canceled())
+                self.root.after(0, lambda: self.workflow_canceled())
                 return
                 
             # STEP 3: Run CFD simulation
-            self.root.after(0, lambda: self._update_workflow_status("Running CFD simulation..."))
-            self.root.after(0, lambda: self._update_workflow_step("CFD", "running"))
+            self.root.after(0, lambda: self.update_workflow_status("Running CFD simulation..."))
+            self.root.after(0, lambda: self.update_workflow_step("CFD", "running"))
             
             # Run CFD solver
             try:
                 run_cfd(mesh_file)
                 self.log(f"CFD simulation completed")
-                self.root.after(0, lambda: self._update_workflow_step("CFD", "complete"))
+                self.root.after(0, lambda: self.update_workflow_step("CFD", "complete"))
             except Exception as e:
                 self.log(f"Error in CFD simulation: {str(e)}")
-                self.root.after(0, lambda: self._update_workflow_step("CFD", "error"))
+                self.root.after(0, lambda: self.update_workflow_step("CFD", "error"))
                 raise RuntimeError(f"CFD simulation failed: {str(e)}")
             
             # Check for cancellation before proceeding
             if self.workflow_canceled:
-                self.root.after(0, lambda: self._workflow_canceled())
+                self.root.after(0, lambda: self.workflow_canceled())
                 return
                 
             # STEP 4: Process results
-            self.root.after(0, lambda: self._update_workflow_status("Processing results..."))
-            self.root.after(0, lambda: self._update_workflow_step("Results", "running"))
+            self.root.after(0, lambda: self.update_workflow_status("Processing results..."))
+            self.root.after(0, lambda: self.update_workflow_step("Results", "running"))
             
             # Define results file
             results_output = "processed_results.csv"
@@ -6688,43 +5494,24 @@ class WorkflowGUI:
             try:
                 process_results("cfd_results", results_output)
                 self.log(f"Results processing completed: {results_output}")
-                self.root.after(0, lambda: self._update_workflow_step("Results", "complete"))
+                self.root.after(0, lambda: self.update_workflow_step("Results", "complete"))
                 
                 # Load and display results
-                self._load_and_display_results(results_output, L4, L5, alpha1, alpha2, alpha3)
+                self.load_and_display_results(results_output, L4, L5, alpha1, alpha2, alpha3)
             except Exception as e:
                 self.log(f"Error in results processing: {str(e)}")
-                self.root.after(0, lambda: self._update_workflow_step("Results", "error"))
+                self.root.after(0, lambda: self.update_workflow_step("Results", "error"))
                 raise RuntimeError(f"Results processing failed: {str(e)}")
             
             # Workflow completed successfully
-            self.root.after(0, lambda: self._workflow_completed())
+            self.root.after(0, lambda: self.workflow_completed())
             
         except Exception as e:
             # Handle uncaught exceptions
             self.log(f"Workflow error: {str(e)}")
-            self.root.after(0, lambda: self._workflow_failed(str(e)))
+            self.root.after(0, lambda: self.workflow_failed(str(e)))
 
-    def _update_workflow_status(self, message):
-        """Update the workflow status text widget"""
-        if hasattr(self, 'workflow_status_text'):
-            self.workflow_status_text.configure(state='normal')
-            self.workflow_status_text.insert(tk.END, f"{message}\n")
-            self.workflow_status_text.see(tk.END)
-            self.workflow_status_text.configure(state='disabled')
-        
-        self.update_status(message)
-
-    def _update_workflow_step(self, step_name, status):
-        """Update a workflow step's status"""
-        for step in self.workflow_steps:
-            if step["name"] == step_name:
-                step["status"] = status
-                break
-                
-        self._redraw_workflow()
-
-    def _load_and_display_results(self, results_file, L4, L5, alpha1, alpha2, alpha3):
+    def load_and_display_results(self, results_file, L4, L5, alpha1, alpha2, alpha3):
         """Load and display simulation results"""
         try:
             # In a real implementation, this would parse the results file
@@ -6756,31 +5543,22 @@ class WorkflowGUI:
             self.visualization_data['Temperature'] = intensity * (0.5 + 0.5 * np.tanh(R - 2))
             self.visualization_data['Turbulence'] = intensity * 0.1 * (X**2 + Y**2) * np.exp(-0.1 * R)
             
-            # Update visualization tab - safely select the notebook tab if available
-            try:
-                if hasattr(self, 'results_notebook'):
-                    if hasattr(self, 'cfd_results_tab'):
-                        self.results_notebook.select(self.cfd_results_tab)
-                    else:
-                        self.log("Warning: cfd_results_tab not found")
-                else:
-                    self.log("Warning: results_notebook not found")
-            except Exception as select_error:
-                self.log(f"Warning: Could not select results tab: {str(select_error)}")
+            # Update visualization tab
+            self.results_notebook.select(self.cfd_results_tab)
             
             # Create results summary
-            self._update_workflow_status("Simulation completed successfully!")
-            self._update_workflow_status(f"\nParameters: L4={L4}, L5={L5}, Alpha1={alpha1}, Alpha2={alpha2}, Alpha3={alpha3}")
-            self._update_workflow_status("\nResults Summary:")
+            self.update_workflow_status("Simulation completed successfully!")
+            self.update_workflow_status(f"\nParameters: L4={L4}, L5={L5}, Alpha1={alpha1}, Alpha2={alpha2}, Alpha3={alpha3}")
+            self.update_workflow_status("\nResults Summary:")
             
             # Simulate extracting key metrics
             pressure_drop = 100 * (0.5 + 0.2 * L4 - 0.1 * L5 + 0.01 * alpha1 + 0.005 * alpha2 + 0.003 * alpha3)
             flow_rate = 50 * (1 + 0.1 * L4 + 0.15 * L5 - 0.01 * alpha1 - 0.02 * alpha2 - 0.01 * alpha3)
             uniformity = 85 * (1 - 0.02 * abs(L4 - 3) - 0.02 * abs(L5 - 3) - 0.01 * abs(alpha1 - 15) - 0.01 * abs(alpha2 - 15) - 0.01 * abs(alpha3 - 15))
             
-            self._update_workflow_status(f"Pressure Drop: {pressure_drop:.4f} Pa")
-            self._update_workflow_status(f"Flow Rate: {flow_rate:.4f} m³/s")
-            self._update_workflow_status(f"Flow Uniformity: {uniformity:.2f}%")
+            self.update_workflow_status(f"Pressure Drop: {pressure_drop:.4f} Pa")
+            self.update_workflow_status(f"Flow Rate: {flow_rate:.4f} m³/s")
+            self.update_workflow_status(f"Flow Uniformity: {uniformity:.2f}%")
             
             # Store results for later use
             self.last_results = {
@@ -6794,21 +5572,13 @@ class WorkflowGUI:
                 }
             }
             
-            # Try to update the visualization if possible
-            try:
-                if hasattr(self, 'update_cfd_visualization'):
-                    self.update_cfd_visualization()
-            except Exception as viz_error:
-                self.log(f"Could not update visualization: {str(viz_error)}")
+            # Update mesh and geometry views if needed
             
         except Exception as e:
             self.log(f"Error loading and displaying results: {str(e)}")
-            # More detailed error information
-            import traceback
-            self.log(f"Detailed error: {traceback.format_exc()}")
-            self._update_workflow_status(f"Error displaying results: {str(e)}")
+            self.update_workflow_status(f"Error displaying results: {str(e)}")
 
-    def _workflow_completed(self):
+    def workflow_completed(self):
         """Handle workflow completion"""
         self.workflow_running = False
         self.run_button.config(state="normal")
@@ -6817,22 +5587,22 @@ class WorkflowGUI:
         self.update_status("Workflow completed", show_progress=False)
         messagebox.showinfo("Workflow Complete", "The simulation workflow has completed successfully.")
         
-    def _workflow_canceled(self):
+    def workflow_canceled(self):
         """Handle workflow cancellation"""
         self.workflow_running = False
         self.run_button.config(state="normal")
         self.cancel_button.config(state="disabled")
         
-        self._update_workflow_status("Workflow was canceled")
+        self.update_workflow_status("Workflow was canceled")
         self.update_status("Workflow canceled", show_progress=False)
 
-    def _workflow_failed(self, error_message):
+    def workflow_failed(self, error_message):
         """Handle workflow failure"""
         self.workflow_running = False
         self.run_button.config(state="normal")
         self.cancel_button.config(state="disabled")
         
-        self._update_workflow_status(f"Workflow failed: {error_message}")
+        self.update_workflow_status(f"Workflow failed: {error_message}")
         self.update_status("Workflow failed", show_progress=False)
         messagebox.showerror("Workflow Failed", f"The simulation workflow failed:\n\n{error_message}")
 
@@ -6852,7 +5622,7 @@ class WorkflowGUI:
             
             # Disable cancel button while canceling
             self.cancel_button.config(state="disabled")
-            self._update_workflow_status("Canceling workflow...")
+            self.update_workflow_status("Canceling workflow...")
             self.update_status("Canceling workflow...", show_progress=False)
 
     def setup_app_header(self, root, theme):
@@ -6906,19 +5676,6 @@ class WorkflowGUI:
         about_button = ttk.Button(button_frame, text="About", command=lambda: self.show_about())
         about_button.pack(side='right', padx=5)
         
-        # Add these methods
-        def show_help(self):
-            """Show help information"""
-            messagebox.showinfo("Help", 
-                              "For assistance with using the Intake CFD Optimization Suite, please refer to the documentation.")
-        
-        def show_about(self):
-            """Show about dialog"""
-            messagebox.showinfo("About", 
-                              "Intake CFD Optimization Suite\nVersion 1.0.0\n\n"
-                              "A comprehensive tool for optimizing intake manifold designs using CFD simulations.\n\n"
-                              "© 2023 Intake Design Technologies")
-
     def show_help(self):
         """Show help dialog"""
         from tkinter import scrolledtext
@@ -7035,7 +5792,7 @@ class WorkflowGUI:
         except Exception as e:
             self.log(f"Error browsing for key file: {e}")
 
-    def _test_hpc_connection(self):
+    def test_hpc_connection(self):
         """Test connection to HPC"""
         try:
             self.connection_status_var.set("Status: Testing...")
@@ -7053,14 +5810,14 @@ class WorkflowGUI:
                     break
             
             # Run the test in a thread
-            thread = threading.Thread(target=self._test_connection_thread, args=(config,), daemon=True)
+            thread = threading.Thread(target=self.test_connection_thread, args=(config,), daemon=True)
             thread.start()
         except Exception as e:
             self.log(f"Error testing HPC connection: {e}")
             self.connection_status_var.set(f"Status: Error - {str(e)}")
             self.connection_status_label.config(foreground="red")
 
-    def _test_connection_thread(self, config):
+    def test_connection_thread(self, config):
         """Thread to test HPC connection"""
         try:
             # Try to import paramiko
@@ -7362,26 +6119,26 @@ class WorkflowGUI:
             print(traceback.format_exc())
             return False
 
-    def _run_hpc_workflow(self, L4, L5, alpha1, alpha2, alpha3):
+    def run_hpc_workflow(self, L4, L5, alpha1, alpha2, alpha3):
         """Run workflow on HPC system"""
         try:
             # Check if HPC profile is selected
             if not hasattr(self, 'workflow_hpc_profile') or not self.workflow_hpc_profile.get():
                 messagebox.showerror("HPC Error", "Please select an HPC profile")
-                self._workflow_failed("No HPC profile selected")
+                self.workflow_failed("No HPC profile selected")
                 return
                 
             profile_name = self.workflow_hpc_profile.get()
-            self._update_workflow_status(f"Preparing to submit job to HPC using profile '{profile_name}'...")
+            self.update_workflow_status(f"Preparing to submit job to HPC using profile '{profile_name}'...")
             
             # Create submission dialog
-            self._create_hpc_submission_dialog(L4, L5, alpha1, alpha2, alpha3, profile_name)
+            self.create_hpc_submission_dialog(L4, L5, alpha1, alpha2, alpha3, profile_name)
             
         except Exception as e:
             self.log(f"Error preparing HPC workflow: {str(e)}")
-            self._workflow_failed(f"Failed to prepare HPC workflow: {str(e)}")
+            self.workflow_failed(f"Failed to prepare HPC workflow: {str(e)}")
 
-    def _create_hpc_submission_dialog(self, L4, L5, alpha1, alpha2, alpha3, profile_name):
+    def create_hpc_submission_dialog(self, L4, L5, alpha1, alpha2, alpha3, profile_name):
         """Create dialog for HPC job submission"""
         import os
         import datetime
@@ -7452,7 +6209,7 @@ class WorkflowGUI:
         script_frame.pack(fill='both', expand=True, pady=5)
         
         # Create script template
-        script_template = self._create_hpc_script_template(job_name_var.get(), nodes_var.get(), cores_var.get(), 
+        script_template = self.create_hpc_script_template(job_name_var.get(), nodes_var.get(), cores_var.get(), 
                                                         memory_var.get(), walltime_var.get(), queue_var.get(),
                                                         L4, L5, alpha1, alpha2, alpha3)
         
@@ -7462,7 +6219,7 @@ class WorkflowGUI:
         
         # Function to update script template
         def update_script_template():
-            script = self._create_hpc_script_template(job_name_var.get(), nodes_var.get(), cores_var.get(), 
+            script = self.create_hpc_script_template(job_name_var.get(), nodes_var.get(), cores_var.get(), 
                                                     memory_var.get(), walltime_var.get(), queue_var.get(),
                                                     L4, L5, alpha1, alpha2, alpha3)
             script_editor.delete(1.0, tk.END)
@@ -7475,45 +6232,8 @@ class WorkflowGUI:
         # Buttons
         button_frame = ttk.Frame(main_frame)
         button_frame.pack(fill='x', pady=10)
-        
-        # Function to submit job
-        def submit_job():
-            script_content = script_editor.get(1.0, tk.END)
-            
-            # Show confirmation dialog
-            if messagebox.askyesno("Confirm Submission", 
-                                f"Submit job '{job_name_var.get()}' to HPC cluster using profile '{profile_name}'?"):
-                # Submit job in a separate thread
-                threading.Thread(target=self._submit_hpc_job, 
-                            args=(script_content, profile_name, job_name_var.get(), dialog),
-                            daemon=True).start()
-        
-        ttk.Button(button_frame, text="Submit Job", 
-                command=submit_job).pack(side='left', padx=5)
-        
-        ttk.Button(button_frame, text="Cancel", 
-                command=dialog.destroy).pack(side='right', padx=5)
-    
-            
-        # Function to submit job
-        def submit_job():
-            script_content = script_editor.get(1.0, tk.END)
-            
-            # Show confirmation dialog
-            if messagebox.askyesno("Confirm Submission", 
-                                f"Submit job '{job_name_var.get()}' to HPC cluster using profile '{profile_name}'?"):
-                # Submit job in a separate thread
-                threading.Thread(target=self._submit_hpc_job, 
-                            args=(script_content, profile_name, job_name_var.get(), dialog),
-                            daemon=True).start()
-        
-        ttk.Button(button_frame, text="Submit Job", 
-                command=submit_job).pack(side='left', padx=5)
-        
-        ttk.Button(button_frame, text="Cancel", 
-                command=dialog.destroy).pack(side='right', padx=5)
-
-    def _create_hpc_script_template(self, job_name, nodes, cores, memory, walltime, queue, L4, L5, alpha1, alpha2, alpha3):
+                    
+    def create_hpc_script_template(self, job_name, nodes, cores, memory, walltime, queue, L4, L5, alpha1, alpha2, alpha3):
         """Create HPC job script template"""
         
         # Determine total cores
@@ -7569,13 +6289,13 @@ class WorkflowGUI:
     """
         return script
 
-    def _submit_hpc_job(self, script_content, profile_name, job_name, dialog=None):
+    def submit_hpc_job(self, script_content, profile_name, job_name, dialog=None):
         """Submit a job to HPC system"""
         import os
         import json
         import tempfile
         
-        self._update_workflow_status("Submitting job to HPC system...")
+        self.update_workflow_status("Submitting job to HPC system...")
         self.update_status("Submitting job to HPC...", show_progress=True)
         
         try:
@@ -7583,7 +6303,7 @@ class WorkflowGUI:
             try:
                 import paramiko
             except ImportError:
-                self._update_workflow_status("Error: paramiko module not installed. Please install it using 'pip install paramiko'")
+                self.update_workflow_status("Error: paramiko module not installed. Please install it using 'pip install paramiko'")
                 self.update_status("Error: paramiko module not installed", show_progress=False)
                 messagebox.showerror("Import Error", "The paramiko module is required for HPC connectivity.\n\nPlease install it using: pip install paramiko")
                 return
@@ -7593,7 +6313,7 @@ class WorkflowGUI:
                                     "Config", "hpc_profiles.json")
             
             if not os.path.exists(profiles_path):
-                self._update_workflow_status("Error: HPC profiles file not found")
+                self.update_workflow_status("Error: HPC profiles file not found")
                 self.update_status("Error: HPC profiles file not found", show_progress=False)
                 messagebox.showerror("File Not Found", f"HPC profiles file not found at {profiles_path}")
                 return
@@ -7602,7 +6322,7 @@ class WorkflowGUI:
                 profiles = json.load(f)
             
             if profile_name not in profiles:
-                self._update_workflow_status(f"Error: Profile '{profile_name}' not found in profiles file")
+                self.update_workflow_status(f"Error: Profile '{profile_name}' not found in profiles file")
                 self.update_status(f"Error: Profile '{profile_name}' not found", show_progress=False)
                 messagebox.showerror("Profile Not Found", f"HPC profile '{profile_name}' not found in profiles file")
                 return
@@ -7613,7 +6333,7 @@ class WorkflowGUI:
             ssh = paramiko.SSHClient()
             ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             
-            self._update_workflow_status(f"Connecting to {profile['hostname']}...")
+            self.update_workflow_status(f"Connecting to {profile['hostname']}...")
             
             # Connect to server
             try:
@@ -7657,7 +6377,7 @@ class WorkflowGUI:
                     self.root.wait_window(password_dialog)
                     
                     if dialog_result["canceled"]:
-                        self._update_workflow_status("Job submission canceled")
+                        self.update_workflow_status("Job submission canceled")
                         self.update_status("Job submission canceled", show_progress=False)
                         return
                         
@@ -7668,12 +6388,12 @@ class WorkflowGUI:
                         port=profile.get("port", 22)
                     )
             except Exception as e:
-                self._update_workflow_status(f"Connection failed: {str(e)}")
+                self.update_workflow_status(f"Connection failed: {str(e)}")
                 self.update_status("Connection failed", show_progress=False)
                 messagebox.showerror("Connection Failed", f"Failed to connect to HPC server:\n\n{str(e)}")
                 return
                 
-            self._update_workflow_status("Connected to HPC server, uploading files...")
+            self.update_workflow_status("Connected to HPC server, uploading files...")
             
             # Create SFTP client
             sftp = ssh.open_sftp()
@@ -7687,7 +6407,7 @@ class WorkflowGUI:
             try:
                 sftp.stat(remote_dir)
             except FileNotFoundError:
-                self._update_workflow_status(f"Creating directory {remote_dir}...")
+                self.update_workflow_status(f"Creating directory {remote_dir}...")
                 ssh.exec_command(f"mkdir -p {remote_dir}")
                 
             # Create job directory
@@ -7704,18 +6424,18 @@ class WorkflowGUI:
             
             # Upload necessary files
             if os.path.exists("INTAKE3D.step"):
-                self._update_workflow_status("Uploading STEP file...")
+                self.update_workflow_status("Uploading STEP file...")
                 sftp.put("INTAKE3D.step", f"{job_dir}/INTAKE3D.step")
                 
             # Upload additional files as needed
             # ...
             
-            self._update_workflow_status("Submitting job to scheduler...")
+            self.update_workflow_status("Submitting job to scheduler...")
             
             # Change to job directory
             stdin, stdout, stderr = ssh.exec_command(f"cd {job_dir} && echo $PWD")
             current_dir = stdout.read().decode().strip()
-            self._update_workflow_status(f"Working directory: {current_dir}")
+            self.update_workflow_status(f"Working directory: {current_dir}")
             
             # Determine scheduler type and submit job
             scheduler_cmd = ""
@@ -7724,56 +6444,56 @@ class WorkflowGUI:
             # Try SLURM
             stdin, stdout, stderr = ssh.exec_command("command -v sbatch")
             if stdout.read().strip():
-                self._update_workflow_status("Using SLURM scheduler...")
+                self.update_workflow_status("Using SLURM scheduler...")
                 stdin, stdout, stderr = ssh.exec_command(f"cd {job_dir} && sbatch job_script.sh")
                 response = stdout.read().decode().strip()
                 error = stderr.read().decode().strip()
                 
                 if error:
-                    self._update_workflow_status(f"Job submission error: {error}")
+                    self.update_workflow_status(f"Job submission error: {error}")
                 else:
                     # Parse job ID from SLURM response (typically "Submitted batch job 12345")
                     import re
                     match = re.search(r'Submitted batch job (\d+)', response)
                     if match:
                         job_id = match.group(1)
-                        self._update_workflow_status(f"Job submitted successfully with ID: {job_id}")
+                        self.update_workflow_status(f"Job submitted successfully with ID: {job_id}")
                     else:
-                        self._update_workflow_status(f"Job submitted, but couldn't parse job ID. Response: {response}")
+                        self.update_workflow_status(f"Job submitted, but couldn't parse job ID. Response: {response}")
             
             # Try PBS if SLURM not available
             elif ssh.exec_command("command -v qsub")[1].read().strip():
-                self._update_workflow_status("Using PBS scheduler...")
+                self.update_workflow_status("Using PBS scheduler...")
                 stdin, stdout, stderr = ssh.exec_command(f"cd {job_dir} && qsub job_script.sh")
                 response = stdout.read().decode().strip()
                 error = stderr.read().decode().strip()
                 
                 if error:
-                    self._update_workflow_status(f"Job submission error: {error}")
+                    self.update_workflow_status(f"Job submission error: {error}")
                 else:
                     job_id = response.strip()
-                    self._update_workflow_status(f"Job submitted successfully with ID: {job_id}")
+                    self.update_workflow_status(f"Job submitted successfully with ID: {job_id}")
             
             # Try LSF if neither SLURM nor PBS available
             elif ssh.exec_command("command -v bsub")[1].read().strip():
-                self._update_workflow_status("Using LSF scheduler...")
+                self.update_workflow_status("Using LSF scheduler...")
                 stdin, stdout, stderr = ssh.exec_command(f"cd {job_dir} && bsub < job_script.sh")
                 response = stdout.read().decode().strip()
                 error = stderr.read().decode().strip()
                 
                 if error:
-                    self._update_workflow_status(f"Job submission error: {error}")
+                    self.update_workflow_status(f"Job submission error: {error}")
                 else:
                     import re
                     match = re.search(r'Job <(\d+)>', response)
                     if match:
                         job_id = match.group(1)
-                        self._update_workflow_status(f"Job submitted successfully with ID: {job_id}")
+                        self.update_workflow_status(f"Job submitted successfully with ID: {job_id}")
                     else:
-                        self._update_workflow_status(f"Job submitted, but couldn't parse job ID. Response: {response}")
+                        self.update_workflow_status(f"Job submitted, but couldn't parse job ID. Response: {response}")
             
             else:
-                self._update_workflow_status("No supported job scheduler found on HPC system")
+                self.update_workflow_status("No supported job scheduler found on HPC system")
                 self.update_status("No job scheduler found", show_progress=False)
                 messagebox.showerror("Scheduler Error", "No supported job scheduler (SLURM, PBS, LSF) found on HPC system")
                 
@@ -7781,7 +6501,7 @@ class WorkflowGUI:
             ssh.close()
             
             # Update workflow steps status
-            self._update_workflow_step("CAD", "running")
+            self.update_workflow_step("CAD", "running")
             
             # Show success message
             if job_id:
@@ -7796,14 +6516,14 @@ class WorkflowGUI:
                 dialog.destroy()
                 
             # Update workflow status to completed
-            self._workflow_completed()
+            self.workflow_completed()
             
         except Exception as e:
             self.log(f"Error submitting HPC job: {str(e)}")
-            self._update_workflow_status(f"Error submitting job: {str(e)}")
+            self.update_workflow_status(f"Error submitting job: {str(e)}")
             self.update_status("Job submission failed", show_progress=False)
             messagebox.showerror("Submission Error", f"Failed to submit job to HPC system:\n\n{str(e)}")
-            self._workflow_failed(f"Failed to submit job: {str(e)}")
+            self.workflow_failed(f"Failed to submit job: {str(e)}")
 
     def submit_workflow_to_hpc(self, L4, L5, alpha1, alpha2, alpha3):
         """Submit workflow job to HPC system"""
@@ -7811,18 +6531,18 @@ class WorkflowGUI:
             # Check if HPC profile is selected
             if not hasattr(self, 'workflow_hpc_profile') or not self.workflow_hpc_profile.get():
                 messagebox.showerror("HPC Error", "Please select an HPC profile")
-                self._workflow_failed("No HPC profile selected")
+                self.workflow_failed("No HPC profile selected")
                 return
                 
             profile_name = self.workflow_hpc_profile.get()
-            self._update_workflow_status(f"Preparing to submit job to HPC using profile '{profile_name}'...")
+            self.update_workflow_status(f"Preparing to submit job to HPC using profile '{profile_name}'...")
             
             # Create submission dialog
-            self._create_hpc_submission_dialog(L4, L5, alpha1, alpha2, alpha3, profile_name)
+            self.create_hpc_submission_dialog(L4, L5, alpha1, alpha2, alpha3, profile_name)
             
         except Exception as e:
             self.log(f"Error preparing HPC workflow: {str(e)}")
-            self._workflow_failed(f"Failed to prepare HPC workflow: {str(e)}")
+            self.workflow_failed(f"Failed to prepare HPC workflow: {str(e)}")
 
     def load_workflow_hpc_profiles(self):
         """Load HPC profiles for the workflow tab"""
@@ -7888,13 +6608,13 @@ class WorkflowGUI:
         window_id = canvas.create_window((0, 0), window=inner_frame, anchor="nw")
         
         # Update the canvas's scroll region when the inner frame size changes
-        def _on_frame_configure(event):
+        def on_frame_configure(event):
             canvas.configure(scrollregion=canvas.bbox("all"))
         
-        inner_frame.bind("<Configure>", _on_frame_configure)
+        inner_frame.bind("<Configure>", on_frame_configure)
         
         # Update canvas window width when canvas size changes
-        def _on_canvas_configure(event):
+        def on_canvas_configure(event):
             min_width = inner_frame.winfo_reqwidth()
             if event.width > min_width:
                 # If canvas is wider than inner frame, expand inner frame
@@ -7903,13 +6623,13 @@ class WorkflowGUI:
                 # Otherwise, keep inner frame at its minimum width
                 canvas.itemconfig(window_id, width=min_width)
         
-        canvas.bind("<Configure>", _on_canvas_configure)
+        canvas.bind("<Configure>", on_canvas_configure)
         
         # Bind mouse wheel to scroll
-        def _on_mousewheel(event):
+        def on_mousewheel(event):
             canvas.yview_scroll(int(-1*(event.delta/120)), "units")
         
-        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+        canvas.bind_all("<MouseWheel>", on_mousewheel)
         
         # For Linux, bind mousewheel differently
         canvas.bind("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
@@ -8090,7 +6810,7 @@ class WorkflowGUI:
         
         return frame
     
-    def _create_viz_options_panel(self, parent):
+    def create_viz_options_panel(self, parent):
         """Create visualization options panel"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -8111,7 +6831,7 @@ class WorkflowGUI:
             width=20
         )
         self.viz_combo.pack(fill='x', pady=5)
-        self.viz_combo.bind("<<ComboboxSelected>>", self._on_viz_type_changed)
+        self.viz_combo.bind("<<ComboboxSelected>>", self.on_viz_type_changed)
         
         # Options that change based on visualization type
         self.viz_options_frame = ttk.Frame(frame)
@@ -8154,11 +6874,11 @@ class WorkflowGUI:
         ).pack(anchor='w', padx=5, pady=2)
         
         # Update visualization options based on initial type
-        self._on_viz_type_changed()
+        self.on_viz_type_changed()
         
         return frame
 
-    def _setup_viz_display_panel(self, parent):
+    def setup_viz_display_panel(self, parent):
         """Setup the visualization display panel with tabs"""
         # Create notebook for different visualization views
         self.viz_notebook = ttk.Notebook(parent)
@@ -8186,7 +6906,7 @@ class WorkflowGUI:
         ttk.Button(
             toolbar_frame, 
             text="Reset View", 
-            command=self._reset_view
+            command=self.reset_view
         ).pack(side='left', padx=5)
         
         # 3D View tab
@@ -8232,16 +6952,16 @@ class WorkflowGUI:
         self.viz_notebook.add(self.cross_section_tab, text="Cross Sections")
         
         # Setup cross-section visualization
-        self._setup_cross_section_view(self.cross_section_tab)
+        self.setup_cross_section_view(self.cross_section_tab)
         
         # Statistics tab
         self.stats_tab = ttk.Frame(self.viz_notebook)
         self.viz_notebook.add(self.stats_tab, text="Statistics")
         
         # Setup statistics view
-        self._setup_statistics_view(self.stats_tab)
+        self.setup_statistics_view(self.stats_tab)
     
-    def _setup_statistics_view(self, parent):
+    def setup_statistics_view(self, parent):
         """Set up statistics view tab"""
         # Create statistics display area
         stats_frame = ttk.Frame(parent)
@@ -8255,9 +6975,9 @@ class WorkflowGUI:
         
         # Add export button
         ttk.Button(stats_frame, text="Export Statistics", 
-                 command=self._export_statistics).pack(pady=10)
+                 command=self.export_statistics).pack(pady=10)
     
-    def _setup_mesh_view(self, parent):
+    def setup_mesh_view(self, parent):
         """Set up mesh visualization tab"""
         mesh_frame = ttk.Frame(parent)
         mesh_frame.pack(fill='both', expand=True, padx=10, pady=10)
@@ -8295,7 +7015,7 @@ class WorkflowGUI:
         ttk.Button(btn_frame, text="Export Mesh", 
                  command=self.export_mesh).pack(side='left', padx=5)
     
-    def _export_statistics(self):
+    def export_statistics(self):
         """Export statistics to a text file"""
         file_path = filedialog.asksaveasfilename(
             title="Export Statistics",
@@ -8324,7 +7044,7 @@ class WorkflowGUI:
             self.update_status("Statistics export failed", show_progress=False)
             messagebox.showerror("Export Error", f"Failed to export statistics:\n\n{str(e)}")
     
-    def _setup_animation_controls(self, parent):
+    def setup_animation_controls(self, parent):
         """Set up animation controls for time-dependent data"""
         frame = ttk.LabelFrame(parent, text="Animation Controls")
         frame.pack(fill='x', padx=5, pady=5)
@@ -8342,7 +7062,7 @@ class WorkflowGUI:
             to=10.0,
             orient='horizontal', 
             variable=self.time_var,
-            command=self._on_time_changed
+            command=self.on_time_changed
         )
         self.time_slider.pack(side='left', fill='x', expand=True, padx=5)
         
@@ -8360,7 +7080,7 @@ class WorkflowGUI:
             button_frame, 
             text=self.play_icon,
             width=3,
-            command=self._toggle_animation
+            command=self.toggle_animation
         )
         self.play_button.pack(side='left', padx=2)
         
@@ -8368,14 +7088,14 @@ class WorkflowGUI:
             button_frame, 
             text="⏮",  # Unicode skip to start symbol
             width=3,
-            command=self._animation_to_start
+            command=self.animation_to_start
         ).pack(side='left', padx=2)
         
         ttk.Button(
             button_frame, 
             text="⏭",  # Unicode skip to end symbol
             width=3,
-            command=self._animation_to_end
+            command=self.animation_to_end
         ).pack(side='left', padx=2)
         
         # Animation speed
@@ -8401,20 +7121,20 @@ class WorkflowGUI:
         
         return frame
 
-    def _toggle_animation(self):
+    def toggle_animation(self):
         """Toggle the animation on/off"""
         if self.animating:
-            self._stop_animation()
+            self.stop_animation()
         else:
-            self._start_animation()
+            self.start_animation()
 
-    def _start_animation(self):
+    def start_animation(self):
         """Start the animation"""
         self.animating = True
         self.play_button.configure(text=self.pause_icon)
-        self._animate_step()
+        self.animate_step()
 
-    def _stop_animation(self):
+    def stop_animation(self):
         """Stop the animation"""
         self.animating = False
         self.play_button.configure(text=self.play_icon)
@@ -8422,7 +7142,7 @@ class WorkflowGUI:
             self.root.after_cancel(self.animation_id)
             self.animation_id = None
 
-    def _animate_step(self):
+    def animate_step(self):
         """Advance animation by one step"""
         if not self.animating:
             return
@@ -8438,12 +7158,12 @@ class WorkflowGUI:
         
         # Update slider position
         self.time_var.set(new_time)
-        self._on_time_changed(new_time)
+        self.on_time_changed(new_time)
         
         # Schedule next frame
-        self.animation_id = self.root.after(50, self._animate_step)
+        self.animation_id = self.root.after(50, self.animate_step)
 
-    def _setup_comparison_view(self, parent):
+    def setup_comparison_view(self, parent):
         """Setup view for comparing multiple datasets"""
         # Create frame for comparison controls
         control_frame = ttk.Frame(parent)
@@ -8460,7 +7180,7 @@ class WorkflowGUI:
             width=15
         )
         compare_mode.pack(side='left', padx=5)
-        compare_mode.bind("<<ComboboxSelected>>", self._update_comparison)
+        compare_mode.bind("<<ComboboxSelected>>", self.update_comparison)
         
         ttk.Label(control_frame, text="Dataset A:").pack(side='left', padx=(20, 5))
         
@@ -8468,12 +7188,12 @@ class WorkflowGUI:
         dataset_a = ttk.Combobox(
             control_frame, 
             textvariable=self.dataset_a_var,
-            values=self._get_available_datasets(),
+            values=self.get_available_datasets(),
             state="readonly",
             width=15
         )
         dataset_a.pack(side='left', padx=5)
-        dataset_a.bind("<<ComboboxSelected>>", self._update_comparison)
+        dataset_a.bind("<<ComboboxSelected>>", self.update_comparison)
         
         ttk.Label(control_frame, text="Dataset B:").pack(side='left', padx=(20, 5))
         
@@ -8481,12 +7201,12 @@ class WorkflowGUI:
         dataset_b = ttk.Combobox(
             control_frame, 
             textvariable=self.dataset_b_var,
-            values=self._get_available_datasets(),
+            values=self.get_available_datasets(),
             state="readonly",
             width=15
         )
         dataset_b.pack(side='left', padx=5)
-        dataset_b.bind("<<ComboboxSelected>>", self._update_comparison)
+        dataset_b.bind("<<ComboboxSelected>>", self.update_comparison)
         
         # Create comparison figure
         comparison_frame = ttk.Frame(parent)
@@ -8509,7 +7229,7 @@ class WorkflowGUI:
         self.comparison_toolbar = NavigationToolbar2Tk(self.comparison_canvas, toolbar_frame)
         self.comparison_toolbar.update()
 
-    def _create_data_filtering_panel(self, parent):
+    def create_data_filtering_panel(self, parent):
         """Create panel for data filtering options"""
         frame = ttk.LabelFrame(parent, text="Data Filtering")
         frame.pack(fill='x', padx=5, pady=5)
@@ -8532,7 +7252,7 @@ class WorkflowGUI:
         ttk.Button(
             range_frame, 
             text="Apply Filter", 
-            command=self._apply_data_filter
+            command=self.apply_data_filter
         ).grid(row=3, column=0, columnspan=2, pady=5)
         
         # Threshold for isolines or isosurfaces
@@ -8552,7 +7272,7 @@ class WorkflowGUI:
             threshold_entry_frame, 
             text="+", 
             width=2,
-            command=lambda: self._add_threshold_value(self.threshold_var.get())
+            command=lambda: self.add_threshold_value(self.threshold_var.get())
         ).pack(side='left')
         
         # List of active thresholds
@@ -8570,7 +7290,7 @@ class WorkflowGUI:
         ttk.Button(
             threshold_buttons, 
             text="Remove", 
-            command=self._remove_threshold
+            command=self.remove_threshold
         ).pack(side='left', padx=5)
         
         ttk.Button(
@@ -8581,7 +7301,7 @@ class WorkflowGUI:
         
         return frame
     
-    def _add_threshold_value(self, value):
+    def add_threshold_value(self, value):
         """Add a threshold value to the list"""
         try:
             # Validate that it's a number
@@ -8591,14 +7311,14 @@ class WorkflowGUI:
         except ValueError:
             messagebox.showerror("Invalid Value", "Threshold must be a valid number")
     
-    def _remove_threshold(self):
+    def remove_threshold(self):
         """Remove selected threshold from list"""
         selection = self.threshold_listbox.curselection()
         if selection:
             self.threshold_listbox.delete(selection[0])
             self.update_cfd_visualization()
 
-    def _create_color_settings_panel(self, parent):
+    def create_color_settings_panel(self, parent):
         """Create color settings panel with advanced colormap options"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -8627,7 +7347,7 @@ class WorkflowGUI:
             width=15
         )
         cmap_category.pack(fill='x', padx=5, pady=2)
-        cmap_category.bind("<<ComboboxSelected>>", self._update_cmap_list)
+        cmap_category.bind("<<ComboboxSelected>>", self.update_cmap_list)
         
         # Create dropdown for colormap selection
         ttk.Label(colormap_frame, text="Colormap:").pack(anchor='w', padx=5, pady=2)
@@ -8641,7 +7361,7 @@ class WorkflowGUI:
             width=15
         )
         self.colormap_combo.pack(fill='x', padx=5, pady=2)
-        self.colormap_combo.bind("<<ComboboxSelected>>", self._update_colormap_preview)
+        self.colormap_combo.bind("<<ComboboxSelected>>", self.update_colormap_preview)
         
         # Preview canvas
         preview_frame = ttk.Frame(colormap_frame)
@@ -8651,7 +7371,7 @@ class WorkflowGUI:
         self.cmap_preview.pack(fill='x')
         
         # Update the preview initially
-        self._update_colormap_preview()
+        self.update_colormap_preview()
         
         # Colormap options
         options_frame = ttk.Frame(colormap_frame)
@@ -8663,7 +7383,7 @@ class WorkflowGUI:
             options_frame,
             text="Reverse Colormap",
             variable=self.reverse_cmap_var,
-            command=self._update_colormap_preview
+            command=self.update_colormap_preview
         ).pack(anchor='w')
         
         # Transparency control
@@ -8685,7 +7405,7 @@ class WorkflowGUI:
         
         return frame
     
-    def _update_cmap_list(self, event=None):
+    def update_cmap_list(self, event=None):
         """Update the colormap list based on selected category"""
         category = self.cmap_category_var.get()
         
@@ -8702,9 +7422,9 @@ class WorkflowGUI:
         self.colormap_var.set(cmap_categories.get(category, ["viridis"])[0])
         
         # Update preview
-        self._update_colormap_preview()
+        self.update_colormap_preview()
     
-    def _update_colormap_preview(self, event=None):
+    def update_colormap_preview(self, event=None):
         """Update the colormap preview"""
         import matplotlib.cm as cm
         import numpy as np
@@ -8749,7 +7469,7 @@ class WorkflowGUI:
         # Update visualization
         self.update_cfd_visualization()
 
-    def _setup_advanced_charts_panel(self, parent):
+    def setup_advanced_charts_panel(self, parent):
         """Setup panel with advanced chart options"""
         # Create notebook for different chart types
         charts_notebook = ttk.Notebook(parent)
@@ -8759,29 +7479,29 @@ class WorkflowGUI:
         profile_tab = ttk.Frame(charts_notebook)
         charts_notebook.add(profile_tab, text="Line Profiles")
         
-        self._setup_line_profile_panel(profile_tab)
+        self.setup_line_profile_panel(profile_tab)
         
         # Histogram tab
         histogram_tab = ttk.Frame(charts_notebook)
         charts_notebook.add(histogram_tab, text="Histogram")
         
-        self._setup_histogram_panel(histogram_tab)
+        self.setup_histogram_panel(histogram_tab)
         
         # Scatter plot tab
         scatter_tab = ttk.Frame(charts_notebook)
         charts_notebook.add(scatter_tab, text="Scatter Plot")
         
-        self._setup_scatter_panel(scatter_tab)
+        self.setup_scatter_panel(scatter_tab)
         
         # Polar plot tab
         polar_tab = ttk.Frame(charts_notebook)
         charts_notebook.add(polar_tab, text="Polar Plot")
         
-        self._setup_polar_panel(polar_tab)
+        self.setup_polar_panel(polar_tab)
         
         return charts_notebook
 
-    def _setup_line_profile_panel(self, parent):
+    def setup_line_profile_panel(self, parent):
         """Setup line profile panel"""
         control_frame = ttk.Frame(parent)
         control_frame.pack(fill='x', padx=10, pady=10)
@@ -8819,7 +7539,7 @@ class WorkflowGUI:
         ttk.Button(
             control_frame, 
             text="Extract Profile",
-            command=self._extract_line_profile
+            command=self.extract_line_profile
         ).grid(row=3, column=0, columnspan=2, pady=10)
         
         # Figure for profile plot
@@ -8837,7 +7557,7 @@ class WorkflowGUI:
         self.profile_toolbar = NavigationToolbar2Tk(self.profile_canvas, parent)
         self.profile_toolbar.update()
 
-    def _create_collapsible_section(self, parent, title, content_func):
+    def create_collapsible_section(self, parent, title, content_func):
         """Create a collapsible section with a toggle button"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', pady=5)
@@ -8887,7 +7607,7 @@ class WorkflowGUI:
         
         return frame
 
-    def _create_tooltip(self, widget, text):
+    def create_tooltip(self, widget, text):
         """Create a tooltip for a widget"""
         tooltip = tk.Toplevel(widget)
         tooltip.wm_withdraw()
@@ -8916,7 +7636,7 @@ class WorkflowGUI:
         widget.bind("<Enter>", enter)
         widget.bind("<Leave>", leave)
     
-    def _update_pyvista_visualization(self, X, Y, Z, field, cmap_name):
+    def update_pyvista_visualization(self, X, Y, Z, field, cmap_name):
         """Update the PyVista 3D visualization"""
         try:
             import pyvista as pv
@@ -9035,21 +7755,9 @@ class WorkflowGUI:
         except Exception as e:
             self.log(f"PyVista visualization error: {e}")
             # Fall back to matplotlib 3D if PyVista fails
-            self._update_matplotlib_3d(X, Y, Z, field, cmap_name)
+            self.update_matplotlib_3d(X, Y, Z, field, cmap_name)
 
-    def create_card(self, parent, title=None, **kwargs):
-        """Create a modern card-like container"""
-        # Main card frame with raised appearance
-        card = ttk.Frame(parent, style="Card.TFrame", padding=10)
-        
-        # Add title if provided
-        if title:
-            title_label = ttk.Label(card, text=title, style="CardTitle.TLabel")
-            title_label.pack(anchor='w', pady=(0, 10))
-        
-        return card
-
-    def _setup_control_panel(self, parent):
+    def setup_control_panel(self, parent):
         """Set up visualization controls in the control panel"""
         # Create field selection section
         field_frame = ttk.LabelFrame(parent, text="Data Selection")
@@ -9089,7 +7797,7 @@ class WorkflowGUI:
         ttk.Button(action_frame, text="Export Data", 
                  command=self.export_cfd_results).pack(fill='x', padx=5, pady=5)
 
-    def _create_field_selection(self, parent):
+    def create_field_selection(self, parent):
         """Create modern field selection interface"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -9127,7 +7835,7 @@ class WorkflowGUI:
         
         return frame
 
-    def _setup_display_area(self, parent):
+    def setup_display_area(self, parent):
         """Setup the main visualization display area with matplotlib integration"""
         try:
             # Create frame for the visualization
@@ -9190,7 +7898,7 @@ class WorkflowGUI:
                 range_frame, 
                 text="Auto Range",
                 variable=self.auto_range_var,
-                command=self._toggle_range_inputs
+                command=self.toggle_range_inputs
             ).pack(anchor='w', padx=5, pady=2)
             
             # Create range inputs frame
@@ -9283,10 +7991,10 @@ class WorkflowGUI:
             ).pack(side='left', fill='x', expand=True, padx=5)
             
             # Draw placeholder visualization
-            self._draw_placeholder()
+            self.draw_placeholder()
             
             # Toggle range inputs initially
-            self._toggle_range_inputs()
+            self.toggle_range_inputs()
             
         except Exception as e:
             self.log(f"Error setting up display area: {str(e)}")
@@ -9335,7 +8043,7 @@ class WorkflowGUI:
         # Apply styles to existing widgets
         self.apply_modern_styles()
 
-    def _show_data_at_cursor(self, event):
+    def show_data_at_cursor(self, event):
         """Show data value at cursor position"""
         if event.inaxes is None:
             return
@@ -9362,7 +8070,7 @@ class WorkflowGUI:
             except:
                 pass
 
-    def _create_animation_controls(self, parent):
+    def create_animation_controls(self, parent):
         """Create animation controls for time-series data"""
         animation_frame = ttk.Frame(parent)
         animation_frame.pack(fill='x', pady=10)
@@ -9375,7 +8083,7 @@ class WorkflowGUI:
         self.time_var = tk.DoubleVar(value=0)
         self.time_slider = ttk.Scale(
             time_frame, from_=0, to=100, orient='horizontal',
-            variable=self.time_var, command=self._update_time_frame
+            variable=self.time_var, command=self.update_time_frame
         )
         self.time_slider.pack(side='left', fill='x', expand=True, padx=5)
         
@@ -9386,18 +8094,18 @@ class WorkflowGUI:
         btn_frame = ttk.Frame(animation_frame)
         btn_frame.pack(fill='x', pady=5)
         
-        self.play_btn = ttk.Button(btn_frame, text="▶ Play", command=self._toggle_animation, style="Modern.TButton")
+        self.play_btn = ttk.Button(btn_frame, text="▶ Play", command=self.toggle_animation, style="Modern.TButton")
         self.play_btn.pack(side='left', padx=5)
         
-        ttk.Button(btn_frame, text="⏮ First", command=lambda: self._goto_frame(0), style="Modern.TButton").pack(side='left', padx=5)
-        ttk.Button(btn_frame, text="⏪ Previous", command=self._prev_frame, style="Modern.TButton").pack(side='left', padx=5)
-        ttk.Button(btn_frame, text="⏩ Next", command=self._next_frame, style="Modern.TButton").pack(side='left', padx=5)
-        ttk.Button(btn_frame, text="⏭ Last", command=lambda: self._goto_frame(100), style="Modern.TButton").pack(side='left', padx=5)
+        ttk.Button(btn_frame, text="⏮ First", command=lambda: self.goto_frame(0), style="Modern.TButton").pack(side='left', padx=5)
+        ttk.Button(btn_frame, text="⏪ Previous", command=self.prev_frame, style="Modern.TButton").pack(side='left', padx=5)
+        ttk.Button(btn_frame, text="⏩ Next", command=self.next_frame, style="Modern.TButton").pack(side='left', padx=5)
+        ttk.Button(btn_frame, text="⏭ Last", command=lambda: self.goto_frame(100), style="Modern.TButton").pack(side='left', padx=5)
         
         # Animation is initially stopped
         self.animation_running = False
 
-    def _create_action_buttons(self, parent):
+    def create_action_buttons(self, parent):
         """Create action buttons for the visualization tab"""
         buttons_frame = ttk.Frame(parent)
         buttons_frame.pack(fill='x', pady=5)
@@ -9417,32 +8125,12 @@ class WorkflowGUI:
         preset_frame.pack(fill='x', pady=5)
         
         ttk.Button(preset_frame, text="Save Preset", 
-                command=self._save_visualization_preset).pack(side='left', fill='x', expand=True, padx=2)
+                command=self.save_visualization_preset).pack(side='left', fill='x', expand=True, padx=2)
         
         ttk.Button(preset_frame, text="Load Preset", 
-                command=self._load_visualization_preset).pack(side='left', fill='x', expand=True, padx=2)
+                command=self.load_visualization_preset).pack(side='left', fill='x', expand=True, padx=2)
         
-    def _on_viz_type_changed(self, event=None):
-        """Handle visualization type change"""
-        # Hide all specialized frames first
-        for frame in [self.contour_frame, self.vector_frame, self.slice_frame]:
-            if hasattr(self, frame.__str__()):
-                frame.pack_forget()
-        
-        # Show the appropriate frame based on selection
-        viz_type = self.viz_var.get()
-        
-        if viz_type == "Contour":
-            self.contour_frame.pack(fill='x', padx=5, pady=5)
-        elif viz_type == "Vector":
-            self.vector_frame.pack(fill='x', padx=5, pady=5)
-        elif viz_type == "Slice":
-            self.slice_frame.pack(fill='x', padx=5, pady=5)
-    
-        # Update the visualization
-        self.update_cfd_visualization()
-
-    def _create_appearance_options(self, parent):
+    def create_appearance_options(self, parent):
         """Create appearance options panel"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -9501,7 +8189,7 @@ class WorkflowGUI:
         
         return frame
 
-    def _create_data_range_section(self, parent):
+    def create_data_range_section(self, parent):
         """Create data range control section"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -9515,7 +8203,7 @@ class WorkflowGUI:
             auto_range_frame,
             text="Auto Range",
             variable=self.auto_range_var,
-            command=self._toggle_range_inputs
+            command=self.toggle_range_inputs
         ).pack(anchor='w')
         
         # Min/max range inputs
@@ -9546,7 +8234,7 @@ class WorkflowGUI:
         
         return frame
 
-    def _create_statistics_section(self, parent):
+    def create_statistics_section(self, parent):
         """Create statistics section for displaying data metrics"""
         frame = ttk.Frame(parent)
         frame.pack(fill='x', padx=5, pady=5)
@@ -9565,7 +8253,7 @@ class WorkflowGUI:
         
         return frame
 
-    def _save_visualization_preset(self):
+    def save_visualization_preset(self):
         """Save current visualization settings to a preset file"""
         try:
             # Get current settings
@@ -9606,7 +8294,7 @@ class WorkflowGUI:
             self.log(f"Error saving preset: {str(e)}")
             messagebox.showerror("Save Error", f"Failed to save preset: {str(e)}")
 
-    def _load_visualization_preset(self):
+    def load_visualization_preset(self):
         """Load visualization settings from a preset file"""
         try:
             # Get file path to load
@@ -9629,7 +8317,7 @@ class WorkflowGUI:
             if "visualization_type" in preset and hasattr(self, 'viz_var'):
                 self.viz_var.set(preset["visualization_type"])
                 # Update viz type specific options
-                self._on_viz_type_changed()
+                self.on_viz_type_changed()
                 
             if "colormap" in preset and hasattr(self, 'colormap_var'):
                 self.colormap_var.set(preset["colormap"])
@@ -9645,7 +8333,7 @@ class WorkflowGUI:
                 
             if "auto_range" in preset and hasattr(self, 'auto_range_var'):
                 self.auto_range_var.set(preset["auto_range"])
-                self._toggle_range_inputs()
+                self.toggle_range_inputs()
                 
             if "range_min" in preset and hasattr(self, 'range_min_var'):
                 self.range_min_var.set(preset["range_min"])
@@ -9673,7 +8361,7 @@ class WorkflowGUI:
             self.log(f"Error loading preset: {str(e)}")
             messagebox.showerror("Load Error", f"Failed to load preset: {str(e)}")
 
-    def _setup_3d_visualization(self, parent):
+    def setup_3d_visualization(self, parent):
         """Set up the 3D visualization tab with interactive 3D plot"""
         # Create frame for 3D visualization
         viz_3d_frame = ttk.Frame(parent)
@@ -9718,7 +8406,7 @@ class WorkflowGUI:
             to=90, 
             orient='horizontal',
             variable=self.elevation_var,
-            command=self._update_3d_view_angle
+            command=self.update_3d_view_angle
         )
         elevation_slider.grid(row=0, column=1, padx=5, pady=5, sticky='ew')
         
@@ -9731,7 +8419,7 @@ class WorkflowGUI:
             to=360, 
             orient='horizontal',
             variable=self.azimuth_var,
-            command=self._update_3d_view_angle
+            command=self.update_3d_view_angle
         )
         azimuth_slider.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
         
@@ -9746,7 +8434,7 @@ class WorkflowGUI:
             text="Surface", 
             variable=self.surface_display_var, 
             value="Surface",
-            command=self._update_3d_display_type
+            command=self.update_3d_display_type
         ).grid(row=0, column=0, padx=5, pady=2, sticky='w')
         
         ttk.Radiobutton(
@@ -9754,7 +8442,7 @@ class WorkflowGUI:
             text="Wireframe", 
             variable=self.surface_display_var, 
             value="Wireframe",
-            command=self._update_3d_display_type
+            command=self.update_3d_display_type
         ).grid(row=0, column=1, padx=5, pady=2, sticky='w')
         
         # Transparency slider
@@ -9766,7 +8454,7 @@ class WorkflowGUI:
             to=0.9, 
             orient='horizontal',
             variable=self.transparency_3d_var,
-            command=self._update_3d_transparency
+            command=self.update_3d_transparency
         )
         transparency_slider.grid(row=1, column=1, padx=5, pady=5, sticky='ew')
         
@@ -9774,12 +8462,12 @@ class WorkflowGUI:
         ttk.Button(
             control_frame, 
             text="Update 3D View",
-            command=self._update_3d_visualization
+            command=self.update_3d_visualization
         ).pack(side='right', padx=10)
         
         self.log("3D visualization interface initialized")
 
-    def _update_3d_view_angle(self, event=None):
+    def update_3d_view_angle(self, event=None):
         """Update the view angle of the 3D plot"""
         if hasattr(self, 'ax_3d'):
             elevation = self.elevation_var.get()
@@ -9790,12 +8478,12 @@ class WorkflowGUI:
             if hasattr(self, 'canvas_3d'):
                 self.canvas_3d.draw()
 
-    def _update_3d_display_type(self):
+    def update_3d_display_type(self):
         """Update the display type of the 3D visualization (surface/wireframe)"""
         if hasattr(self, 'visualization_data') and hasattr(self, 'ax_3d'):
-            self._update_3d_visualization()
+            self.update_3d_visualization()
 
-    def _update_3d_transparency(self, event=None):
+    def update_3d_transparency(self, event=None):
         """Update the transparency of the 3D surface"""
         if hasattr(self, 'ax_3d') and hasattr(self, 'current_3d_surface'):
             alpha = 1.0 - self.transparency_3d_var.get()
@@ -9804,7 +8492,7 @@ class WorkflowGUI:
             if hasattr(self, 'canvas_3d'):
                 self.canvas_3d.draw()
 
-    def _update_3d_visualization(self):
+    def update_3d_visualization(self):
         """Update the 3D visualization with current data"""
         if not hasattr(self, 'ax_3d') or not hasattr(self, 'canvas_3d'):
             return
@@ -9869,16 +8557,16 @@ class WorkflowGUI:
                     if display_type == "Surface" and self.show_colorbar_var.get() if hasattr(self, 'show_colorbar_var') else True:
                         self.fig_3d.colorbar(self.current_3d_surface, ax=self.ax_3d, shrink=0.5, aspect=10)
                 else:
-                    self._draw_empty_3d_plot("No valid data for selected field")
+                    self.draw_empty_3d_plot("No valid data for selected field")
             else:
-                self._draw_empty_3d_plot("Selected field not available")
+                self.draw_empty_3d_plot("Selected field not available")
         else:
-            self._draw_empty_3d_plot("No visualization data available")
+            self.draw_empty_3d_plot("No visualization data available")
         
         # Update canvas
         self.canvas_3d.draw()
 
-    def _draw_empty_3d_plot(self, message="No data available"):
+    def draw_empty_3d_plot(self, message="No data available"):
         """Draw an empty 3D plot with a message"""
         if hasattr(self, 'ax_3d'):
             self.ax_3d.clear()
@@ -9895,7 +8583,7 @@ class WorkflowGUI:
             self.ax_3d.set_ylim([-1, 1])
             self.ax_3d.set_zlim([-1, 1])
 
-    def _update_comparison(self, event=None):
+    def update_comparison(self, event=None):
         """Update the comparison view based on selected mode and datasets"""
         if not hasattr(self, 'comparison_fig') or not hasattr(self, 'comparison_canvas'):
             return
@@ -9925,18 +8613,18 @@ class WorkflowGUI:
             self.compare_ax2 = self.comparison_fig.add_subplot(122)
             
             # Plot dataset A
-            self._plot_comparison_dataset(self.compare_ax1, dataset_a, "Dataset A")
+            self.plot_comparison_dataset(self.compare_ax1, dataset_a, "Dataset A")
             
             # Plot dataset B
-            self._plot_comparison_dataset(self.compare_ax2, dataset_b, "Dataset B")
+            self.plot_comparison_dataset(self.compare_ax2, dataset_b, "Dataset B")
             
         elif mode == "Overlay":
             # Create a single plot with both datasets
             ax = self.comparison_fig.add_subplot(111)
             
             # Plot both datasets with different colors/styles
-            self._plot_comparison_dataset(ax, dataset_a, "Dataset A", color='blue', alpha=0.7)
-            self._plot_comparison_dataset(ax, dataset_b, "Dataset B", color='red', alpha=0.7)
+            self.plot_comparison_dataset(ax, dataset_a, "Dataset A", color='blue', alpha=0.7)
+            self.plot_comparison_dataset(ax, dataset_b, "Dataset B", color='red', alpha=0.7)
             
             # Add legend
             ax.legend()
@@ -9946,12 +8634,12 @@ class WorkflowGUI:
             ax = self.comparison_fig.add_subplot(111)
             
             # Calculate and plot difference
-            self._plot_difference(ax, dataset_a, dataset_b)
+            self.plot_difference(ax, dataset_a, dataset_b)
         
         # Update the canvas
         self.comparison_canvas.draw()
 
-    def _plot_comparison_dataset(self, ax, dataset_name, label, **kwargs):
+    def plot_comparison_dataset(self, ax, dataset_name, label, **kwargs):
         """Plot a dataset on the given axes"""
         # In a real implementation, this would load and plot actual data
         # For demo, we'll create placeholder data
@@ -9981,7 +8669,7 @@ class WorkflowGUI:
         ax.set_title(dataset_name)
         ax.grid(True)
 
-    def _plot_difference(self, ax, dataset_a, dataset_b):
+    def plot_difference(self, ax, dataset_a, dataset_b):
         """Plot the difference between two datasets"""
         # Create sample data for difference plot
         x = np.linspace(0, 10, 100)
@@ -10025,87 +8713,14 @@ class WorkflowGUI:
         ax.grid(True)
         ax.legend()
 
-    def _get_available_datasets(self):
-        """Get list of available datasets for comparison"""
-        # In a real app, this would read from actual data files
-        # For demo, return placeholder options
-        return ["Current Results", "Previous Results", "Baseline", "Optimized"]
-
-    def _setup_parameter_section(self, parent):
-        """Set up the parameter input section with collapsible UI"""
-        # Create collapsible section for parameters
-        parameters_header = ttk.Frame(parent)
-        parameters_header.pack(fill='x', padx=5, pady=2)
-        
-        # Header with expand/collapse button
-        self.param_expanded = tk.BooleanVar(value=True)
-        param_toggle = ttk.Checkbutton(parameters_header, 
-                                text="Parameters", 
-                                style="Section.TCheckbutton",
-                                variable=self.param_expanded,
-                                command=self._toggle_param_section)
-        param_toggle.pack(side='left', padx=5)
-        
-        # Add parameter preset controls
-        ttk.Button(parameters_header, text="Save", width=6,
-                command=self.save_parameter_preset).pack(side='right', padx=2)
-        ttk.Button(parameters_header, text="Load", width=6,
-                command=self.load_parameter_preset).pack(side='right', padx=2)
-        
-        # Parameters content frame
-        self.param_frame = ttk.Frame(parent, padding=5)
-        self.param_frame.pack(fill='x', padx=5, pady=5)
-        
-        # Add parameter input fields with labels and tooltips
-        param_grid = ttk.Frame(self.param_frame)
-        param_grid.pack(fill='x', pady=5)
-        
-        # Define parameters with tooltips
-        parameters = [
-            ("L4", "Length parameter 4 (mm)", "3.0"),
-            ("L5", "Length parameter 5 (mm)", "3.0"),
-            ("Alpha1", "Angle 1 (degrees)", "15.0"),
-            ("Alpha2", "Angle 2 (degrees)", "15.0"),
-            ("Alpha3", "Angle 3 (degrees)", "15.0")
-        ]
-        
-        # Create labeled entries with units and tooltips
-        self.param_entries = {}
-        for i, (param, tooltip, default) in enumerate(parameters):
-            # Label
-            label = ttk.Label(param_grid, text=f"{param}:")
-            label.grid(row=i, column=0, padx=5, pady=6, sticky='w')
-            self._create_tooltip(label, tooltip)
-            
-            # Frame for entry and unit
-            entry_frame = ttk.Frame(param_grid)
-            entry_frame.grid(row=i, column=1, padx=5, pady=5, sticky='w')
-            
-            # Entry widget
-            entry = ttk.Entry(entry_frame, width=10)
-            entry.pack(side='left')
-            entry.insert(0, default)
-            self.param_entries[param.lower()] = entry
-            
-            # Unit label
-            unit = "mm" if param.startswith("L") else "°"
-            ttk.Label(entry_frame, text=unit).pack(side='left', padx=2)
-        
-        # Add parameter validation feedback
-        self.param_validation = ttk.Label(self.param_frame, text="", foreground="green")
-        self.param_validation.pack(fill='x', pady=5)
-        
-        # Default expanded
-        self._toggle_param_section()
-
-    def _toggle_param_section(self):
+    def toggle_param_section(self):
         """Toggle the visibility of the parameter section"""
         if self.param_expanded.get():
             self.param_frame.pack(fill='x', padx=5, pady=5)
         else:
             self.param_frame.pack_forget()
 
-    def _setup_env_section(self, parent):
+    def setup_env_section(self, parent):
         """Set up the execution environment section"""
         # Create collapsible section for environment
         env_header = ttk.Frame(parent)
@@ -10117,7 +8732,7 @@ class WorkflowGUI:
                             text="Execution Environment", 
                             style="Section.TCheckbutton",
                             variable=self.env_expanded,
-                            command=self._toggle_env_section)
+                            command=self.toggle_env_section)
         env_toggle.pack(side='left', padx=5)
         
         # Environment content frame
@@ -10182,16 +8797,16 @@ class WorkflowGUI:
         self.workflow_hpc_frame.pack_forget()
         
         # Default expanded
-        self._toggle_env_section()
+        self.toggle_env_section()
 
-    def _toggle_env_section(self):
+    def toggle_env_section(self):
         """Toggle the visibility of the environment section"""
         if self.env_expanded.get():
             self.env_frame.pack(fill='x', padx=5, pady=5)
         else:
             self.env_frame.pack_forget()
 
-    def _setup_action_section(self, parent):
+    def setup_action_section(self, parent):
         """Set up the action buttons section"""
         # Create frame for action buttons
         action_frame = ttk.Frame(parent, padding=10)
@@ -10236,7 +8851,7 @@ class WorkflowGUI:
             command=self.view_previous_results
         ).pack(side="left", padx=5, fill='x', expand=True)
 
-    def _setup_workflow_visualization(self, parent):
+    def setup_workflow_visualization(self, parent):
         """Set up the workflow visualization with improved visuals and interactivity"""
         # Create tabbed interface for workflow visualization
         workflow_notebook = ttk.Notebook(parent)
@@ -10301,7 +8916,7 @@ class WorkflowGUI:
         ]
         
         # Draw the workflow diagram
-        self._redraw_workflow()
+        self.redraw_workflow()
         
         # Status log tab with improved styling
         log_tab = ttk.Frame(workflow_notebook)
@@ -10388,9 +9003,9 @@ class WorkflowGUI:
             self.progress_indicators[step['name']] = progress_var
         
         # Initialize the workflow UI
-        self._update_workflow_status("Workflow initialized and ready", 'info')
+        self.update_workflow_status("Workflow initialized and ready", 'info')
 
-    def _update_workflow_status(self, message, status_type='info'):
+    def update_workflow_status(self, message, status_type='info'):
         """Update the workflow status text with a styled message"""
         if not hasattr(self, 'workflow_status_text'):
             self.log(message)
@@ -10419,8 +9034,8 @@ class WorkflowGUI:
             self.update_status(message)
         except Exception as e:
             self.log(f"Error updating workflow status: {e}")
-
-    def _update_workflow_step(self, step_name, status, progress=None, time_info=None):
+    
+    def update_workflow_step(self, step_name, status, progress=None, time_info=None):
         """Update a workflow step's status and progress"""
         # Update step status in data structure
         for step in self.workflow_steps:
@@ -10457,282 +9072,255 @@ class WorkflowGUI:
             self.time_labels[step_name].set(time_info)
         
         # Redraw the workflow visualization
-        self._redraw_workflow()
+        self.redraw_workflow()
 
-    def _redraw_workflow(self):
-        """Redraw the workflow visualization with enhanced visuals"""
-        if not hasattr(self, 'workflow_canvas') or not hasattr(self, 'workflow_steps'):
-            return
-                
+    def animate_workflow_step(self, step_name, new_status, frames=10, duration=500):
+        """Animate a workflow step transition with improved robustness"""
         try:
-            # Clear the canvas
-            self.workflow_canvas.delete("all")
+            # Find the step
+            target_step = None
+            for step in self.workflow_steps:
+                if step.get("name") == step_name:
+                    target_step = step
+                    break
+                    
+            if not target_step:
+                self.log(f"Cannot animate step {step_name} - not found")
+                return
+                
+            # Store original status
+            original_status = target_step["status"]
             
-            # Get canvas dimensions
-            width = self.workflow_canvas.winfo_width()
-            height = self.workflow_canvas.winfo_height()
-            
-            # If canvas size is not yet determined, use default values
-            if width <= 1:
-                width = 800
-            if height <= 1:
-                height = 200
-            
-            # Colors for different statuses
-            colors = {
-                "pending": "#E0E0E0",   # Light gray
-                "running": "#FFC107",   # Amber
-                "complete": "#4CAF50",  # Green
-                "error": "#F44336",     # Red
-                "canceled": "#9E9E9E"   # Gray
+            # Define status colors
+            status_colors = {
+                "pending": "#95a5a6",  # Gray
+                "running": "#f39c12",  # Orange
+                "complete": "#2ecc71", # Green
+                "error": "#e74c3c"     # Red
             }
             
-            # Draw connections between steps
-            for i in range(len(self.workflow_steps) - 1):
-                x1 = int(float(self.workflow_steps[i]["x"]) * width)
-                y1 = int(float(self.workflow_steps[i]["y"]) * height)
-                x2 = int(float(self.workflow_steps[i+1]["x"]) * width)
-                y2 = int(float(self.workflow_steps[i+1]["y"]) * height)
-                
-                # Determine connection appearance based on status
-                start_status = self.workflow_steps[i]["status"]
-                end_status = self.workflow_steps[i+1]["status"]
-                
-                # Base connection
-                if start_status == "complete" and end_status == "pending":
-                    # Ready for next step - dashed line
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=2.5, 
-                        dash=(6, 3)
-                    )
-                elif start_status == "running":
-                    # Currently running - animated line effect
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=3
-                    )
-                    
-                    # Add small moving dot for animation effect
-                    dot_pos = (datetime.datetime.now().timestamp() * 2) % 1.0
-                    dot_x = x1 + (x2 - x1) * dot_pos
-                    dot_y = y1 + (y2 - y1) * dot_pos
-                    self.workflow_canvas.create_oval(
-                        dot_x-5, dot_y-5, dot_x+5, dot_y+5,
-                        fill=colors.get(start_status, "#CCCCCC"),
-                        outline=""
-                    )
-                    
-                    # Schedule redraw for animation
-                    self.root.after(50, self._redraw_workflow)
-                else:
-                    # Normal connection
-                    self.workflow_canvas.create_line(
-                        x1+25, y1, x2-25, y2, 
-                        fill=colors.get(start_status, "#CCCCCC"), 
-                        width=2
-                    )
+            # Update status immediately for quick feedback
+            target_step["status"] = new_status
+            self.redraw_workflow()
             
-            # Draw each step with modern styling
-            for step in self.workflow_steps:
-                x = int(float(step["x"]) * width)
-                y = int(float(step["y"]) * height)
-                status = step["status"]
-                color = colors.get(status, "#CCCCCC")
-                
-                # Add shadow for 3D effect - use solid color instead of one with alpha
-                self.workflow_canvas.create_oval(
-                    x-22, y-22+3, x+22, y+22+3, 
-                    fill="#CCCCCC",  # Light gray for shadow
-                    outline=""
-                )
-                
-                # Draw circle with gradient effect
-                for i in range(3):
-                    size = 22 - i*2
-                    # Use the same color for all circles instead of varying alpha
-                    self.workflow_canvas.create_oval(
-                        x-size, y-size, x+size, y+size, 
-                        fill=color, 
-                        outline=self.theme.primary_color if i == 0 else ""
-                    )
-                
-                # For running state, add pulsing animation
-                if status == "running":
-                    pulse_size = 25 + (math.sin(datetime.datetime.now().timestamp() * 5) + 1) * 3
-                    self.workflow_canvas.create_oval(
-                        x-pulse_size, y-pulse_size, x+pulse_size, y+pulse_size, 
-                        outline=color, 
-                        width=2
-                    )
-                    
-                    # Schedule redraw for animation
-                    self.root.after(50, self._redraw_workflow)
-                
-                # Draw step name with shadow for better readability
-                self.workflow_canvas.create_text(
-                    x+1, y+1, 
-                    text=step["name"], 
-                    fill="#CCCCCC",  # Light gray for text shadow
-                    font=self.theme.header_font
-                )
-                self.workflow_canvas.create_text(
-                    x, y, 
-                    text=step["name"], 
-                    fill="white" if status in ["running", "complete"] else "#333333", 
-                    font=self.theme.header_font
-                )
-                
-                # Draw status text below
-                status_y = y + 35
-                self.workflow_canvas.create_text(
-                    x, status_y, 
-                    text=status.title(), 
-                    fill="#333333"
-                )
+            # No need for complex animation in this simplified version
+            self.log(f"Step {step_name} status changed from {original_status} to {new_status}")
             
         except Exception as e:
-            self.log(f"Error drawing workflow: {str(e)}")
-            # Draw an error message on the canvas
-            width = self.workflow_canvas.winfo_width() or 800
-            height = self.workflow_canvas.winfo_height() or 200
-            self.workflow_canvas.create_text(
-                width/2, height/2,
-                text=f"Error displaying workflow:\n{str(e)}",
-                fill="#F44336",
-                font=self.theme.normal_font
-            )
+            self.log(f"Error in step animation: {str(e)}")
 
-    def workflow_canvas_click(self, event):
-        """Handle clicks on workflow canvas with enhanced interactivity"""
-        if not hasattr(self, 'workflow_canvas') or not hasattr(self, 'workflow_steps'):
-            return
-            
-        # Get canvas dimensions
-        width = self.workflow_canvas.winfo_width() or 800
-        height = self.workflow_canvas.winfo_height() or 200
-        
-        # Check if any step was clicked
-        for step in self.workflow_steps:
-            # Get step position
-            x = int(step["x"] * width)
-            y = int(step["y"] * height)
-            
-            # Calculate distance from click to step center
-            distance = ((event.x - x) ** 2 + (event.y - y) ** 2) ** 0.5
-            
-            # If within circle radius, show details in a modern popup
-            if distance <= 22:  # Circle radius
-                self.show_step_details_popup(step, event.x_root, event.y_root)
-                return
-
-    def show_step_details_popup(self, step, x_root, y_root):
-        """Show a modern popup with step details"""
-        # Create popup window
-        popup = tk.Toplevel(self.root)
-        popup.title(f"Step: {step['name']}")
-        popup.geometry(f"+{x_root+10}+{y_root+10}")
-        popup.transient(self.root)
-        
-        # Configure style
-        if hasattr(self, 'theme'):
-            popup.configure(background=self.theme.bg_color)
-        
-        # Create content
-        content_frame = ttk.Frame(popup, padding=15)
-        content_frame.pack(fill='both', expand=True)
-        
-        # Title with styled header
-        header_frame = ttk.Frame(content_frame)
-        header_frame.pack(fill='x', pady=5)
-        
-        ttk.Label(
-            header_frame, 
-            text=step['name'],
-            font=self.theme.header_font
-        ).pack(side='left')
-        
-        # Status indicator with color
+    def run_color_transition(self, target_step, original_status, new_status, frames, duration):
+        """Run the color transition animation after blinking effect"""
+        # Set up color maps for different states
         status_colors = {
-            "pending": "gray",
-            "running": "#FFC107",
-            "complete": "#4CAF50",
-            "error": "#F44336",
-            "canceled": "#9E9E9E"
+            "pending": self.theme.bg_color,
+            "running": self.theme.warning_color,
+            "complete": self.theme.success_color,
+            "error": self.theme.error_color
         }
         
-        status_frame = ttk.Frame(header_frame)
-        status_frame.pack(side='right')
+        # Calculate interpolation color steps
+        from_color = self.hex_to_rgb(status_colors.get(original_status, self.theme.bg_color))
+        to_color = self.hex_to_rgb(status_colors.get(new_status, self.theme.bg_color))
         
-        status_label = ttk.Label(
-            status_frame,
-            text=step['status'].title(),
-            foreground=status_colors.get(step['status'], "black")
-        )
-        status_label.pack(side='right')
+        # Function to run each animation frame
+        def run_frame(frame_num):
+            if frame_num >= frames:
+                # Animation complete, set final state
+                target_step["status"] = new_status
+                if "interim_color" in target_step:
+                    del target_step["interim_color"]
+                self.redraw_workflow()
+                return
+                
+            # Calculate intermediate color based on frame number
+            progress = frame_num / frames
+            r = int(from_color[0] + (to_color[0] - from_color[0]) * progress)
+            g = int(from_color[1] + (to_color[1] - from_color[1]) * progress)
+            b = int(from_color[2] + (to_color[2] - from_color[2]) * progress)
+            
+            # Set intermediate color in target step
+            intermediate_color = f"#{r:02x}{g:02x}{b:02x}"
+            target_step["interim_color"] = intermediate_color
+            
+            # Redraw with intermediate state
+            self.redraw_workflow()
+            
+            # Schedule next frame - fix the truncated lambda
+            frame_delay = duration / frames
+            self.root.after(int(frame_delay), lambda: run_frame(frame_num + 1))
         
-        # Draw colored circle for status
-        status_canvas = tk.Canvas(status_frame, width=12, height=12, 
-                            background=self.theme.bg_color,
-                            highlightthickness=0)
-        status_canvas.pack(side='right', padx=5)
-        status_canvas.create_oval(2, 2, 10, 10, 
-                            fill=status_colors.get(step['status'], "gray"),
-                            outline="")
-        
-        # Separator
-        ttk.Separator(content_frame, orient='horizontal').pack(fill='x', pady=10)
-        
-        # Main content
-        info_frame = ttk.Frame(content_frame)
-        info_frame.pack(fill='both', expand=True, pady=5)
-        
-        # Two-column grid for information
-        grid_frame = ttk.Frame(info_frame)
-        grid_frame.pack(fill='x')
-        
-        # Description
-        ttk.Label(grid_frame, text="Description:", 
-                font=self.theme.normal_font + ("bold",)).grid(row=0, column=0, sticky='nw', padx=5, pady=5)
-        ttk.Label(grid_frame, text=step['desc'],
-                wraplength=300).grid(row=0, column=1, sticky='nw', padx=5, pady=5)
-        
-        # Time estimate
-        ttk.Label(grid_frame, text="Time Estimate:", 
-                font=self.theme.normal_font + ("bold",)).grid(row=1, column=0, sticky='nw', padx=5, pady=5)
-        ttk.Label(grid_frame, text=step['time_estimate']).grid(row=1, column=1, sticky='nw', padx=5, pady=5)
-        
-        # Dependencies
-        ttk.Label(grid_frame, text="Dependencies:", 
-                font=self.theme.normal_font + ("bold",)).grid(row=2, column=0, sticky='nw', padx=5, pady=5)
-        ttk.Label(grid_frame, text=", ".join(step['dependencies']) if step['dependencies'] else "None").grid(row=2, column=1, sticky='nw', padx=5, pady=5)
-        
-        # Add action buttons if applicable
-        button_frame = ttk.Frame(content_frame)
-        button_frame.pack(fill='x', pady=10)
-        
-        # Close button
-        ttk.Button(
-            button_frame,
-            text="Close",
-            command=popup.destroy
-        ).pack(side='right', padx=5)
-        
-        # View logs button if applicable
-        if step['status'] in ['complete', 'error', 'running']:
-            ttk.Button(
-                button_frame,
-                text="View Logs",
-                command=lambda s=step: self.view_step_logs(s)
-            ).pack(side='right', padx=5)
+        # Start animation
+        run_frame(0)
 
-    def view_step_logs(self, step):
-        """Show detailed logs for a specific workflow step"""
-        # Implement detailed log viewer for the specific step
-        pass
+    def hex_to_rgb(self, hex_color):
+        """Convert hex color string to RGB tuple"""
+        # Handle default or missing color values
+        if not hex_color or not isinstance(hex_color, str):
+            return (204, 204, 204)  # Default gray
+            
+        # Remove # prefix if present
+        hex_color = hex_color.lstrip('#')
+        
+        # Handle different hex formats
+        if len(hex_color) == 3:  # Short form like #ABC
+            return tuple(int(hex_color[i] + hex_color[i], 16) for i in range(3))
+        elif len(hex_color) == 6:  # Normal form like #AABBCC
+            return tuple(int(hex_color[i:i+2], 16) for i in range(0, 6, 2))
+        else:
+            # Invalid hex color, return default
+            return (204, 204, 204)
 
+    def is_milestone_reached(self, step_name):
+        """Check if a milestone has been reached based on step completion"""
+        for step in self.workflow_steps:
+            if step["name"] == step_name:
+                return step["status"] == "complete"
+        return False
+
+    def adjust_color_alpha(self, color, alpha):
+        """Adjust color opacity by blending with background color"""
+        # Convert colors to RGB
+        fg_color = self.hex_to_rgb(color)
+        bg_color = self.hex_to_rgb(self.theme.bg_color)
+        
+        # Blend based on alpha (1.0 = fully foreground, 0.0 = fully background)
+        r = int(fg_color[0] * alpha + bg_color[0] * (1 - alpha))
+        g = int(fg_color[1] * alpha + bg_color[1] * (1 - alpha))
+        b = int(fg_color[2] * alpha + bg_color[2] * (1 - alpha))
+        
+        # Return as hex color
+        return f"#{r:02x}{g:02x}{b:02x}"
+        
+    def animate_dashes(self):
+        """Animate the dash pattern for running connections"""
+        # Cancel any existing dash animation
+        if hasattr(self, 'dash_animation_id'):
+            self.root.after_cancel(self.dash_animation_id)
+        
+        # Calculate dash offset based on time
+        dash_offset = int(time.time() * 10) % 10
+        
+        # Update all animated lines
+        lines = self.workflow_canvas.find_withtag("animated_line")
+        if lines:
+            for line in lines:
+                self.workflow_canvas.itemconfig(line, dash=(5, 2), dashoffset=dash_offset)
+            
+            # Schedule next animation frame only if there are running steps
+            if any(step["status"] == "running" for step in self.workflow_steps):
+                self.dash_animation_id = self.root.after(100, self.animate_dashes)
+
+    def show_connection_info(self, from_index, x_root, y_root):
+        """Show information about a workflow connection"""
+        try:
+            from_step = self.workflow_steps[from_index]
+            to_step = self.workflow_steps[from_index + 1]
+            
+            # Create a simple popup with connection details
+            popup = tk.Toplevel(self.root)
+            popup.title("Workflow Connection")
+            popup.geometry(f"+{x_root+10}+{y_root+10}")
+            popup.transient(self.root)
+            popup.configure(background=self.theme.bg_color)
+            
+            # Create content
+            content_frame = ttk.Frame(popup, padding=15)
+            content_frame.pack(fill='both', expand=True)
+            
+            # Header
+            ttk.Label(content_frame, 
+                    text=f"Connection: {from_step['name']} → {to_step['name']}", 
+                    font=self.theme.header_font).pack(pady=(0,10))
+            
+            # Show dependency information if available
+            if "dependencies" in to_step and from_step['name'] in to_step.get('dependencies', []):
+                ttk.Label(content_frame, 
+                        text=f"{to_step['name']} depends on {from_step['name']} completion.").pack(pady=5)
+            
+            # Show data transfer status
+            if from_step.get('status') == "complete" and to_step.get('status') == "running":
+                ttk.Label(content_frame, 
+                        text="Data has been transferred to the next step.").pack(pady=5)
+            
+            # Close button
+            ttk.Button(content_frame, text="Close", command=popup.destroy).pack(pady=10)
+            
+            # Update and grab
+            popup.update_idletasks()
+            try:
+                popup.grab_set()
+            except Exception as e:
+                self.log(f"Warning: Could not grab connection popup: {str(e)}")
+                
+        except Exception as e:
+            self.log(f"Error showing connection info: {str(e)}")
+
+    def on_tab_changed(self, event):
+        """Handle notebook tab changes"""
+        try:
+            current_tab = self.notebook.index("current")
+            self.log(f"Tab changed to index {current_tab}")
+            
+            # If switching to workflow tab, redraw the workflow
+            if current_tab == 0:  # Workflow tab
+                self.log("Switched to workflow tab, redrawing workflow")
+                # Add a small delay to allow tab to fully render
+                self.root.after(100, self.redraw_workflow)
+        
+        except Exception as e:
+            self.log(f"Error handling tab change: {str(e)}")
+
+    def point_to_line_distance(self, px, py, x1, y1, x2, y2):
+        """Calculate the distance from a point to a line segment with error handling"""
+        try:
+            # Line length squared
+            l2 = (x2 - x1) ** 2 + (y2 - y1) ** 2
+            
+            if l2 == 0:  # Line is actually a point
+                return ((px - x1) ** 2 + (py - y1) ** 2) ** 0.5
+            
+            # Consider the line extending infinitely, find projection
+            t = max(0, min(1, ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / l2))
+            
+            # Projection point
+            proj_x = x1 + t * (x2 - x1)
+            proj_y = y1 + t * (y2 - y1)
+            
+            # Distance from point to projection
+            return ((px - proj_x) ** 2 + (py - proj_y) ** 2) ** 0.5
+        
+        except Exception as e:
+            self.log(f"Error calculating point-to-line distance: {str(e)}")
+            return float('inf')  # Return infinite distance on error
+
+    def create_running_indicator(self, parent, popup_window):
+        """Create an animated spinner for running status"""
+        canvas = tk.Canvas(parent, width=20, height=20, bg=self.theme.bg_color, 
+                          highlightthickness=0)
+        canvas.pack(side='right', padx=5)
+        
+        spinner_position = 0
+        
+        def update_spinner():
+            nonlocal spinner_position
+            canvas.delete("spinner")
+            
+            # Draw spinner segment
+            canvas.create_arc(2, 2, 18, 18, start=spinner_position, 
+                             extent=120, style=tk.ARC, outline=self.theme.warning_color, 
+                             width=2, tags="spinner")
+            
+            # Update position for next frame
+            spinner_position = (spinner_position + 30) % 360
+            
+            # Continue animation if popup still exists
+            if popup_window.winfo_exists():
+                popup_window.after(150, update_spinner)
+        
+        # Start animation
+        update_spinner()
+    
     def save_parameter_preset(self):
         """Save current parameter values as a preset"""
         try:
@@ -10760,9 +9348,9 @@ class WorkflowGUI:
             with open(preset_file, 'w') as f:
                 json.dump(params, f, indent=4)
             
-            self._update_workflow_status(f"Parameter preset '{preset_name}' saved successfully", 'success')
+            self.update_workflow_status(f"Parameter preset '{preset_name}' saved successfully", 'success')
         except Exception as e:
-            self._update_workflow_status(f"Error saving parameter preset: {str(e)}", 'error')
+            self.update_workflow_status(f"Error saving parameter preset: {str(e)}", 'error')
             self.log(f"Error saving parameter preset: {str(e)}")
 
     def load_parameter_preset(self):
@@ -10837,10 +9425,10 @@ class WorkflowGUI:
                             entry.delete(0, tk.END)
                             entry.insert(0, value)
                     
-                    self._update_workflow_status(f"Parameter preset '{selected_name}' loaded", 'success')
+                    self.update_workflow_status(f"Parameter preset '{selected_name}' loaded", 'success')
                     preset_dialog.destroy()
                 except Exception as e:
-                    self._update_workflow_status(f"Error loading preset: {str(e)}", 'error')
+                    self.update_workflow_status(f"Error loading preset: {str(e)}", 'error')
                     self.log(f"Error loading parameter preset: {str(e)}")
             
             # Function to delete selected preset
@@ -10865,9 +9453,9 @@ class WorkflowGUI:
                     preset_listbox.delete(selection[0])
                     preset_names.pop(selection[0])
                     
-                    self._update_workflow_status(f"Parameter preset '{selected_name}' deleted", 'info')
+                    self.update_workflow_status(f"Parameter preset '{selected_name}' deleted", 'info')
                 except Exception as e:
-                    self._update_workflow_status(f"Error deleting preset: {str(e)}", 'error')
+                    self.update_workflow_status(f"Error deleting preset: {str(e)}", 'error')
                     self.log(f"Error deleting parameter preset: {str(e)}")
             
             ttk.Button(button_frame, text="Load", command=do_load_preset).pack(side='left', padx=5)
@@ -10875,7 +9463,7 @@ class WorkflowGUI:
             ttk.Button(button_frame, text="Cancel", command=preset_dialog.destroy).pack(side='right', padx=5)
             
         except Exception as e:
-            self._update_workflow_status(f"Error loading parameter presets: {str(e)}", 'error')
+            self.update_workflow_status(f"Error loading parameter presets: {str(e)}", 'error')
             self.log(f"Error loading parameter presets: {str(e)}")
 
     def validate_workflow_parameters(self):
@@ -10927,24 +9515,24 @@ class WorkflowGUI:
                 if messages:
                     # Valid but with warnings
                     self.param_validation.config(text="✓ Parameters are valid, with warnings", foreground="orange")
-                    self._update_workflow_status("Parameters are valid, but there are some warnings", 'warning')
+                    self.update_workflow_status("Parameters are valid, but there are some warnings", 'warning')
                     messagebox.showwarning("Parameter Warnings", "\n".join(messages))
                 else:
                     # Fully valid
                     self.param_validation.config(text="✓ Parameters are valid", foreground="green")
-                    self._update_workflow_status("Parameters are valid", 'success')
+                    self.update_workflow_status("Parameters are valid", 'success')
                     messagebox.showinfo("Parameter Validation", "All parameters are valid.")
             else:
                 # Invalid parameters
                 self.param_validation.config(text="✗ Parameters are invalid", foreground="red")
-                self._update_workflow_status("Invalid parameters detected", 'error')
+                self.update_workflow_status("Invalid parameters detected", 'error')
                 messagebox.showerror("Invalid Parameters", "\n".join(messages))
             
             return valid
         except ValueError:
             # Parsing error
             self.param_validation.config(text="✗ Invalid number format", foreground="red")
-            self._update_workflow_status("Invalid number format in parameters", 'error')
+            self.update_workflow_status("Invalid number format in parameters", 'error')
             messagebox.showerror("Invalid Parameters", "All parameters must be valid numbers.")
             return False
 
@@ -11220,7 +9808,7 @@ class WorkflowGUI:
                     command=results_dialog.destroy).pack(side='right', padx=5)
             
         except Exception as e:
-            self._update_workflow_status(f"Error viewing previous results: {str(e)}", 'error')
+            self.update_workflow_status(f"Error viewing previous results: {str(e)}", 'error')
             self.log(f"Error viewing previous results: {str(e)}")
 
     def save_result_image(self, image_path):
@@ -11354,7 +9942,7 @@ class WorkflowGUI:
     def refresh_hpc_profiles(self):
         """Refresh HPC profiles from configuration files"""
         self.load_workflow_hpc_profiles()
-        self._update_workflow_status("HPC profiles refreshed", 'info')
+        self.update_workflow_status("HPC profiles refreshed", 'info')
 
     def manage_hpc_profiles(self):
         """Open dialog to manage HPC profiles"""
@@ -11381,7 +9969,7 @@ class WorkflowGUI:
         # If all else fails, return a safe default color
         return "#CCCCCC"
 
-    def _draw_placeholder(self):
+    def draw_placeholder(self):
         """Draw a placeholder visualization when no data is available"""
         try:
             # Clear the axis
@@ -11406,7 +9994,7 @@ class WorkflowGUI:
         except Exception as e:
             self.log(f"Error drawing placeholder: {str(e)}")
     
-    def _toggle_range_inputs(self):
+    def toggle_range_inputs(self):
         """Toggle min/max range inputs based on auto range setting"""
         if not hasattr(self, 'range_inputs_frame'):
             return
@@ -11433,18 +10021,13 @@ class WorkflowGUI:
         # Update visualization
         self.update_cfd_visualization()
     
-    def _get_available_datasets(self):
+    def get_available_datasets(self):
         """Get list of available datasets"""
         # In a real application, this would look at actual data files
         # For now, return some placeholder datasets
         return ["Current", "Previous Run", "Baseline", "Optimized"]
-    
-    def _update_comparison(self, event=None):
-        """Update the comparison visualization"""
-        # This would be implemented to update the comparison view
-        pass
-    
-    def _on_viz_type_changed(self, event=None):
+        
+    def on_viz_type_changed(self, event=None):
         """Handle change of visualization type"""
         viz_type = self.viz_var.get()
         
@@ -11470,407 +10053,279 @@ class WorkflowGUI:
         # Update the visualization
         self.update_cfd_visualization()
 
-
-def _setup_parameter_section(self, parent):
-    """Set up the parameter input section with real-time validation and rich UI"""
-    # Create card with modern styling
-    param_card = ttk.Frame(parent)
-    param_card.pack(fill='x', padx=10, pady=10)
-    
-    # Header with expandable section toggle and presets
-    header_frame = ttk.Frame(param_card)
-    header_frame.pack(fill='x', pady=5)
-    
-    # Add icon and title
-    title_frame = ttk.Frame(header_frame)
-    title_frame.pack(side='left')
-    
-    settings_icon = ttk.Label(title_frame, text="⚙️", font=("Segoe UI", 16))
-    settings_icon.pack(side='left', padx=(0, 5))
-    
-    ttk.Label(title_frame, text="Design Parameters", 
-              font=self.theme.header_font).pack(side='left')
-    
-    # Preset controls with modern dropdown
-    preset_frame = ttk.Frame(header_frame)
-    preset_frame.pack(side='right')
-    
-    self.preset_var = tk.StringVar(value="Default")
-    ttk.Label(preset_frame, text="Preset:").pack(side='left', padx=5)
-    preset_combo = ttk.Combobox(preset_frame, textvariable=self.preset_var, 
-                               width=15, state="readonly")
-    preset_combo.pack(side='left', padx=5)
-    
-    # Get available presets
-    presets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Config", "presets")
-    os.makedirs(presets_dir, exist_ok=True)
-    preset_files = [os.path.splitext(f)[0] for f in os.listdir(presets_dir) 
-                   if f.endswith('.json')]
-    preset_combo['values'] = ["Default"] + preset_files
-    preset_combo.bind("<<ComboboxSelected>>", self._load_selected_preset)
-    
-    ttk.Button(preset_frame, text="Save", width=8,
-             command=self.save_parameter_preset).pack(side='left', padx=2)
-    
-    # Main parameters section with improved layout
-    params_frame = ttk.Frame(param_card, padding=15)
-    params_frame.pack(fill='x', pady=10)
-    
-    # Add parameter sliders with visual feedback
-    self.param_entries = {}
-    self.param_sliders = {}
-    self.param_feedback = {}
-    
-    # Define parameters with min/max/default values
-    parameters = [
-        ("L4", "Length parameter 4", 1.0, 10.0, 3.0, "mm"),
-        ("L5", "Length parameter 5", 1.0, 10.0, 3.0, "mm"),
-        ("Alpha1", "Angle parameter 1", 0.0, 90.0, 15.0, "°"),
-        ("Alpha2", "Angle parameter 2", 0.0, 90.0, 15.0, "°"),
-        ("Alpha3", "Angle parameter 3", 0.0, 90.0, 15.0, "°")
-    ]
-    
-    for i, (param, desc, min_val, max_val, default, unit) in enumerate(parameters):
-        # Parameter container
-        param_container = ttk.Frame(params_frame)
-        param_container.pack(fill='x', pady=8)
+    def setup_parameter_section(self, parent):
+        """Set up the parameter input section with real-time validation and rich UI"""
+        # Create card with modern styling
+        param_card = ttk.Frame(parent)
+        param_card.pack(fill='x', padx=10, pady=10)
         
-        # Parameter header with label and value
-        header = ttk.Frame(param_container)
-        header.pack(fill='x')
+        # Header with expandable section toggle and presets
+        header_frame = ttk.Frame(param_card)
+        header_frame.pack(fill='x', pady=5)
         
-        ttk.Label(header, text=f"{param}:", 
-                 font=self.theme.normal_font).pack(side='left')
+        # Add icon and title
+        title_frame = ttk.Frame(header_frame)
+        title_frame.pack(side='left')
         
-        # Value display with unit
-        self.param_entries[param.lower()] = ttk.Entry(header, width=8)
-        self.param_entries[param.lower()].pack(side='right', padx=5)
-        self.param_entries[param.lower()].insert(0, str(default))
+        settings_icon = ttk.Label(title_frame, text="⚙️", font=("Segoe UI", 16))
+        settings_icon.pack(side='left', padx=(0, 5))
         
-        ttk.Label(header, text=unit).pack(side='right')
+        ttk.Label(title_frame, text="Design Parameters", 
+                font=self.theme.header_font).pack(side='left')
         
-        # Description with tooltip styling
-        ttk.Label(param_container, text=desc,
-                 font=self.theme.small_font,
-                 foreground=self.theme.secondary_color).pack(anchor='w', padx=15, pady=(0, 5))
+        # Preset controls with modern dropdown
+        preset_frame = ttk.Frame(header_frame)
+        preset_frame.pack(side='right')
         
-        # Slider for visual parameter adjustment
-        slider_frame = ttk.Frame(param_container)
-        slider_frame.pack(fill='x', padx=15)
+        self.preset_var = tk.StringVar(value="Default")
+        ttk.Label(preset_frame, text="Preset:").pack(side='left', padx=5)
+        preset_combo = ttk.Combobox(preset_frame, textvariable=self.preset_var, 
+                                width=15, state="readonly")
+        preset_combo.pack(side='left', padx=5)
         
-        ttk.Label(slider_frame, text=str(min_val)).pack(side='left')
+        # Get available presets
+        presets_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Config", "presets")
+        os.makedirs(presets_dir, exist_ok=True)
+        preset_files = [os.path.splitext(f)[0] for f in os.listdir(presets_dir) 
+                    if f.endswith('.json')]
+        preset_combo['values'] = ["Default"] + preset_files
+        preset_combo.bind("<<ComboboxSelected>>", self.load_selected_preset)
         
-        self.param_sliders[param.lower()] = ttk.Scale(
-            slider_frame, from_=min_val, to=max_val, 
-            orient='horizontal', length=200,
-            command=lambda val, p=param.lower(): self._update_param_from_slider(p, val)
-        )
-        self.param_sliders[param.lower()].pack(side='left', fill='x', expand=True, padx=5)
-        self.param_sliders[param.lower()].set(default)
+        ttk.Button(preset_frame, text="Save", width=8,
+                command=self.save_parameter_preset).pack(side='left', padx=2)
         
-        ttk.Label(slider_frame, text=str(max_val)).pack(side='left')
+        # Main parameters section with improved layout
+        params_frame = ttk.Frame(param_card, padding=15)
+        params_frame.pack(fill='x', pady=10)
         
-        # Visual feedback indicator for parameter validity
-        self.param_feedback[param.lower()] = ttk.Label(param_container, text="✓")
-        self.param_feedback[param.lower()].pack(side='right', padx=5)
+        # Add parameter sliders with visual feedback
+        self.param_entries = {}
+        self.param_sliders = {}
+        self.param_feedback = {}
         
-        # Bind entry changes to update sliders
-        self.param_entries[param.lower()].bind("<FocusOut>", 
-                                             lambda e, p=param.lower(): self._update_slider_from_entry(p))
-        self.param_entries[param.lower()].bind("<Return>", 
-                                             lambda e, p=param.lower(): self._update_slider_from_entry(p))
-    
-    # Add real-time validation message area
-    validation_frame = ttk.Frame(param_card)
-    validation_frame.pack(fill='x', padx=10, pady=5)
-    
-    self.validation_icon = ttk.Label(validation_frame, text="✓", foreground="green")
-    self.validation_icon.pack(side='left', padx=5)
-    
-    self.validation_message = ttk.Label(validation_frame, 
-                                      text="All parameters are valid", 
-                                      foreground="green")
-    self.validation_message.pack(side='left', fill='x', expand=True)
-
-def _update_param_from_slider(self, param_name, value):
-    """Update parameter entry when slider is moved"""
-    try:
-        # Format value appropriately (integers for angles, 2 decimals for lengths)
-        if param_name.startswith('alpha'):
-            formatted_value = f"{float(value):.0f}"
-        else:
-            formatted_value = f"{float(value):.2f}"
+        # Define parameters with min/max/default values
+        parameters = [
+            ("L4", "Length parameter 4", 1.0, 10.0, 3.0, "mm"),
+            ("L5", "Length parameter 5", 1.0, 10.0, 3.0, "mm"),
+            ("Alpha1", "Angle parameter 1", 0.0, 90.0, 15.0, "°"),
+            ("Alpha2", "Angle parameter 2", 0.0, 90.0, 15.0, "°"),
+            ("Alpha3", "Angle parameter 3", 0.0, 90.0, 15.0, "°")
+        ]
+        
+        for i, (param, desc, min_val, max_val, default, unit) in enumerate(parameters):
+            # Parameter container
+            param_container = ttk.Frame(params_frame)
+            param_container.pack(fill='x', pady=8)
             
-        # Update entry without triggering its change event
-        entry = self.param_entries[param_name]
-        entry.delete(0, tk.END)
-        entry.insert(0, formatted_value)
-        
-        # Validate the parameter and update feedback
-        self._validate_single_parameter(param_name)
-        
-        # Update overall validation status
-        self._update_validation_status()
-    except Exception as e:
-        self.log(f"Error updating from slider: {e}")
-
-def _update_slider_from_entry(self, param_name):
-    """Update slider when entry value changes"""
-    try:
-        # Get entry value
-        entry = self.param_entries[param_name]
-        value = float(entry.get())
-        
-        # Update slider
-        slider = self.param_sliders[param_name]
-        min_val = float(slider.cget('from'))
-        max_val = float(slider.cget('to'))
-        
-        # Clamp value to slider range
-        value = max(min_val, min(max_val, value))
-        slider.set(value)
-        
-        # Format and update entry for consistency
-        if param_name.startswith('alpha'):
-            formatted_value = f"{value:.0f}"
-        else:
-            formatted_value = f"{value:.2f}"
+            # Parameter header with label and value
+            header = ttk.Frame(param_container)
+            header.pack(fill='x')
             
-        entry.delete(0, tk.END)
-        entry.insert(0, formatted_value)
+            ttk.Label(header, text=f"{param}:", 
+                    font=self.theme.normal_font).pack(side='left')
+            
+            # Value display with unit
+            self.param_entries[param.lower()] = ttk.Entry(header, width=8)
+            self.param_entries[param.lower()].pack(side='right', padx=5)
+            self.param_entries[param.lower()].insert(0, str(default))
+            
+            ttk.Label(header, text=unit).pack(side='right')
+            
+            # Description with tooltip styling
+            ttk.Label(param_container, text=desc,
+                    font=self.theme.small_font,
+                    foreground=self.theme.secondary_color).pack(anchor='w', padx=15, pady=(0, 5))
+            
+            # Slider for visual parameter adjustment
+            slider_frame = ttk.Frame(param_container)
+            slider_frame.pack(fill='x', padx=15)
+            
+            ttk.Label(slider_frame, text=str(min_val)).pack(side='left')
+            
+            self.param_sliders[param.lower()] = ttk.Scale(
+                slider_frame, from_=min_val, to=max_val, 
+                orient='horizontal', length=200,
+                command=lambda val, p=param.lower(): self.update_param_from_slider(p, val)
+            )
+            self.param_sliders[param.lower()].pack(side='left', fill='x', expand=True, padx=5)
+            self.param_sliders[param.lower()].set(default)
+            
+            ttk.Label(slider_frame, text=str(max_val)).pack(side='left')
+            
+            # Visual feedback indicator for parameter validity
+            self.param_feedback[param.lower()] = ttk.Label(param_container, text="✓")
+            self.param_feedback[param.lower()].pack(side='right', padx=5)
+            
+            # Bind entry changes to update sliders
+            self.param_entries[param.lower()].bind("<FocusOut>", 
+                                                lambda e, p=param.lower(): self.update_slider_from_entry(p))
+            self.param_entries[param.lower()].bind("<Return>", 
+                                                lambda e, p=param.lower(): self.update_slider_from_entry(p))
         
-        # Validate the parameter and update feedback
-        self._validate_single_parameter(param_name)
+        # Add real-time validation message area
+        validation_frame = ttk.Frame(param_card)
+        validation_frame.pack(fill='x', padx=10, pady=5)
         
-        # Update overall validation status
-        self._update_validation_status()
-    except ValueError:
-        # Invalid number format
-        self.param_feedback[param_name].config(text="✗", foreground="red")
-    except Exception as e:
-        self.log(f"Error updating from entry: {e}")
+        self.validation_icon = ttk.Label(validation_frame, text="✓", foreground="green")
+        self.validation_icon.pack(side='left', padx=5)
+        
+        self.validation_message = ttk.Label(validation_frame, 
+                                        text="All parameters are valid", 
+                                        foreground="green")
+        self.validation_message.pack(side='left', fill='x', expand=True)
 
-def _validate_single_parameter(self, param_name):
-    """Validate a single parameter and update its feedback indicator"""
-    try:
-        # Get value from entry
-        value = float(self.param_entries[param_name].get())
-        
-        # Parameter-specific validation
-        if param_name == 'l4' or param_name == 'l5':
-            # Length parameters
-            if value <= 0:
-                self.param_feedback[param_name].config(text="✗", foreground="red")
-                return False
-            elif value < 1.0 or value > 10.0:
-                self.param_feedback[param_name].config(text="⚠", foreground="orange")
-                return True
-            else:
-                self.param_feedback[param_name].config(text="✓", foreground="green")
-                return True
-                
-        elif param_name.startswith('alpha'):
-            # Angle parameters
-            if value < 0 or value > 90:
-                self.param_feedback[param_name].config(text="✗", foreground="red")
-                return False
-            elif value < 5.0 or value > 45.0:
-                self.param_feedback[param_name].config(text="⚠", foreground="orange")
-                return True
-            else:
-                self.param_feedback[param_name].config(text="✓", foreground="green")
-                return True
-        
-        # Default case
-        self.param_feedback[param_name].config(text="✓", foreground="green")
-        return True
-        
-    except ValueError:
-        # Invalid number format
-        self.param_feedback[param_name].config(text="✗", foreground="red")
-        return False
-    except Exception as e:
-        self.log(f"Error validating parameter {param_name}: {e}")
-        return False
-
-def _update_validation_status(self):
-    """Update the overall validation status message"""
-    all_valid = True
-    any_warnings = False
-    error_params = []
-    warning_params = []
-    
-    # Check each parameter
-    for param_name in self.param_entries:
+    def update_param_from_slider(self, param_name, value):
+        """Update parameter entry when slider is moved"""
         try:
+            # Format value appropriately (integers for angles, 2 decimals for lengths)
+            if param_name.startswith('alpha'):
+                formatted_value = f"{float(value):.0f}"
+            else:
+                formatted_value = f"{float(value):.2f}"
+                
+            # Update entry without triggering its change event
+            entry = self.param_entries[param_name]
+            entry.delete(0, tk.END)
+            entry.insert(0, formatted_value)
+            
+            # Validate the parameter and update feedback
+            self.validate_single_parameter(param_name)
+            
+            # Update overall validation status
+            self.update_validation_status()
+        except Exception as e:
+            self.log(f"Error updating from slider: {e}")
+
+    def update_slider_from_entry(self, param_name):
+        """Update slider when entry value changes"""
+        try:
+            # Get entry value
+            entry = self.param_entries[param_name]
+            value = float(entry.get())
+            
+            # Update slider
+            slider = self.param_sliders[param_name]
+            min_val = float(slider.cget('from'))
+            max_val = float(slider.cget('to'))
+            
+            # Clamp value to slider range
+            value = max(min_val, min(max_val, value))
+            slider.set(value)
+            
+            # Format and update entry for consistency
+            if param_name.startswith('alpha'):
+                formatted_value = f"{value:.0f}"
+            else:
+                formatted_value = f"{value:.2f}"
+                
+            entry.delete(0, tk.END)
+            entry.insert(0, formatted_value)
+            
+            # Validate the parameter and update feedback
+            self.validate_single_parameter(param_name)
+            
+            # Update overall validation status
+            self.update_validation_status()
+        except ValueError:
+            # Invalid number format
+            self.param_feedback[param_name].config(text="✗", foreground="red")
+        except Exception as e:
+            self.log(f"Error updating from entry: {e}")
+
+    def validate_single_parameter(self, param_name):
+        """Validate a single parameter and update its feedback indicator"""
+        try:
+            # Get value from entry
             value = float(self.param_entries[param_name].get())
             
             # Parameter-specific validation
             if param_name == 'l4' or param_name == 'l5':
+                # Length parameters
                 if value <= 0:
-                    all_valid = False
-                    error_params.append(param_name.upper())
+                    self.param_feedback[param_name].config(text="✗", foreground="red")
+                    return False
                 elif value < 1.0 or value > 10.0:
-                    any_warnings = True
-                    warning_params.append(param_name.upper())
-            
+                    self.param_feedback[param_name].config(text="⚠", foreground="orange")
+                    return True
+                else:
+                    self.param_feedback[param_name].config(text="✓", foreground="green")
+                    return True
+                    
             elif param_name.startswith('alpha'):
+                # Angle parameters
                 if value < 0 or value > 90:
-                    all_valid = False
-                    error_params.append(param_name.upper())
+                    self.param_feedback[param_name].config(text="✗", foreground="red")
+                    return False
                 elif value < 5.0 or value > 45.0:
-                    any_warnings = True
-                    warning_params.append(param_name.upper())
+                    self.param_feedback[param_name].config(text="⚠", foreground="orange")
+                    return True
+                else:
+                    self.param_feedback[param_name].config(text="✓", foreground="green")
+                    return True
+            
+            # Default case
+            self.param_feedback[param_name].config(text="✓", foreground="green")
+            return True
+            
         except ValueError:
-            all_valid = False
-            error_params.append(param_name.upper())
-    
-    # Update validation message based on results
-    if not all_valid:
-        self.validation_icon.config(text="✗", foreground="red")
-        self.validation_message.config(
-            text=f"Invalid parameters: {', '.join(error_params)}", 
-            foreground="red"
-        )
-    elif any_warnings:
-        self.validation_icon.config(text="⚠", foreground="orange")
-        self.validation_message.config(
-            text=f"Valid with warnings: {', '.join(warning_params)}", 
-            foreground="orange"
-        )
-    else:
-        self.validation_icon.config(text="✓", foreground="green")
-        self.validation_message.config(
-            text="All parameters are valid", 
-            foreground="green"
-        )
+            # Invalid number format
+            self.param_feedback[param_name].config(text="✗", foreground="red")
+            return False
+        except Exception as e:
+            self.log(f"Error validating parameter {param_name}: {e}")
+            return False
 
-def _setup_env_section(self, parent):
-    """Set up the execution environment section with modern toggle and cloud options"""
-    # Create container card
-    env_card = ttk.Frame(parent)
-    env_card.pack(fill='x', padx=10, pady=10)
-    
-    # Header with cloud icon
-    header_frame = ttk.Frame(env_card)
-    header_frame.pack(fill='x', pady=5)
-    
-    cloud_icon = ttk.Label(header_frame, text="☁️", font=("Segoe UI", 16))
-    cloud_icon.pack(side='left', padx=(0, 5))
-    
-    ttk.Label(header_frame, text="Execution Environment", 
-            font=self.theme.header_font).pack(side='left')
-    
-    # Execution options with visual toggles and info
-    options_frame = ttk.Frame(env_card, padding=15)
-    options_frame.pack(fill='x', pady=10)
-    
-    # Local execution option
-    local_frame = ttk.Frame(options_frame)
-    local_frame.pack(fill='x', pady=8)
-    
-    # Use BooleanVar instead of StringVar for better toggle semantics
-    self.env_local_var = tk.BooleanVar(value=True)
-    
-    # Create toggle-style radio buttons
-    local_option = ttk.Radiobutton(
-        local_frame, 
-        text="Local Execution", 
-        variable=self.env_var,
-        value="local",
-        command=self.toggle_execution_environment,
-        style="Toggle.TRadiobutton"
-    )
-    local_option.pack(side='left')
-    
-    # Hardware info display
-    hw_info = self.get_hardware_info()
-    ttk.Label(local_frame, 
-            text=hw_info,
-            font=self.theme.small_font,
-            foreground=self.theme.secondary_color).pack(side='left', padx=15)
-    
-    # HPC execution option
-    hpc_frame = ttk.Frame(options_frame)
-    hpc_frame.pack(fill='x', pady=8)
-    
-    hpc_option = ttk.Radiobutton(
-        hpc_frame, 
-        text="HPC Execution", 
-        variable=self.env_var,
-        value="hpc",
-        command=self.toggle_execution_environment,
-        style="Toggle.TRadiobutton"
-    )
-    hpc_option.pack(side='left')
-    
-    # Expandable HPC settings with animation
-    self.workflow_hpc_frame = ttk.Frame(options_frame)
-    self.workflow_hpc_frame.pack(fill='x', pady=(0, 10))
-    
-    # HPC profile selection with dynamic updating
-    profile_frame = ttk.Frame(self.workflow_hpc_frame, padding=10)
-    profile_frame.pack(fill='x')
-    
-    ttk.Label(profile_frame, text="HPC Profile:").pack(side='left')
-    
-    self.workflow_hpc_profile = ttk.Combobox(
-        profile_frame, 
-        width=20, 
-        state="readonly"
-    )
-    self.workflow_hpc_profile.pack(side='left', padx=5, fill='x', expand=True)
-    
-    # Add buttons for profile management
-    button_frame = ttk.Frame(profile_frame)
-    button_frame.pack(side='right')
-    
-    ttk.Button(button_frame, 
-            text="Refresh", 
-            width=8,
-            command=self.refresh_hpc_profiles).pack(side='left', padx=2)
-    
-    ttk.Button(button_frame, 
-            text="Manage", 
-            width=8,
-            command=self.manage_hpc_profiles).pack(side='left', padx=2)
-    
-    # Load profiles
-    self.load_workflow_hpc_profiles()
-    
-    # Information about HPC execution
-    info_frame = ttk.Frame(self.workflow_hpc_frame, padding=10)
-    info_frame.pack(fill='x')
-    
-    ttk.Label(info_frame, 
-            text="Running on HPC allows larger simulations and faster results but requires configuration.",
-            font=self.theme.small_font,
-            foreground=self.theme.secondary_color,
-            wraplength=400).pack(anchor='w')
-    
-    # Hide HPC settings initially if not selected
-    if self.env_var.get() != "hpc":
-        self.workflow_hpc_frame.pack_forget()
-
-def get_hardware_info(self):
-    """Get formatted hardware information for display"""
-    try:
-        # Get CPU info
-        cpu_count = os.cpu_count() or 0
+    def update_validation_status(self):
+        """Update the overall validation status message"""
+        all_valid = True
+        any_warnings = False
+        error_params = []
+        warning_params = []
         
-        # Try to get more detailed CPU info if psutil is available
-        try:
-            import psutil
-            memory = psutil.virtual_memory()
-            mem_gb = memory.total / (1024 * 1024 * 1024)
-            return f"{cpu_count} CPU cores, {mem_gb:.1f} GB RAM"
-        except ImportError:
-            # Fallback without psutil
-            return f"{cpu_count} CPU cores"
-    except Exception as e:
-        self.log(f"Error getting hardware info: {e}")
-        return "Hardware info unavailable"
-
+        # Check each parameter
+        for param_name in self.param_entries:
+            try:
+                value = float(self.param_entries[param_name].get())
+                
+                # Parameter-specific validation
+                if param_name == 'l4' or param_name == 'l5':
+                    if value <= 0:
+                        all_valid = False
+                        error_params.append(param_name.upper())
+                    elif value < 1.0 or value > 10.0:
+                        any_warnings = True
+                        warning_params.append(param_name.upper())
+                
+                elif param_name.startswith('alpha'):
+                    if value < 0 or value > 90:
+                        all_valid = False
+                        error_params.append(param_name.upper())
+                    elif value < 5.0 or value > 45.0:
+                        any_warnings = True
+                        warning_params.append(param_name.upper())
+            except ValueError:
+                all_valid = False
+                error_params.append(param_name.upper())
+        
+        # Update validation message based on results
+        if not all_valid:
+            self.validation_icon.config(text="✗", foreground="red")
+            self.validation_message.config(
+                text=f"Invalid parameters: {', '.join(error_params)}", 
+                foreground="red"
+            )
+        elif any_warnings:
+            self.validation_icon.config(text="⚠", foreground="orange")
+            self.validation_message.config(
+                text=f"Valid with warnings: {', '.join(warning_params)}", 
+                foreground="orange"
+            )
+        else:
+            self.validation_icon.config(text="✓", foreground="green")
+            self.validation_message.config(
+                text="All parameters are valid", 
+                foreground="green"
+            )
 
 # Main function that serves as the entry point for the application
 def main():
@@ -11942,8 +10397,8 @@ def main():
             try:
                 # We need to patch the workflow GUI with HPC functionality
                 if hasattr(workflow_utils, 'patch_workflow_gui'):
-                    workflow_utils.patch_workflow_gui(WorkflowGUI)
-                    logger.info("WorkflowGUI patched with HPC functionality")
+                    workflow_utils.patch_workflow_gui(GUI)
+                    logger.info("GUI patched with HPC functionality")
                 
                 # If fix_hpc_gui is available, use it to further enhance HPC functionality
                 try:
@@ -11952,7 +10407,7 @@ def main():
                     fix_hpc_gui.update_workflow_utils()
                     # Ensure HPC settings exist
                     fix_hpc_gui.ensure_hpc_profiles()
-                    # Patch the WorkflowGUI class
+                    # Patch the GUI class
                     fix_hpc_gui.patch_workflow_gui()
                     logger.info("HPC GUI components initialized successfully")
                 except ImportError as e:
@@ -11971,7 +10426,7 @@ def main():
         root.minsize(800, 600)
         
         # Create the GUI
-        app = WorkflowGUI(root)
+        app = GUI(root)
         
         # Apply HPC integration if available
         try:
